@@ -35,7 +35,7 @@ public class UserController {
 	public ResponseEntity<Map<String, Object>> check(@RequestBody UserDto userDto){
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = HttpStatus.ACCEPTED;
-		console.log(userDto.getUserId());
+		System.out.println(userDto.getUserId());
 		try {
 			int cnt = userService.check(userDto);
 			if(cnt == 0) {
