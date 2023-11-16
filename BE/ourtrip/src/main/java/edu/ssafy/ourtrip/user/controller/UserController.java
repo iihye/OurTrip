@@ -31,6 +31,27 @@ public class UserController {
 		this.jwtUtil = jwtUtil;
 	}
 	
+	@GetMapping("/check")
+	public ResponseEntity<Map<String, Object>> check(@RequestBody UserDto userDto){
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		console.log(userDto.getUserId());
+		try {
+			int cnt = userService.check(userDto);
+			if(cnt == 0) {
+				resultMap.put("cnt", cnt);
+				status = HttpStatus.CREATED;
+			} else {
+				resultMap.put("cnt", cnt);
+				status = HttpStatus.UNAUTHORIZED;
+			}
+		} catch(Exception e) {
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
 	@PostMapping("/join")
 	public ResponseEntity<Map<String, Object>> join(@RequestBody UserDto userDto){
 		Map<String, Object> resultMap = new HashMap<String, Object>();

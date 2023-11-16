@@ -29,4 +29,10 @@ async function userJoinApi(param, success, fail) {
   // console.log('----------userJoin finish----------');
 }
 
-export { userConfirm, findById, tokenRegeneration, logout, userJoinApi };
+async function userCheckApi(param, success, fail) {
+  console.log('----------userCheck start----------');
+  await local.get(`user/check`, param).then(success).catch(fail);
+  console.log('----------userCheck finish----------');
+}
+
+export { userConfirm, findById, tokenRegeneration, logout, userJoinApi, userCheckApi };

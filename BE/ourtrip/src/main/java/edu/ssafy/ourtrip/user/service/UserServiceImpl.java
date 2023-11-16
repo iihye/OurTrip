@@ -19,6 +19,11 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
+	public int check(UserDto userDto) throws SQLException {
+		return userMapper.check(userDto);
+	}
+	
+	@Override
 	public void join(UserDto userDto) throws SQLException {
 		userMapper.join(userDto);
 	}

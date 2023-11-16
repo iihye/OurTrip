@@ -3,7 +3,7 @@ import { useRouter } from 'vue-router';
 import { defineStore } from 'pinia';
 import { jwtDecode } from 'jwt-decode';
 
-import { userConfirm, findById, tokenRegeneration, logout, userJoinApi } from '@/api/user';
+import { userConfirm, findById, tokenRegeneration, logout, userJoinApi, userCheckApi } from '@/api/user';
 import { httpStatusCode } from '@/util/http-status';
 
 export const useMemberStore = defineStore('userStore', () => {
@@ -15,6 +15,7 @@ export const useMemberStore = defineStore('userStore', () => {
   const isValidToken = ref(false);
 
   const isJoin = ref(false);
+  const isCheck = ref(false);
 
   const userLogin = async (loginUser) => {
     await userConfirm(
@@ -150,6 +151,23 @@ export const useMemberStore = defineStore('userStore', () => {
     );
   };
 
+  const userCheck = async (joinUser) => {
+    await userCheckApi(
+      joinUser,
+      (response) => {
+        console.log(response);
+        if (response.cnt === 0) {
+          isCheck.value = false;
+        } else {
+          isCheck.value = true;
+        }
+      },
+      (error) => {
+        isCheck.value = true;
+      }
+    );
+  };
+
   return {
     isLogin,
     isLoginError,
@@ -161,5 +179,7 @@ export const useMemberStore = defineStore('userStore', () => {
     tokenRegenerate,
     userLogout,
     userJoin,
+    isCheck,
+    userCheck,
   };
 });

@@ -11,6 +11,12 @@
 		<result column="token" property="token"/>
 	</resultMap>
 	
+	<select id="check" parameterType="map" resultType = "Integer">
+		select count(user_id)
+		from user
+		where user_id = #{userId}
+	</select>
+	
 	<insert id="join" parameterType="map">
 		insert into user (user_id, user_pw, user_name)
 		values (#{userId}, #{userPw}, #{userName})
