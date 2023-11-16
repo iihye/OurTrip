@@ -45,8 +45,11 @@ const check = async () => {
     <form>
       <input v-model="joinUser.userId" placeholder="아이디" @blur="check" />
       <span v-if="!isCheck">사용할 수 없는 아이디입니다</span>
+      <br/>
       <input v-model="joinUser.userPw" placeholder="비번" />
+      <br/>
       <input v-model="joinUser.userName" placeholder="닉네임" />
+      <br/>
       <button type="button" @click="join">회원가입</button>
     </form>
   </div>
