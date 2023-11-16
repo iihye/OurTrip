@@ -12,6 +12,7 @@ import {
   userCheckApi,
   userFindApi,
   userUpdateApi,
+  userDeleteApi,
 } from "@/api/user";
 import { httpStatusCode } from "@/util/http-status";
 
@@ -27,6 +28,7 @@ export const useMemberStore = defineStore("userStore", () => {
   const isCheck = ref(false);
   const isFind = ref("");
   const isUpdate = ref(false);
+  const isDelete = ref(false);
 
   const userLogin = async (loginUser) => {
     await userConfirm(
@@ -217,6 +219,20 @@ export const useMemberStore = defineStore("userStore", () => {
     );
   };
 
+  const userDelete = async (updateUser) => {
+    await userDeleteApi(
+      updateUser,
+      (response) => {
+        if (response.data.message === "삭제 성공") {
+          isDelete.value = true;
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
+
   return {
     isLogin,
     isLoginError,
@@ -234,5 +250,7 @@ export const useMemberStore = defineStore("userStore", () => {
     userFind,
     isUpdate,
     userUpdate,
+    isDelete,
+    userDelete,
   };
 });

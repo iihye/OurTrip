@@ -3,12 +3,13 @@ import { onMounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
 import { useMemberStore } from '@/stores/user';
+import { isModelListener } from "@vue/shared";
 
 const router = useRouter();
 const memberStore = useMemberStore();
 
-const { userInfo, isUpdate } = storeToRefs(memberStore);
-const { getUserInfo, userUpdate } = memberStore;
+const { userInfo, isUpdate, isDelete } = storeToRefs(memberStore);
+const { getUserInfo, userUpdate, userDelete } = memberStore;
 
 const updateUser = ref({
   userId: '',
@@ -23,24 +24,34 @@ onMounted(() => {
 const fetch = async () => {
     await getUserInfo(sessionStorage.getItem("accessToken"));
     updateUser.value.userId = userInfo.value.userId;
-    updateUser.value.userName = userInfo.value.userName;  
-}
+    updateUser.value.userName = userInfo.value.userName;
+};
 
 const update = async () => {
-  if (updateUser.value.userPw === '') {
-    alert("비밀번호를 입력해주세요");
-    return;
-  }
+    if (updateUser.value.userPw === '') {
+        alert("비밀번호를 입력해주세요");
+        return;
+    }
 
-  await userUpdate(updateUser.value);
-  if (isUpdate.value) {
-      alert('수정 성공!!');
-      await getUserInfo(sessionStorage.getItem("accessToken"));
-    router.push({ name: 'home' });
-  } else {
-    alert('수정 실패!!');
-    // router.push({ name: 'user-join' });
-  }
+    await userUpdate(updateUser.value);
+    if (isUpdate.value) {
+        alert('수정 성공!!');
+        await getUserInfo(sessionStorage.getItem("accessToken"));
+        router.push({ name: 'home' });
+    } else {
+        alert('수정 실패!!');
+        // router.push({ name: 'user-join' });
+    }
+};
+
+const unjoin = async () => {
+    await userDelete(updateUser.value);
+    if (isDelete.value) {
+        alert("삭제 성공!!");
+        router.push({ name: 'home' });
+    } else {
+        alert("삭제 실패!!");
+    }
 };
 
 </script>
@@ -57,6 +68,7 @@ const update = async () => {
       <br/>
       <button type="button" @click="update">회원수정</button>
     </form>
+    <button type="button" @click="unjoin">회원탈퇴</button>
   </div>
 </template>
 
