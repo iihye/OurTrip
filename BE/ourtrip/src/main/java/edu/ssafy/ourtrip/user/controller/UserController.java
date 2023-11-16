@@ -31,6 +31,21 @@ public class UserController {
 		this.jwtUtil = jwtUtil;
 	}
 	
+	@PostMapping("/find")
+	public ResponseEntity<Map<String, Object>> find(@RequestBody UserDto userDto){
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		try {
+			String userPw = userService.find(userDto);
+			resultMap.put("userPw", userPw);
+			status = HttpStatus.CREATED;
+		} catch(Exception e) {
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	} 
+	
 	@PostMapping("/check")
 	public ResponseEntity<Map<String, Object>> check(@RequestBody UserDto userDto){
 		Map<String, Object> resultMap = new HashMap<String, Object>();

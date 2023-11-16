@@ -179,23 +179,23 @@ export const useMemberStore = defineStore("userStore", () => {
         isCheck.value = false;
       }
     );
+  };
 
-    const userFind = async (findUser) => {
-      await userFindApi(
-        findUser,
-        (response) => {
-          if (response.data.userPw != null) {
-            isFind.value = response.data.userPw;
-          } else {
-            isFind.value = "";
-          }
-        },
-        (error) => {
-          console.log(error);
+  const userFind = async (findUser) => {
+    await userFindApi(
+      findUser,
+      (response) => {
+        if (response.data.userPw != null) {
+          isFind.value = response.data.userPw;
+        } else {
           isFind.value = "";
         }
-      );
-    };
+      },
+      (error) => {
+        console.log(error);
+        isFind.value = "";
+      }
+    );
   };
 
   return {
