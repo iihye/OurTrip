@@ -1,14 +1,17 @@
-package edu.ssafy.ourtrip.user.service;
+package edu.ssafy.ourtrip.user.dao;
 
 import java.sql.SQLException;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import edu.ssafy.ourtrip.user.dto.UserDto;
 
-public interface UserService {
+@Mapper
+public interface UserMapper {
 	UserDto login(UserDto userDto) throws SQLException;
 	UserDto userInfo(String userId) throws SQLException;
-	void saveToken(String userId, String token) throws SQLException;
+	void saveToken(Map<String, String> map) throws SQLException;
 	Object getToken(String userId) throws SQLException;
-	void deleteToken(String userId) throws SQLException;
+	void deleteToken(Map<String, String> map) throws SQLException;
 }
