@@ -11,6 +11,12 @@
 		<result column="token" property="token"/>
 	</resultMap>
 	
+	<update id="update" parameterType="map">
+		update user
+		set user_pw = #{userPw}, user_name =#{userName}
+		where user_id = #{userId}	
+	</update>
+	
 	<select id="find" parameterType="map" resultType = "String">
 		select user_pw
 		from user
