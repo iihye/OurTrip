@@ -19,17 +19,19 @@ const loginUser = ref({
 });
 
 const login = async () => {
-  console.log('login ing!!!! !!!');
+  //   console.log('login ing!!!! !!!');
   await userLogin(loginUser.value);
   let token = sessionStorage.getItem('accessToken');
-  console.log('111. ', token);
-  console.log('isLogin: ', isLogin);
-  if (isLogin) {
-    console.log('로그인 성공!!!');
+  //   console.log('1. token', token);
+  //   console.log('UserView에서 본 isLogin: ' + isLogin.value);
+  if (isLogin.value) {
+    // console.log('로그인 성공!!!');
     getUserInfo(token);
     changeMenuState();
+    router.push('/');
+  } else {
+    router.push({ name: 'user-login' });
   }
-  router.push('/');
 };
 </script>
 

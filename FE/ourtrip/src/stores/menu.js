@@ -9,7 +9,7 @@ export const useMenuStore = defineStore('menuStore', () => {
   ]);
 
   const changeMenuState = () => {
-    console.log('메뉴 바꿈!!!');
+    // console.log('메뉴 바꿈!!!');
     menuList.value = menuList.value.map((item) => ({ ...item, show: !item.show }));
   };
   return {
