@@ -11,6 +11,7 @@ import {
   userJoinApi,
   userCheckApi,
   userFindApi,
+  userUpdateApi,
 } from "@/api/user";
 import { httpStatusCode } from "@/util/http-status";
 
@@ -25,6 +26,7 @@ export const useMemberStore = defineStore("userStore", () => {
   const isJoin = ref(false);
   const isCheck = ref(false);
   const isFind = ref("");
+  const isUpdate = ref(false);
 
   const userLogin = async (loginUser) => {
     await userConfirm(
@@ -198,6 +200,23 @@ export const useMemberStore = defineStore("userStore", () => {
     );
   };
 
+  const userUpdate = async (updateUser) => {
+    await userUpdateApi(
+      updateUser,
+      (response) => {
+        if (response.data.message === "수정 성공") {
+          isUpdate.value = true;
+        } else {
+          isUpdate.value = false;
+        }
+      },
+      (error) => {
+        console.log(error);
+        isUpdate.value = false;
+      }
+    );
+  };
+
   return {
     isLogin,
     isLoginError,
@@ -213,5 +232,7 @@ export const useMemberStore = defineStore("userStore", () => {
     userCheck,
     isFind,
     userFind,
+    isUpdate,
+    userUpdate,
   };
 });

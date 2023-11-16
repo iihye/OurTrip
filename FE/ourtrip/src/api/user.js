@@ -39,4 +39,17 @@ async function userFindApi(param, success, fail) {
   await local.post(`user/find`, param).then(success).catch(fail);
 }
 
-export { userConfirm, findById, tokenRegeneration, logout, userJoinApi, userCheckApi, userFindApi };
+async function userUpdateApi(param, success, fail) {
+  await local.post(`user/update`, param).then(success).catch(fail);
+}
+
+export {
+  userConfirm,
+  findById,
+  tokenRegeneration,
+  logout,
+  userJoinApi,
+  userCheckApi,
+  userFindApi,
+  userUpdateApi,
+};

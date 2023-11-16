@@ -7,10 +7,10 @@ import { useMemberStore } from '@/stores/user';
 const router = useRouter();
 const memberStore = useMemberStore();
 
-const { userInfo } = storeToRefs(memberStore);
-const { getUserInfo } = memberStore;
+const { userInfo, isUpdate } = storeToRefs(memberStore);
+const { getUserInfo, userUpdate } = memberStore;
 
-const joinUser = ref({
+const updateUser = ref({
   userId: '',
   userPw: '',
   userName: '',
@@ -22,15 +22,21 @@ onMounted(() => {
 
 const fetch = async () => {
     await getUserInfo(sessionStorage.getItem("accessToken"));
-    joinUser.value.userId = userInfo.value.userId;
-    joinUser.value.userName = userInfo.value.userName;  
+    updateUser.value.userId = userInfo.value.userId;
+    updateUser.value.userName = userInfo.value.userName;  
 }
 
 const update = async () => {
-  await userUpdate(joinUser.value);
+  if (updateUser.value.userPw === '') {
+    alert("비밀번호를 입력해주세요");
+    return;
+  }
+
+  await userUpdate(updateUser.value);
   if (isUpdate.value) {
-    alert('수정 성공!!');
-    // router.push({ name: 'user-login' });
+      alert('수정 성공!!');
+      await getUserInfo(sessionStorage.getItem("accessToken"));
+    router.push({ name: 'home' });
   } else {
     alert('수정 실패!!');
     // router.push({ name: 'user-join' });
@@ -43,11 +49,11 @@ const update = async () => {
   <div>
     <h1>Mypage</h1>
     <form>
-      <input v-model="joinUser.userId" placeholder="아이디"/>
+      <input v-model="updateUser.userId" placeholder="아이디" readonly/>
       <br/>
-      <input v-model="joinUser.userPw" placeholder="비번" />
+      <input v-model="updateUser.userPw" placeholder="비번" />
       <br/>
-      <input v-model="joinUser.userName" placeholder="닉네임" />
+      <input v-model="updateUser.userName" placeholder="닉네임" />
       <br/>
       <button type="button" @click="update">회원수정</button>
     </form>
