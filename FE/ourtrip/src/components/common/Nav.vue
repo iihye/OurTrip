@@ -25,7 +25,12 @@ const logout = () => {
         <!-- 로고 -->
         <div id="navb-logo" class="justify-content-center">
           <a class="navbar-brand" :href="`${root}/`">
-            <img src="@/assets/img/logo.png" :href="`${root}/`" style="width: 100px" alt="logo image" />
+            <!-- <img
+              src="@/assets/img/logo.png"
+              :href="`${root}/`"
+              style="width: 100px"
+              alt="logo image"
+            /> -->
           </a>
         </div>
 
