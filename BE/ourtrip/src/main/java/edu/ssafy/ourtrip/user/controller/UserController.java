@@ -31,20 +31,20 @@ public class UserController {
 		this.jwtUtil = jwtUtil;
 	}
 	
-	@GetMapping("/check")
+	@PostMapping("/check")
 	public ResponseEntity<Map<String, Object>> check(@RequestBody UserDto userDto){
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = HttpStatus.ACCEPTED;
-		System.out.println(userDto.getUserId());
+//		System.out.println(userDto.getUserId());
 		try {
 			int cnt = userService.check(userDto);
+			System.out.println(cnt);
 			if(cnt == 0) {
 				resultMap.put("cnt", cnt);
-				status = HttpStatus.CREATED;
 			} else {
 				resultMap.put("cnt", cnt);
-				status = HttpStatus.UNAUTHORIZED;
 			}
+			status = HttpStatus.CREATED;
 		} catch(Exception e) {
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;

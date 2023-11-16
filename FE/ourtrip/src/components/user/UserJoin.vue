@@ -17,24 +17,42 @@ const joinUser = ref({
 });
 
 const join = async () => {
+  if (joinUser.value.userId === '') {
+    alert("아이디를 입력해주세요");
+    return;
+  }
+
+  if (joinUser.value.userPw === '') {
+    alert("비밀번호를 입력해주세요");
+    return;
+  }
+
+  if (joinUser.value.userName === '') {
+    alert("이름을 입력해주세요");
+    return;
+  }
+
+  if (!isCheck.value) {
+    alert("사용할 수 없는 아이디입니다");
+    return;
+  } 
+
   await userJoin(joinUser.value);
   if (isJoin.value) {
     alert('가입 성공!!');
-    console.log('가입 성공!!!');
     router.push({ name: 'user-login' });
   } else {
     alert('가입 실패!!');
-    console.log('가입 실패!!!');
     router.push({ name: 'user-join' });
   }
 };
 
 const check = async () => {
   await userCheck(joinUser.value);
-  if (!isCheck.value) {
-    console.log('등록 가능');
+  if (isCheck.value) {
+    // console.log('등록 가능');
   } else {
-    console.log('등록 불가');
+    // console.log('등록 불가');
   }
 };
 </script>

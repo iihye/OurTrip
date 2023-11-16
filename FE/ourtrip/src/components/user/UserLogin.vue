@@ -6,7 +6,6 @@ import { useMemberStore } from '@/stores/user';
 import { useMenuStore } from '@/stores/menu';
 
 const router = useRouter();
-
 const memberStore = useMemberStore();
 
 const { isLogin } = storeToRefs(memberStore);
@@ -19,21 +18,19 @@ const loginUser = ref({
 });
 
 const login = async () => {
-  //   console.log('login ing!!!! !!!');
   await userLogin(loginUser.value);
   let token = sessionStorage.getItem('accessToken');
-  //   console.log('1. token', token);
-  //   console.log('UserView에서 본 isLogin: ' + isLogin.value);
+  //   console.log('token', token);
   if (isLogin.value) {
-    alert('로그인 성공!!');
-    // console.log('로그인 성공!!!');
+    // alert('로그인 성공!!');
     getUserInfo(token);
     changeMenuState();
     router.push('/');
   } else {
-    alert('로그인 실패!!');
+    alert('가입하지 않은 아이디이거나 비밀번호가 올바르지 않습니다');
     router.push({ name: 'user-login' });
   }
+
 };
 </script>
 
@@ -44,6 +41,7 @@ const login = async () => {
     <input v-model="loginUser.userPw" placeholder="비번" />
     <button type="button" @click="login">로그인</button>
   </form>
+  <router-link :to="{name: 'user-find'}">비밀번호 찾기</router-link>
 </template>
 
 <style scoped></style>
