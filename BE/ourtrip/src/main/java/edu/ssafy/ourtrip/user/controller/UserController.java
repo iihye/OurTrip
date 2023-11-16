@@ -31,6 +31,21 @@ public class UserController {
 		this.jwtUtil = jwtUtil;
 	}
 	
+	@PostMapping("/join")
+	public ResponseEntity<Map<String, Object>> join(@RequestBody UserDto userDto){
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		try {
+			userService.join(userDto);
+			resultMap.put("message", "등록 성공");
+			status = HttpStatus.CREATED;
+		} catch(Exception e) {
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, Object>> login(@RequestBody UserDto userDto) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();

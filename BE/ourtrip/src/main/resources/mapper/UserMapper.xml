@@ -11,6 +11,11 @@
 		<result column="token" property="token"/>
 	</resultMap>
 	
+	<insert id="join" parameterType="map">
+		insert into user (user_id, user_pw, user_name)
+		values (#{userId}, #{userPw}, #{userName})
+	</insert>
+	
 	<select id="login" parameterType="map" resultMap="userDto">
 		select user_id, user_name, token
 		from user

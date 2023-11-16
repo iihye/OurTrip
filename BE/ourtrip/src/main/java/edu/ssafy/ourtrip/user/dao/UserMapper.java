@@ -9,6 +9,7 @@ import edu.ssafy.ourtrip.user.dto.UserDto;
 
 @Mapper
 public interface UserMapper {
+	void join(UserDto userDto) throws SQLException;
 	UserDto login(UserDto userDto) throws SQLException;
 	UserDto userInfo(String userId) throws SQLException;
 	void saveToken(Map<String, String> map) throws SQLException;

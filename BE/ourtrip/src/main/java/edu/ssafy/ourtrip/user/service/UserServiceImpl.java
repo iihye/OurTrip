@@ -17,6 +17,11 @@ public class UserServiceImpl implements UserService{
 	public UserServiceImpl(UserMapper userMapper) {
 		this.userMapper = userMapper;
 	}
+	
+	@Override
+	public void join(UserDto userDto) throws SQLException {
+		userMapper.join(userDto);
+	}
 
 	@Override
 	public UserDto login(UserDto userDto) throws SQLException {

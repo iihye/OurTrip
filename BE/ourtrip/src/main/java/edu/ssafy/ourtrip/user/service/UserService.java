@@ -6,6 +6,7 @@ import java.util.Map;
 import edu.ssafy.ourtrip.user.dto.UserDto;
 
 public interface UserService {
+	void join(UserDto userDto) throws SQLException;
 	UserDto login(UserDto userDto) throws SQLException;
 	UserDto userInfo(String userId) throws SQLException;
 	void saveToken(String userId, String token) throws SQLException;
