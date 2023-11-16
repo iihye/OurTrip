@@ -12,9 +12,8 @@ const { changeMenuState } = menuStore;
 const logout = () => {
   console.log('로그아웃!!!!');
   changeMenuState();
-  // localStorage.removeItem('userId');
-  // router.replace({ name: 'home' });
-  // window.location.reload();
+  sessionStorage.removeItem('accessToken');
+  sessionStorage.removeItem('refreshToken');
 };
 </script>
 
