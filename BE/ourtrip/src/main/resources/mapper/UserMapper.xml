@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.ssafy.ourtrip.user.dao.UserDao">
+
+	<resultMap type="UserDto" id="user">
+		<result column="user_id" property="userId"/>
+		<result column="user_pw" property="userPw"/>
+		<result column="user_name" property="userName"/>
+		<result column="token" property="token"/>
+	</resultMap>
+	
+	<select id="login" parameterType="map" resultMap="user">
+		select user_id, user_name, token
+		from user
+		where user_id = #{userId} and user_pw = #{userPw}
+	</select>
+	
+	<select id="userInfo" parameterType="string" resultMap="user">
+		select user_name, user_id
+		from user
+		where user_id = #{userId}
+	</select>
+	
+	<update id="saveRefreshToken" parameterType="map">
+		update user
+		set token = #{token}
+		where user_id = #{userId}
+	</update>
+	
+	<select id="getToken" parameterType="string" resultType="string">
+		select token
+		from user
+		where user_id = #{userId}
+	</select>
+	
+	<update id="deleteToken" parameterType="user">
+		update user
+		set token = #{token, jdbcType=VARCHAR}
+		where user_id = #{userId}
+	</update>
+	
+</mapper>

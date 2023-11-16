@@ -1,5 +1,17 @@
 package edu.ssafy.ourtrip.user.dao;
 
-public interface UserDao {
+import java.sql.SQLException;
+import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
+
+import edu.ssafy.ourtrip.user.dto.UserDto;
+
+@Mapper
+public interface UserDao {
+	UserDto login(UserDto userDto) throws SQLException;
+	UserDto userInfo(String userId) throws SQLException;
+	void saveToken(Map<String, String> map) throws SQLException;
+	Object getToken(String userId) throws SQLException;
+	void deleteToken(Map<String, String> map) throws SQLException;
 }
