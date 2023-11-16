@@ -19,6 +19,12 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
+	public void delete(String userId) throws SQLException {
+		userMapper.delete(userId);
+		
+	}
+	
+	@Override
 	public void update(UserDto userDto) throws SQLException {
 		userMapper.update(userDto);
 		

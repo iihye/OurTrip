@@ -43,8 +43,8 @@ async function userUpdateApi(param, success, fail) {
   await local.post(`user/update`, param).then(success).catch(fail);
 }
 
-async function userDeleteApi(param, success, fail) {
-  await local.delete(`user/delete`, param).then(success).catch(fail);
+async function userDeleteApi(userid, success, fail) {
+  await local.delete(`user/delete/${userid}`).then(success).catch(fail);
 }
 
 export {

@@ -9,6 +9,7 @@ import edu.ssafy.ourtrip.user.dto.UserDto;
 
 @Mapper
 public interface UserMapper {
+	void delete(String userId) throws SQLException;
 	void update(UserDto userDto) throws SQLException;
 	String find(UserDto userDto) throws SQLException;
 	int check(UserDto userDto) throws SQLException;

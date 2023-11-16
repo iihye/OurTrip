@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +32,21 @@ public class UserController {
 		this.userService = userService;
 		this.jwtUtil = jwtUtil;
 	}
+	
+	@DeleteMapping("/delete/{userId}")
+	public ResponseEntity<Map<String, Object>> delete(@PathVariable("userId") String userId){
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		try {
+			userService.delete(userId);
+			resultMap.put("message", "삭제 성공");
+			status = HttpStatus.CREATED;
+		} catch(Exception e) {
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	} 
 	
 	@PostMapping("/update")
 	public ResponseEntity<Map<String, Object>> update(@RequestBody UserDto userDto){

@@ -10,7 +10,7 @@ const { menuList } = storeToRefs(menuStore);
 const { changeMenuState } = menuStore;
 
 const logout = () => {
-  console.log('로그아웃!!!!');
+  // console.log('로그아웃!!!!');
   changeMenuState();
   sessionStorage.removeItem('accessToken');
   sessionStorage.removeItem('refreshToken');

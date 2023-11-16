@@ -219,9 +219,9 @@ export const useMemberStore = defineStore("userStore", () => {
     );
   };
 
-  const userDelete = async (updateUser) => {
+  const userDelete = async (userid) => {
     await userDeleteApi(
-      updateUser,
+      userid,
       (response) => {
         if (response.data.message === "삭제 성공") {
           isDelete.value = true;

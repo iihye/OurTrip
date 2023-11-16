@@ -11,6 +11,11 @@
 		<result column="token" property="token"/>
 	</resultMap>
 	
+	<delete id="delete" parameterType="string">
+		delete from user
+		where user_id = #{userId}
+	</delete>
+	
 	<update id="update" parameterType="map">
 		update user
 		set user_pw = #{userPw}, user_name =#{userName}

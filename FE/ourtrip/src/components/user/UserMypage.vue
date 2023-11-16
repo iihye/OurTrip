@@ -3,13 +3,15 @@ import { onMounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
 import { useMemberStore } from '@/stores/user';
-import { isModelListener } from "@vue/shared";
+import { useMenuStore } from '@/stores/menu';
 
 const router = useRouter();
 const memberStore = useMemberStore();
+const menuStore = useMenuStore();
 
 const { userInfo, isUpdate, isDelete } = storeToRefs(memberStore);
 const { getUserInfo, userUpdate, userDelete } = memberStore;
+const { changeMenuState } = menuStore;
 
 const updateUser = ref({
   userId: '',
@@ -45,9 +47,12 @@ const update = async () => {
 };
 
 const unjoin = async () => {
-    await userDelete(updateUser.value);
+    await userDelete(updateUser.value.userId);
     if (isDelete.value) {
         alert("삭제 성공!!");
+        changeMenuState(); // logout 처리
+        sessionStorage.removeItem('accessTkoen');
+        sessionStorage.removeItem('refreshToken');
         router.push({ name: 'home' });
     } else {
         alert("삭제 실패!!");
