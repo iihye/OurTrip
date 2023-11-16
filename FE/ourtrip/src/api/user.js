@@ -23,4 +23,10 @@ async function logout(userid, success, fail) {
   await local.get(`/user/logout/${userid}`).then(success).catch(fail);
 }
 
-export { userConfirm, findById, tokenRegeneration, logout };
+async function userJoinApi(param, success, fail) {
+  // console.log('----------userJoin start----------');
+  await local.post(`user/join`, param).then(success).catch(fail);
+  // console.log('----------userJoin finish----------');
+}
+
+export { userConfirm, findById, tokenRegeneration, logout, userJoinApi };
