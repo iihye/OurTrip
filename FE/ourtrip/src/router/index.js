@@ -2,6 +2,12 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import UserView from '../views/UserView.vue';
 
+import PlaceView from "@/views/PlaceView.vue";
+import PlaceLocation from "@/components/place/PlaceLocation.vue";
+import PlaceTitle from "@/components/place/PlaceTitle.vue";
+import PlaceCover from "@/components/place/PlaceCover.vue";
+import PlaceOpen from "@/components/place/PlaceOpen.vue";
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -47,35 +53,35 @@ const router = createRouter({
       ],
     },
     {
-      path: "place",
+      path: "/place",
       name: "place",
-      component: "",
-      redirect: { name: "" },
+      component: PlaceView,
+      redirect: { name: "place-location" },
       children: [
         {
           path: "location",
           name: "place-location",
-          component: "",
+          component: PlaceLocation,
         },
         {
           path: "title",
           name: "place-title",
-          component: "",
+          component: PlaceTitle,
         },
         {
           path: "cover",
           name: "place-cover",
-          component: "",
+          component: PlaceCover,
         },
         {
           path: "open",
           name: "place-open",
-          component: "",
+          component: PlaceOpen,
         },
       ],
     },
     {
-      path: "list",
+      path: "/list",
       name: "list",
       component: "",
       redirect: { name: "" },
