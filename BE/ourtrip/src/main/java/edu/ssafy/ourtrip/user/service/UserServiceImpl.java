@@ -6,26 +6,26 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import edu.ssafy.ourtrip.user.dao.UserDao;
+import edu.ssafy.ourtrip.user.dao.UserMapper;
 import edu.ssafy.ourtrip.user.dto.UserDto;
 
 @Service
 public class UserServiceImpl implements UserService{
 	
-	private UserDao userDao;
+	private UserMapper userMapper;
 	
-	public UserServiceImpl(UserDao userDao) {
-		this.userDao = userDao;
+	public UserServiceImpl(UserMapper userMapper) {
+		this.userMapper = userMapper;
 	}
 
 	@Override
 	public UserDto login(UserDto userDto) throws SQLException {
-		return userDao.login(userDto);
+		return userMapper.login(userDto);
 	}
 
 	@Override
 	public UserDto userInfo(String userId) throws SQLException {
-		return userDao.userInfo(userId);
+		return userMapper.userInfo(userId);
 	}
 
 	@Override
@@ -33,12 +33,12 @@ public class UserServiceImpl implements UserService{
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("userId", userId);
 		map.put("token", token);
-		userDao.saveToken(map);
+		userMapper.saveToken(map);
 	}
 
 	@Override
 	public Object getToken(String userId) throws SQLException {
-		return userDao.getToken(userId);
+		return userMapper.getToken(userId);
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService{
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("userId", userId);
 		map.put("token", null);
-		userDao.deleteToken(map);
+		userMapper.deleteToken(map);
 		
 	}
 

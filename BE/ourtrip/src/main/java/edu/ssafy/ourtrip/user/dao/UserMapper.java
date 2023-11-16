@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import edu.ssafy.ourtrip.user.dto.UserDto;
 
 @Mapper
-public interface UserDao {
+public interface UserMapper {
 	UserDto login(UserDto userDto) throws SQLException;
 	UserDto userInfo(String userId) throws SQLException;
 	void saveToken(Map<String, String> map) throws SQLException;
