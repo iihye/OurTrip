@@ -1,12 +1,29 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
-import { myListApi, shareListApi, openListApi } from '@/api/list';
+import { myListApi, shareListApi, openListApi, detailApi } from '@/api/list';
 import { httpStatusCode } from '@/util/http-status';
 
 export const useListStore = defineStore('listStore', () => {
   const myListRes = ref([]);
   const shareListRes = ref([]);
   const openListRes = ref([]);
+  const detailRes = ref([]);
+
+  const detailList = async (listno) => {
+    await detailApi(
+      listno,
+      (response) => {
+        console.log('response');
+        console.log(response.data.list);
+        if (response.status === httpStatusCode.OK) {
+          detailRes.value = response.data.list;
+        }
+      },
+      async (error) => {
+        console.log(error);
+      }
+    );
+  };
 
   const myList = async (userId) => {
     await myListApi(
@@ -55,5 +72,5 @@ export const useListStore = defineStore('listStore', () => {
     );
   };
 
-  return { myListRes, shareListRes, openListRes, myList, shareList, openList };
+  return { myListRes, shareListRes, openListRes, detailRes, myList, shareList, openList, detailList };
 });

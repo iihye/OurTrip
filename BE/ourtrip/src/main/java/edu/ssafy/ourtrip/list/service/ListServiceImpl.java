@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import edu.ssafy.ourtrip.list.dao.ListMapper;
 import edu.ssafy.ourtrip.list.dto.ListDto;
+import edu.ssafy.ourtrip.place.dto.PlaceDto;
 
 @Service
 public class ListServiceImpl implements ListService {
@@ -30,6 +31,11 @@ public class ListServiceImpl implements ListService {
 	@Override
 	public List<ListDto> openList() throws SQLException {
 		return listMapper.openList();
+	}
+
+	@Override
+	public List<PlaceDto> detail(String listNo) throws SQLException {
+		return listMapper.detail(listNo);
 	}
 
 }

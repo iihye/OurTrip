@@ -12,6 +12,18 @@
 		<result column="user_id" property="userId"/>
 	</resultMap>
 	
+	<resultMap type="placeDto" id="placeDto">
+		<result column="place_no" property="placeNo"/>
+		<result column="place_name" property="placeName"/>
+		<result column="place_url" property="placeUrl"/>
+		<result column="place_address_name" property="placeAddressName"/>
+		<result column="place_road_address_name" property="placeRoadAddressName"/>
+		<result column="place_phone" property="placePhone"/>
+		<result column="place_x" property="placeX"/>
+		<result column="place_y" property="placeY"/>
+		<result column="list_no" property="listNo"/>
+	</resultMap>
+	
 	<select id="myList" parameterType="string" resultMap="listDto">
 		select list_no, list_name, list_img, list_open, user_id
 		from list
@@ -28,6 +40,12 @@
 		select list_no, list_name, list_img, list_open, user_id
 		from list
 		where list_open = true
+	</select>
+	
+	<select id="detail" parameterType="string" resultMap="placeDto">
+		select place_no, place_name, place_url, place_address_name, place_road_address_name,place_phone, place_x, place_y 
+		from place
+		where list_no = #{listNo}
 	</select>
 	
 </mapper>
