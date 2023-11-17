@@ -14,7 +14,7 @@ async function shareListApi(param, success, fail) {
   console.log('-----------shareListApi start-----------');
 }
 
-async function openListApi(param, success, fail) {
+async function openListApi(success, fail) {
   console.log('-----------openListApi start-----------');
   await local.get(`/list/open`).then(success).catch(fail);
   console.log('-----------openListApi start-----------');
