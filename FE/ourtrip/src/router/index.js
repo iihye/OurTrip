@@ -18,6 +18,7 @@ import PlaceOpen from '@/components/place/PlaceOpen.vue';
 import ListMy from '@/components/list/ListMy.vue';
 import ListShare from '@/components/list/ListShare.vue';
 import ListOpen from '@/components/list/ListOpen.vue';
+import ListDetail from '@/components/list/ListDetail.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -113,9 +114,9 @@ const router = createRouter({
           component: ListOpen,
         },
         {
-          path: 'detail/:place_id',
+          path: 'detail/:listno',
           name: 'list-detail',
-          component: '',
+          component: ListDetail,
         },
       ],
     },
