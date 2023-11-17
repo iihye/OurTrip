@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from 'vue';
-import { useMenuStore } from '@/stores/menu';
-import { storeToRefs } from 'pinia';
+import { ref } from "vue";
+import { useMenuStore } from "@/stores/menu";
+import { storeToRefs } from "pinia";
 
 const root = ref(`${import.meta.env.VITE_APP_CLIENT_URI}`);
 const menuStore = useMenuStore();
@@ -12,8 +12,8 @@ const { changeMenuState } = menuStore;
 const logout = () => {
   // console.log('로그아웃!!!!');
   changeMenuState();
-  sessionStorage.removeItem('accessToken');
-  sessionStorage.removeItem('refreshToken');
+  sessionStorage.removeItem("accessToken");
+  sessionStorage.removeItem("refreshToken");
 };
 </script>
 
@@ -37,7 +37,7 @@ const logout = () => {
           <ul class="navbar-nav">
             <li class="nav-item">
               <!-- Render content for when userId is not available -->
-              <a class="nav-link" :href="`${root}/place`">만들기</a>
+              <a class="nav-link" :href="`${root}/place/location`">만들기</a>
             </li>
             <li class="nav-item">
               <!-- Render content for when userId is not available -->
@@ -48,13 +48,22 @@ const logout = () => {
               <template v-if="menu.show">
                 <template v-if="menu.routeName === 'user-logout'">
                   <li class="nav-item">
-                    <router-link to="/" @click.prevent="logout" class="nav-link">{{ menu.name }}</router-link>
+                    <router-link
+                      to="/"
+                      @click.prevent="logout"
+                      class="nav-link"
+                      >{{ menu.name }}</router-link
+                    >
                   </li>
                 </template>
 
                 <template v-else>
                   <li class="nav-item">
-                    <router-link :to="{ name: menu.routeName }" class="nav-link">{{ menu.name }}</router-link>
+                    <router-link
+                      :to="{ name: menu.routeName }"
+                      class="nav-link"
+                      >{{ menu.name }}</router-link
+                    >
                   </li>
                 </template>
               </template>
