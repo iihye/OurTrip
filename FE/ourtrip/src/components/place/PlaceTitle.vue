@@ -10,8 +10,7 @@ const { listInfo } = storeToRefs(placeStore);
 
 const title = ref("");
 const nextButtonHandler = () => {
-  listInfo.value = { ...listInfo.value, title: title };
-  console.log(listInfo.value);
+  listInfo.value = { ...listInfo.value, title: title.value };
   router.push({ name: "place-cover" });
 };
 </script>
