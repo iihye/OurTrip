@@ -7,9 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +31,87 @@ public class UserController {
 	public UserController(UserService userService, JWTUtil jwtUtil) {
 		this.userService = userService;
 		this.jwtUtil = jwtUtil;
+	}
+	
+	@DeleteMapping("/delete/{userId}")
+	public ResponseEntity<Map<String, Object>> delete(@PathVariable("userId") String userId){
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		try {
+			userService.delete(userId);
+			resultMap.put("message", "삭제 성공");
+			status = HttpStatus.CREATED;
+		} catch(Exception e) {
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	} 
+	
+	@PostMapping("/update")
+	public ResponseEntity<Map<String, Object>> update(@RequestBody UserDto userDto){
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		try {
+			userService.update(userDto);
+			resultMap.put("message", "수정 성공");
+			status = HttpStatus.CREATED;
+		} catch(Exception e) {
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	} 
+	
+	@PostMapping("/find")
+	public ResponseEntity<Map<String, Object>> find(@RequestBody UserDto userDto){
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		try {
+			String userPw = userService.find(userDto);
+			resultMap.put("userPw", userPw);
+			status = HttpStatus.CREATED;
+		} catch(Exception e) {
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	} 
+	
+	@PostMapping("/check")
+	public ResponseEntity<Map<String, Object>> check(@RequestBody UserDto userDto){
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+//		System.out.println(userDto.getUserId());
+		try {
+			int cnt = userService.check(userDto);
+			System.out.println(cnt);
+			if(cnt == 0) {
+				resultMap.put("cnt", cnt);
+			} else {
+				resultMap.put("cnt", cnt);
+			}
+			status = HttpStatus.CREATED;
+		} catch(Exception e) {
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
+	@PostMapping("/join")
+	public ResponseEntity<Map<String, Object>> join(@RequestBody UserDto userDto){
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		try {
+			userService.join(userDto);
+			resultMap.put("message", "등록 성공");
+			status = HttpStatus.CREATED;
+		} catch(Exception e) {
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
 	@PostMapping("/login")

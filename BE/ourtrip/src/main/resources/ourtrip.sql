@@ -8,7 +8,7 @@ create table `user`
 	`user_id` varchar(255) NOT NULL PRIMARY KEY ,
     `user_pw` varchar(255) NOT NULL,
     `user_name` varchar(255) NOT NULL,
-    `token` varchar(100) NULL
+    `token` varchar(255) NULL
 );
 
 create table `list`

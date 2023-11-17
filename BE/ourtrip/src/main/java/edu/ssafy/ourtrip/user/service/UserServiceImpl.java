@@ -17,6 +17,33 @@ public class UserServiceImpl implements UserService{
 	public UserServiceImpl(UserMapper userMapper) {
 		this.userMapper = userMapper;
 	}
+	
+	@Override
+	public void delete(String userId) throws SQLException {
+		userMapper.delete(userId);
+		
+	}
+	
+	@Override
+	public void update(UserDto userDto) throws SQLException {
+		userMapper.update(userDto);
+		
+	}
+	
+	@Override
+	public String find(UserDto userDto) throws SQLException {
+		return userMapper.find(userDto);
+	}
+	
+	@Override
+	public int check(UserDto userDto) throws SQLException {
+		return userMapper.check(userDto);
+	}
+	
+	@Override
+	public void join(UserDto userDto) throws SQLException {
+		userMapper.join(userDto);
+	}
 
 	@Override
 	public UserDto login(UserDto userDto) throws SQLException {
