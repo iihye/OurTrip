@@ -14,7 +14,7 @@ import lombok.ToString;
 public class ListDto {
 	private int listNo;
 	private String listName;
-	private int listImg;
+	private String listImg;
 	private boolean listOpen;
 	private String userId;
 }

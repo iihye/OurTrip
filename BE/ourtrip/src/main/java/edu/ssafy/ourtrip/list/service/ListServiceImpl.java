@@ -38,4 +38,8 @@ public class ListServiceImpl implements ListService {
 		return listMapper.detail(listNo);
 	}
 
+
+	public void registerList(ListDto listDto) throws SQLException {
+		listMapper.registerList(listDto);
+	}
 }

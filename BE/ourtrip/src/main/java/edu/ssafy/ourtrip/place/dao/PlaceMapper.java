@@ -1,5 +1,10 @@
 package edu.ssafy.ourtrip.place.dao;
 
-public interface PlaceDao {
+import org.apache.ibatis.annotations.Mapper;
 
+import edu.ssafy.ourtrip.place.dto.PlaceDto;
+
+@Mapper
+public interface PlaceMapper {
+	void registerPlace(PlaceDto placeDto);
 }

@@ -1,5 +1,7 @@
 package edu.ssafy.ourtrip.place.service;
 
-public interface PlaceService {
+import edu.ssafy.ourtrip.place.dto.PlaceDto;
 
+public interface PlaceService {
+	void registerPlace(PlaceDto placeDto);
 }

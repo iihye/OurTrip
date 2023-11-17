@@ -48,4 +48,9 @@
 		where list_no = #{listNo}
 	</select>
 	
+	<insert id="registerList" parameterType="map">
+		insert into list (list_name, list_img, list_open, user_id)
+		values (#{listName}, #{listImg}, #{listOpen}, #{userId});
+	</insert>
+	
 </mapper>
