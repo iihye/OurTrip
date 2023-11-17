@@ -1,13 +1,17 @@
 <script setup>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { usePlaceStore } from "@/stores/place";
 import { storeToRefs } from "pinia";
 
+const router = useRouter();
 const placeStore = usePlaceStore();
 const { listInfo } = storeToRefs(placeStore);
 
 const title = ref("");
 const nextButtonHandler = () => {
   listInfo.value = { ...listInfo.value, title: title };
+  console.log(listInfo.value);
   router.push({ name: "place-cover" });
 };
 </script>
