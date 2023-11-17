@@ -1,5 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import UserView from "../views/UserView.vue";
+import MypageView from "../views/MypageView.vue";
+
+import UserJoin from "@/components/user/UserJoin.vue";
+import UserLogin from "@/components/user/UserLogin.vue";
+import UserFind from "@/components/user/UserFind.vue";
+import UserMypage from "@/components/user/UserMypage.vue";
 
 import PlaceView from "@/views/PlaceView.vue";
 import PlaceLocation from "@/components/place/PlaceLocation.vue";
@@ -18,36 +25,36 @@ const router = createRouter({
     {
       path: "/user",
       name: "user",
-      component: "",
-      redirect: { name: "" },
+      component: UserView,
+      redirect: { name: "user-login" },
       children: [
         {
           path: "join",
           name: "user-join",
-          component: "",
+          component: UserJoin,
         },
         {
           path: "login",
           name: "user-login",
-          component: "",
+          component: UserLogin,
         },
         {
           path: "find",
           name: "user-find",
-          component: "",
+          component: UserFind,
         },
       ],
     },
     {
       path: "/mypage",
       name: "mypage",
-      component: "",
-      redirect: { name: "" },
+      component: MypageView,
+      redirect: { name: "mypage-info" },
       children: [
         {
           path: "info",
           name: "mypage-info",
-          component: "",
+          component: UserMypage,
         },
       ],
     },

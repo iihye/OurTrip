@@ -1,16 +1,19 @@
 <script setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { ref } from 'vue';
+import { useMenuStore } from '@/stores/menu';
+import { storeToRefs } from 'pinia';
 
 const root = ref(`${import.meta.env.VITE_APP_CLIENT_URI}`);
-const userId = localStorage.getItem("userId");
+const menuStore = useMenuStore();
 
-const router = useRouter();
+const { menuList } = storeToRefs(menuStore);
+const { changeMenuState } = menuStore;
 
 const logout = () => {
-  localStorage.removeItem("userId");
-  router.replace({ name: "home" });
-  window.location.reload();
+  // console.log('로그아웃!!!!');
+  changeMenuState();
+  sessionStorage.removeItem('accessToken');
+  sessionStorage.removeItem('refreshToken');
 };
 </script>
 
@@ -38,47 +41,24 @@ const logout = () => {
             </li>
             <li class="nav-item">
               <!-- Render content for when userId is not available -->
-              <a class="nav-link" :href="`${root}/user/join`">공개PLACELIST</a>
+              <a class="nav-link" :href="`${root}/user/join`">공개 PLACELIST</a>
             </li>
 
-            <li class="nav-item">
-              <!-- Render content for when userId is available -->
-              <a class="nav-link" :href="`${root}/user/mypage`">내 PLACELIST</a>
-            </li>
-            <li class="nav-item">
-              <!-- Render content for when userId is available -->
-              <a class="nav-link" :href="`${root}/user/mypage`"
-                >공유 PLACELIST</a
-              >
-            </li>
-          </ul>
-        </div>
+            <template v-for="menu in menuList" :key="menu.routeName">
+              <template v-if="menu.show">
+                <template v-if="menu.routeName === 'user-logout'">
+                  <li class="nav-item">
+                    <router-link to="/" @click.prevent="logout" class="nav-link">{{ menu.name }}</router-link>
+                  </li>
+                </template>
 
-        <!-- 로그인 정보 -->
-        <div id="navb-login">
-          <ul class="navbar-nav">
-            <div v-if="!userId">
-              <li class="nav-item">
-                <!-- Render content for when userId is not available -->
-                <a class="nav-link" :href="`${root}/user/login`">로그인</a>
-              </li>
-              <li class="nav-item">
-                <!-- Render content for when userId is not available -->
-                <a class="nav-link" :href="`${root}/user/join`">회원가입</a>
-              </li>
-            </div>
-            <div v-else>
-              <li class="nav-item">
-                <!-- Render content for when userId is available -->
-                <a class="nav-link" :href="`${root}/user/mypage`"
-                  >{{ userId }} 님 반가워요!</a
-                >
-              </li>
-              <li class="nav-item">
-                <!-- Render content for when userId is available -->
-                <a class="nav-link" @click="logout">로그아웃</a>
-              </li>
-            </div>
+                <template v-else>
+                  <li class="nav-item">
+                    <router-link :to="{ name: menu.routeName }" class="nav-link">{{ menu.name }}</router-link>
+                  </li>
+                </template>
+              </template>
+            </template>
           </ul>
         </div>
       </div>
