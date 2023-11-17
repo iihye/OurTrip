@@ -37,11 +37,11 @@ const logout = () => {
           <ul class="navbar-nav">
             <li class="nav-item">
               <!-- Render content for when userId is not available -->
-              <a class="nav-link" :href="`${root}/user/login`">만들기</a>
+              <a class="nav-link" :href="`${root}/place`">만들기</a>
             </li>
             <li class="nav-item">
               <!-- Render content for when userId is not available -->
-              <a class="nav-link" :href="`${root}/user/join`">공개 PLACELIST</a>
+              <a class="nav-link" :href="`${root}/list`">공개 PLACELIST</a>
             </li>
 
             <template v-for="menu in menuList" :key="menu.routeName">
