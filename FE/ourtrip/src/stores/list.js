@@ -1,18 +1,46 @@
 import { ref } from 'vue';
-// import { useRouter } from 'vue-router';
 import { defineStore } from 'pinia';
 import { myListApi, shareListApi, openListApi } from '@/api/list';
 import { httpStatusCode } from '@/util/http-status';
 
 export const useListStore = defineStore('listStore', () => {
-  //   const router = useRouter();
-
   const myListRes = ref([]);
   const shareListRes = ref([]);
   const openListRes = ref([]);
 
+  const myList = async (userId) => {
+    await myListApi(
+      userId,
+      (response) => {
+        console.log('response');
+        console.log(response.data.list);
+        if (response.status === httpStatusCode.OK) {
+          myListRes.value = response.data.list;
+        }
+      },
+      async (error) => {
+        console.log(error);
+      }
+    );
+  };
+
+  const shareList = async (userId) => {
+    await shareListApi(
+      userId,
+      (response) => {
+        console.log('response');
+        console.log(response.data.list);
+        if (response.status === httpStatusCode.OK) {
+          shareListRes.value = response.data.list;
+        }
+      },
+      async (error) => {
+        console.log(error);
+      }
+    );
+  };
+
   const openList = async () => {
-    console.log('openList를 실행합니다~~');
     await openListApi(
       (response) => {
         console.log('response');
@@ -27,5 +55,5 @@ export const useListStore = defineStore('listStore', () => {
     );
   };
 
-  return { myListRes, shareListRes, openListRes, openList };
+  return { myListRes, shareListRes, openListRes, myList, shareList, openList };
 });
