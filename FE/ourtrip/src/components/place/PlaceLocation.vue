@@ -33,7 +33,7 @@ const selectHandler = (item) => {
 };
 
 const nextButtonHandler = () => {
-  listInfo.value = { places: selectList.value };
+  listInfo.value = { list_places: selectList.value };
   router.push({ name: "place-title" });
 };
 </script>

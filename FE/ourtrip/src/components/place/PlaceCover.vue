@@ -32,7 +32,7 @@ const selectHandler = (image_url) => {
 };
 
 const nextButtonHandler = () => {
-  listInfo.value = { ...listInfo.value, img: selectImageUrl.value };
+  listInfo.value = { ...listInfo.value, list_img: selectImageUrl.value };
   console.log(listInfo.value);
   router.push({ name: "place-open" });
 };
