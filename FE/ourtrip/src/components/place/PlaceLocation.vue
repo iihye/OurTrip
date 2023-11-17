@@ -10,7 +10,7 @@ const router = useRouter();
 const placeStore = usePlaceStore();
 const { VITE_APP_KAKAO_API_URI, VITE_APP_KAKAO_REST_KEY } = import.meta.env;
 
-const { placeList } = storeToRefs(placeStore);
+const { listInfo } = storeToRefs(placeStore);
 const searchKeyword = ref("");
 const searchList = ref([]);
 const selectList = ref([]);
@@ -33,7 +33,7 @@ const selectHandler = (item) => {
 };
 
 const nextButtonHandler = () => {
-  placeList.value = selectList.value;
+  listInfo.value = { places: selectList.value };
   router.push({ name: "place-title" });
 };
 </script>
