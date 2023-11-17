@@ -15,6 +15,8 @@ const joinUser = ref({
   userPw: '',
   userName: '',
 });
+const message = ref();
+const isVisible = ref(false);
 
 const join = async () => {
   if (joinUser.value.userId === '') {
@@ -39,10 +41,10 @@ const join = async () => {
 
   await userJoin(joinUser.value);
   if (isJoin.value) {
-    alert('가입 성공!!');
+    alert(joinUser.value.userName + '님 환영합니다☺️');
     router.push({ name: 'user-login' });
   } else {
-    alert('가입 실패!!');
+    alert('회원가입에 실패했어요 관리자에게 문의하세요!');
     router.push({ name: 'user-join' });
   }
 };
@@ -50,27 +52,86 @@ const join = async () => {
 const check = async () => {
   await userCheck(joinUser.value);
   if (isCheck.value) {
+    message.value = "사용할 수 있는 아이디예요☺️";
     // console.log('등록 가능');
   } else {
+    message.value = "앗! 이미 사용 중이거나 사용할 수 없는 아이디예요😥";
     // console.log('등록 불가');
   }
+};
+
+const visible = () => {
+  isVisible.value = !isVisible.value;
 };
 </script>
 
 <template>
   <div>
-    <h1>user join</h1>
-    <form>
-      <input v-model="joinUser.userId" placeholder="아이디" @blur="check" />
-      <span v-if="!isCheck">사용할 수 없는 아이디입니다</span>
-      <br/>
-      <input v-model="joinUser.userPw" placeholder="비번" />
-      <br/>
-      <input v-model="joinUser.userName" placeholder="닉네임" />
-      <br/>
-      <button type="button" @click="join">회원가입</button>
+    <h1>회원가입</h1>
+
+    <form class="form">
+      <v-container>
+        <div class="form-wrapper">
+            <v-text-field label="아이디" v-model="joinUser.userId" @blur="check" variant="underlined" :messages="message">
+            <template v-slot:prepend-inner>
+              <font-awesome-icon :icon="['fas', 'user']" style="color: #787878;" />
+            </template>
+            </v-text-field>
+            
+          </div>
+
+        <div class="form-wrapper">
+          <v-text-field label="패스워드" v-model="joinUser.userPw" variant="underlined" 
+          :type="isVisible ? 'text' : 'password'" >
+            <template v-slot:prepend-inner>
+              <font-awesome-icon :icon="['fas', 'lock']" style="color: #787878;" />
+            </template>
+            <template v-slot:append-inner>
+              <div v-if="!isVisible" @click="visible"><font-awesome-icon :icon="['fas', 'eye']" style="color: #787878;" /></div>
+              <div v-if="isVisible" @click="visible"><font-awesome-icon :icon="['fas', 'eye-slash']" style="color: #787878;" /></div>
+           </template>
+          </v-text-field>
+        </div>
+
+        <div class="form-wrapper">
+          <v-text-field label="닉네임" v-model="joinUser.userName" variant="underlined">
+            <template v-slot:prepend-inner>
+              <font-awesome-icon :icon="['fas', 'signature']" style="color: #787878;" />
+            </template>
+          </v-text-field>
+        </div>
+
+        <div class="footer-btn-container">
+          <v-btn class="custom-btn" size="x-large" variant="outlined" rounded="xl" @click="join"> 가입하기 </v-btn>
+        </div>
+      </v-container>
     </form>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+h1 {
+  text-align: center;
+  font-size: 36px;
+  padding: 30px;
+}
+.form{
+  padding: 30px;
+  padding-left: 30%;
+  padding-right: 30%;
+}
+.form-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px; 
+}
+.footer-btn-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px; 
+}
+.custom-btn{
+  width: 400px;
+}
+</style>
+

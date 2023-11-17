@@ -30,7 +30,7 @@
 .site-footer
 {
   height: 150px;
-  position: relative;
+  position: flexible;
   bottom: 0;
   width: 100%;
   text-align: center;
