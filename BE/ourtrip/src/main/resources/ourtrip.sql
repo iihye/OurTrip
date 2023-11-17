@@ -16,6 +16,7 @@ create table `list`
 	`list_no` integer NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `list_name` text NOT NULL,
     `list_img` integer NOT NULL,
+	`list_open` boolean NOT NULL default false,
     `user_id` varchar(255) NOT NULL,
 	CONSTRAINT `list_to_user_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
 );
