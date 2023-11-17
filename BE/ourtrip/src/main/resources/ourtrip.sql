@@ -14,8 +14,8 @@ create table `user`
 create table `list`
 (
 	`list_no` integer NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `list_name` text NOT NULL,
-    `list_img` integer NOT NULL,
+    `list_name` varchar(255) NOT NULL,
+    `list_img`  varchar(255) NULL,
 	`list_open` boolean NOT NULL default false,
     `user_id` varchar(255) NOT NULL,
 	CONSTRAINT `list_to_user_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
@@ -37,11 +37,11 @@ create table `share`
 create table `place`
 (
 	`place_no` integer NOT NULL primary key AUTO_INCREMENT,
-    `place_name` text NOT NULL,
+    `place_name` varchar(255) NOT NULL,
     `place_url` varchar(255) NOT NULL,
-    `place_address_name` text NOT NULL,
-    `place_road_address_name` text NOT NULL,
-    `place_phone` text NOT NULL,
+    `place_address_name` varchar(255) NOT NULL,
+    `place_road_address_name` varchar(255) NOT NULL,
+    `place_phone` varchar(255) NOT NULL,
     `place_x` decimal NOT NULL,
     `place_y` decimal NOT NULL,
     `list_no` integer NOT NULL,
