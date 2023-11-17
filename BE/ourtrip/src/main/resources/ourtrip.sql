@@ -8,7 +8,7 @@ create table `user`
 	`user_id` varchar(255) NOT NULL PRIMARY KEY ,
     `user_pw` varchar(255) NOT NULL,
     `user_name` varchar(255) NOT NULL,
-    `token` varchar(100) NULL
+    `token` varchar(255) NULL
 );
 
 create table `list`
@@ -41,8 +41,8 @@ create table `place`
     `place_address_name` text NOT NULL,
     `place_road_address_name` text NOT NULL,
     `place_phone` text NOT NULL,
-    `place_x` integer NOT NULL,
-    `place_y` integer NOT NULL,
+    `place_x` decimal NOT NULL,
+    `place_y` decimal NOT NULL,
     `list_no` integer NOT NULL,
      CONSTRAINT `place_to_list_list_no_fk` FOREIGN KEY (`list_no`) REFERENCES `list` (`list_no`) ON DELETE CASCADE
 );
