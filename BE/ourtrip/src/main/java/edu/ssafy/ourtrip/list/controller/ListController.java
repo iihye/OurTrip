@@ -81,9 +81,11 @@ public class ListController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
-			listService.registerList(listDto);
-			status = HttpStatus.OK;
-			return new ResponseEntity<Void>(HttpStatus.CREATED);
+			int listNo = listService.registerList(listDto);
+			System.out.println(listNo);
+			status = HttpStatus.CREATED;
+			resultMap.put("listNo", listNo);
+			return new ResponseEntity<Map<String, Object>>(resultMap, status);
 		} catch (Exception e) {
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
