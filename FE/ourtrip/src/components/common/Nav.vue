@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from "vue";
-import { useMenuStore } from "@/stores/menu";
-import { storeToRefs } from "pinia";
+import { ref } from 'vue';
+import { useMenuStore } from '@/stores/menu';
+import { storeToRefs } from 'pinia';
 
 const root = ref(`${import.meta.env.VITE_APP_CLIENT_URI}`);
 const menuStore = useMenuStore();
@@ -10,10 +10,10 @@ const { menuList } = storeToRefs(menuStore);
 const { changeMenuState } = menuStore;
 
 const logout = () => {
-  // console.log('로그아웃!!!!');
+  console.log('로그아웃!!!!');
   changeMenuState();
-  sessionStorage.removeItem("accessToken");
-  sessionStorage.removeItem("refreshToken");
+  sessionStorage.removeItem('accessToken');
+  sessionStorage.removeItem('refreshToken');
 };
 </script>
 
@@ -36,34 +36,30 @@ const logout = () => {
         <div id="navb-login">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <!-- Render content for when userId is not available -->
+              <router-link :to="{ name: 'place' }" class="nav-link">PLACELIST 만들기</router-link>
+            </li>
+
+            <li class="nav-item">
+              <router-link :to="{ name: 'list-open' }" class="nav-link">공개 PLACELIST</router-link>
+            </li>
+            <!-- <li class="nav-item">
               <a class="nav-link" :href="`${root}/place/location`">만들기</a>
             </li>
             <li class="nav-item">
-              <!-- Render content for when userId is not available -->
               <a class="nav-link" :href="`${root}/list`">공개 PLACELIST</a>
-            </li>
+            </li> -->
 
             <template v-for="menu in menuList" :key="menu.routeName">
               <template v-if="menu.show">
                 <template v-if="menu.routeName === 'user-logout'">
                   <li class="nav-item">
-                    <router-link
-                      to="/"
-                      @click.prevent="logout"
-                      class="nav-link"
-                      >{{ menu.name }}</router-link
-                    >
+                    <router-link to="/" @click.prevent="logout" class="nav-link">{{ menu.name }}</router-link>
                   </li>
                 </template>
 
                 <template v-else>
                   <li class="nav-item">
-                    <router-link
-                      :to="{ name: menu.routeName }"
-                      class="nav-link"
-                      >{{ menu.name }}</router-link
-                    >
+                    <router-link :to="{ name: menu.routeName }" class="nav-link">{{ menu.name }}</router-link>
                   </li>
                 </template>
               </template>

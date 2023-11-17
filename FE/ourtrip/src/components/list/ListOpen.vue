@@ -28,12 +28,6 @@ const open = async () => {
   <div>List open</div>
   <div v-if="openListRes.length === 0">비어있어요</div>
   <ListItem v-for="list in openListRes" :key="list.listNo" :list="list"></ListItem>
-  <!-- <template v-for="list in openListRes" :key="list.listno">
-    <router-link :to="{ name: 'list-detail', params: { listNo: list.listNo } }">
-      {{ list.listName }}
-    </router-link>
-    <br />
-  </template> -->
 </template>
 
 <style scoped></style>
