@@ -33,8 +33,7 @@ public class ListController {
 			List<ListDto> list = listService.myList(userId);
 			System.out.println(list.toString());
 			status = HttpStatus.OK;
-			if(list.size() == 0) resultMap.put("list", "empty");
-			else resultMap.put("list", list);
+			resultMap.put("list", list);
 		} catch(Exception e) {
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -51,8 +50,7 @@ public class ListController {
 			System.out.println(list.toString());
 			status = HttpStatus.OK;
 			System.out.println(list.isEmpty());
-			if(list.size() == 0) resultMap.put("list", "empty");
-			else resultMap.put("list", list);
+			resultMap.put("list", list);
 		} catch(Exception e) {
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;

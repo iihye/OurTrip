@@ -16,6 +16,7 @@ onMounted(() => {
 });
 
 const my = async () => {
+  console.log(myListRes.value);
   await myList(userInfo.value.userId);
   if (myListRes != []) {
     console.log(myListRes);
@@ -27,6 +28,7 @@ const my = async () => {
 
 <template>
   <div>List my</div>
+  <div v-if="myListRes.length === 0">비어있어요</div>
   <template v-for="list in myListRes" :key="list.listno">
     <li>{{ list.listName }}</li>
   </template>

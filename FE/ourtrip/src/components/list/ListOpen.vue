@@ -24,6 +24,7 @@ const open = async () => {
 
 <template>
   <div>List open</div>
+  <div v-if="openListRes.length === 0">비어있어요</div>
   <template v-for="list in openListRes" :key="list.listno">
     <li>{{ list.listName }}</li>
   </template>

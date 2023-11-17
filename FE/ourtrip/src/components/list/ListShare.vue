@@ -27,6 +27,7 @@ const share = async () => {
 
 <template>
   <div>List share</div>
+  <div v-if="shareListRes.length === 0">비어있어요</div>
   <template v-for="list in shareListRes" :key="list.listno">
     <li>{{ list.listName }}</li>
   </template>
