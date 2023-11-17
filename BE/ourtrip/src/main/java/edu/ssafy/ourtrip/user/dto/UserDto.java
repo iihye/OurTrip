@@ -1,5 +1,19 @@
 package edu.ssafy.ourtrip.user.dto;
 
-public class UserDto {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class UserDto {
+	private String userId;
+	private String userPw;
+	private String userName;
+	private String token;
 }
