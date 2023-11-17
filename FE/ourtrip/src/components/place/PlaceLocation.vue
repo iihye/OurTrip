@@ -1,10 +1,16 @@
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import axios from "axios";
+import { usePlaceStore } from "@/stores/place";
 import VKakaoMap from "../common/VKakaoMap.vue";
+import { storeToRefs } from "pinia";
 
+const router = useRouter();
+const placeStore = usePlaceStore();
 const { VITE_APP_KAKAO_API_URI, VITE_APP_KAKAO_REST_KEY } = import.meta.env;
 
+const { placeList } = storeToRefs(placeStore);
 const searchKeyword = ref("");
 const searchList = ref([]);
 const selectList = ref([]);
@@ -24,6 +30,11 @@ const searchHandler = async () => {
 const selectHandler = (item) => {
   const isNotExist = !selectList.value.includes(item);
   if (isNotExist) selectList.value = [...selectList.value, item];
+};
+
+const nextButtonHandler = () => {
+  placeList.value = selectList.value;
+  router.push({ name: "place-title" });
 };
 </script>
 
@@ -51,6 +62,8 @@ const selectHandler = (item) => {
       <br />
     </div>
   </ul>
+
+  <button @click="nextButtonHandler">다음</button>
 </template>
 
 <style scoped></style>
