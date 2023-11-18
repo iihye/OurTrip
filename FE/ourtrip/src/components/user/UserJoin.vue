@@ -81,7 +81,7 @@ const visible = () => {
           </div>
 
         <div class="form-wrapper">
-          <v-text-field label="패스워드" v-model="joinUser.userPw" variant="underlined" 
+          <v-text-field label="비밀번호" v-model="joinUser.userPw" variant="underlined" 
           :type="isVisible ? 'text' : 'password'" >
             <template v-slot:prepend-inner>
               <font-awesome-icon :icon="['fas', 'lock']" style="color: #787878;" />
@@ -102,7 +102,7 @@ const visible = () => {
         </div>
 
         <div class="footer-btn-container">
-          <v-btn class="custom-btn" size="x-large" variant="outlined" rounded="xl" @click="join"> 가입하기 </v-btn>
+          <v-btn class="custom-btn" size="x-large" variant="flat" color="black" rounded="xl" @click="join"> 가입하기 </v-btn>
         </div>
       </v-container>
     </form>
@@ -117,8 +117,8 @@ h1 {
 }
 .form{
   padding: 30px;
-  padding-left: 30%;
-  padding-right: 30%;
+  padding-left: 40%;
+  padding-right: 40%;
 }
 .form-wrapper {
   display: flex;
