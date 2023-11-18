@@ -48,9 +48,12 @@
 		where list_no = #{listNo}
 	</select>
 	
-	<insert id="registerList" parameterType="map">
+	<insert id="registerList" parameterType="map" useGeneratedKeys="true">
 		insert into list (list_name, list_img, list_open, user_id)
-		values (#{listName}, #{listImg}, #{listOpen}, #{userId});
+		values (#{listName}, #{listImg}, #{listOpen}, #{userId})
+		
+		<selectKey resultType="int" keyProperty="listNo" keyColumn="list_no" order="AFTER" >
+			select LAST_INSERT_ID()
+		</selectKey>
 	</insert>
-	
 </mapper>

@@ -14,5 +14,5 @@ public interface ListMapper {
 	List<ListDto> myList(String userId) throws SQLException;
 	List<ListDto> shareList(String userId) throws SQLException;
 	List<ListDto> openList() throws SQLException;
-	void registerList(ListDto listDto) throws SQLException;
+	int registerList(ListDto listDto) throws SQLException;
 }

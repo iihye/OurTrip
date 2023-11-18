@@ -38,8 +38,9 @@ public class ListServiceImpl implements ListService {
 		return listMapper.detail(listNo);
 	}
 
-
-	public void registerList(ListDto listDto) throws SQLException {
-		listMapper.registerList(listDto);
+	@Override
+	public int registerList(ListDto listDto) throws SQLException {
+		int cnt = listMapper.registerList(listDto);
+		return listDto.getListNo();
 	}
 }

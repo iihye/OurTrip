@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.ssafy.ourtrip.place.dao.PlaceMapper">
+	<resultMap type="placeDto" id="placeDto">
+		<result column="place_no" property="placeNo"/>
+		<result column="place_name" property="placeName"/>
+		<result column="place_url" property="placeUrl"/>
+		<result column="place_address_name" property="placeAddressName"/>
+		<result column="place_road_address_name" property="placeRoadAddressName"/>
+		<result column="place_phone" property="placePhone"/>
+		<result column="place_x" property="placeX"/>
+		<result column="place_y" property="placeY"/>
+		<result column="list_no" property="listNo"/>
+	</resultMap>
+	
+	<insert id="registerPlace" parameterType="map">
+		insert into place (place_name, place_url, place_address_name, place_road_address_name, place_phone, place_x, place_y, list_no)
+		values (#{placeName}, #{placeUrl}, #{placeAddressName}, #{placeRoadAddressName}, #{placePhone}, #{placeX}, #{placeY}, #{listNo});
+	</insert>
+	
+</mapper>

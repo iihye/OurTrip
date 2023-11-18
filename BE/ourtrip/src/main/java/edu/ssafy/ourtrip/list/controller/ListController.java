@@ -1,6 +1,5 @@
 package edu.ssafy.ourtrip.list.controller;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,12 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.ssafy.ourtrip.list.dto.ListDto;
 import edu.ssafy.ourtrip.list.service.ListService;
-import edu.ssafy.ourtrip.place.dto.PlaceDto;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -28,22 +25,6 @@ public class ListController {
 	
 	public ListController(ListService listService) {
 		this.listService = listService;
-	}
-	
-	@GetMapping("/detail/{listNo}")
-	public ResponseEntity<Map<String, Object>> detail(@PathVariable("listNo") String listNo){
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		HttpStatus status = HttpStatus.ACCEPTED;
-		try {
-			List<PlaceDto> list = listService.detail(listNo);
-			System.out.println(list.toString());
-			status = HttpStatus.OK;
-			resultMap.put("list", list);
-		} catch(Exception e) {
-			resultMap.put("message", e.getMessage());
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
 	@GetMapping("/my/{userId}")
@@ -95,16 +76,16 @@ public class ListController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
-	@PostMapping("/test")
+	@PostMapping("/register")
 	public ResponseEntity<?> registerList(@RequestBody ListDto listDto){
-		System.out.println("들어왔니");
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = HttpStatus.ACCEPTED;
-		
 		try {
-			listService.registerList(listDto);
-			status = HttpStatus.OK;
-			return new ResponseEntity<Void>(HttpStatus.CREATED);
+			int listNo = listService.registerList(listDto);
+			System.out.println(listNo);
+			status = HttpStatus.CREATED;
+			resultMap.put("listNo", listNo);
+			return new ResponseEntity<Map<String, Object>>(resultMap, status);
 		} catch (Exception e) {
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;

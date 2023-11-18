@@ -1,5 +1,10 @@
 package edu.ssafy.ourtrip.place.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,9 +24,19 @@ public class PlaceController {
 		this.placeService = placeService;
 	}
 	
-	@PostMapping
-	public ResponseEntity<?> registerPlace(@RequestBody PlaceDto placeDto){
-		return null;
+	@PostMapping("/register")
+	public ResponseEntity<?> registerPlace(@RequestBody List<PlaceDto> places){
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		HttpStatus status = HttpStatus.ACCEPTED;
 		
+		try {
+			placeService.registerPlace(places);
+			status = HttpStatus.OK;
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
+		} catch (Exception e) {
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		}
 	}
 }

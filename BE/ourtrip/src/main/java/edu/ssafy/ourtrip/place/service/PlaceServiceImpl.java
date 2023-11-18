@@ -1,5 +1,8 @@
 package edu.ssafy.ourtrip.place.service;
 
+import java.sql.SQLException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +20,11 @@ public class PlaceServiceImpl implements PlaceService{
 	}
 
 
-	@Override
-	public void registerPlace(PlaceDto placeDto) {
-		placeMapper.registerPlace(placeDto);
+	public void registerPlace(List<PlaceDto> places) throws SQLException {
+		for(PlaceDto placeDto: places) {
+			placeMapper.registerPlace(placeDto);
+		} 
+		
 	}
 
 }
