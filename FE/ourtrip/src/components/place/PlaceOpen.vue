@@ -1,9 +1,11 @@
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { usePlaceStore } from "@/stores/place";
 import axios from "axios";
 import { storeToRefs } from "pinia";
 
+const router = useRouter();
 const placeStore = usePlaceStore();
 const { VITE_APP_SERVER_URI } = import.meta.env;
 
@@ -19,6 +21,7 @@ const saveButtonHandler = async () => {
   listInfo.value = { ...listInfo.value, list_open: selectIsOpen.value };
   const listNo = await registerList();
   registerPlace(listNo);
+  router.push({ name: "list-my" });
 };
 
 const registerList = async () => {
