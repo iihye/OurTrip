@@ -15,10 +15,9 @@ const openButtonHandler = () => {
   selectIsOpen.value = true;
 };
 
-const saveButtonHandler = () => {
+const saveButtonHandler = async () => {
   listInfo.value = { ...listInfo.value, list_open: selectIsOpen.value };
-  // console.log(listInfo.value);
-  const listNo = registerList();
+  const listNo = await registerList();
   registerPlace(listNo);
 };
 
@@ -36,10 +35,29 @@ const registerList = async () => {
   };
 
   const response = await axios.post(url, data, headers);
-  return response;
+  return response.data.listNo;
 };
-const registerPlace = (listNo) => {
-  console.log(listNo);
+
+const registerPlace = async (listNo) => {
+  const list_places = listInfo.value.list_places;
+  const places = list_places.map((place_info) => {
+    return {
+      placeName: place_info.address_name,
+      placeUrl: place_info.place_url,
+      placeAddressName: place_info.address_name,
+      placeRoadAddressName: place_info.road_address_name,
+      placePhone: place_info.phone,
+      placeX: place_info.x,
+      placeY: place_info.y,
+      listNo,
+    };
+  });
+  const url = `${VITE_APP_SERVER_URI}/place/register`;
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  const data = places;
+  await axios.post(url, data, headers);
 };
 </script>
 
