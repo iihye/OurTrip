@@ -1,7 +1,7 @@
 package edu.ssafy.ourtrip.place.controller;
 
-import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -25,12 +25,12 @@ public class PlaceController {
 	}
 	
 	@PostMapping("/register")
-	public ResponseEntity<?> registerPlace(@RequestBody PlaceDto placeDto){
+	public ResponseEntity<?> registerPlace(@RequestBody List<PlaceDto> places){
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		
 		try {
-			placeService.registerPlace(placeDto);
+			placeService.registerPlace(places);
 			status = HttpStatus.OK;
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		} catch (Exception e) {
