@@ -19,7 +19,7 @@ public class PlaceDto {
 	private String placeAddressName;
 	private String placeRoadAddressName;
 	private String placePhone;
-	private BigDecimal placeX;
-	private BigDecimal placeY;
+	private String placeX;
+	private String placeY;
 	private int listNo;
 }

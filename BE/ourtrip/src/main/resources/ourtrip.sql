@@ -1,7 +1,9 @@
+-- drop database if exists `ourtrip`;
 
 create database `ourtrip`;
 
 use `ourtrip`;
+
 
 create table `user`
 (
@@ -10,6 +12,9 @@ create table `user`
     `user_name` varchar(255) NOT NULL,
     `token` varchar(255) NULL
 );
+
+insert into `user`
+values ("test", "test", "test", "test");
 
 create table `list`
 (
@@ -42,8 +47,8 @@ create table `place`
     `place_address_name` varchar(255) NOT NULL,
     `place_road_address_name` varchar(255) NOT NULL,
     `place_phone` varchar(255) NOT NULL,
-    `place_x` decimal NOT NULL,
-    `place_y` decimal NOT NULL,
+    `place_x` varchar(255) NOT NULL,
+    `place_y` varchar(255) NOT NULL,
     `list_no` integer NOT NULL,
      CONSTRAINT `place_to_list_list_no_fk` FOREIGN KEY (`list_no`) REFERENCES `list` (`list_no`) ON DELETE CASCADE
 );
