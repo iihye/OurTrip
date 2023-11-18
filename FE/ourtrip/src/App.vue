@@ -1,12 +1,26 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
 import Nav from './components/common/Nav.vue';
+
 </script>
 
 <template>
-  <Nav />
-  <h1>app.vue</h1>
-  <RouterView />
+  <div id="wrapper">
+    <Nav />
+    <RouterView />
+  </div>
+  
+  
+  <!-- <footer id="footer">
+    <h1>footer</h1>
+  </footer> -->
+  <!-- <Footer id="footer"></Footer> -->
 </template>
 
-<style scoped></style>
+<style scoped>
+#app {
+  min-height: 100%;
+  position: relative;
+  padding-bottom: 170px;
+}
+</style>

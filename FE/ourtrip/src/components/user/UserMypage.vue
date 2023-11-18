@@ -19,6 +19,8 @@ const updateUser = ref({
   userName: '',
 });
 
+const isVisible = ref(false);
+
 onMounted(() => {
     fetch();
 });
@@ -30,18 +32,28 @@ const fetch = async () => {
 };
 
 const update = async () => {
+    if (updateUser.value.userId === '') {
+        alert("아이디를 입력해주세요");
+        return;
+    }
+
     if (updateUser.value.userPw === '') {
         alert("비밀번호를 입력해주세요");
         return;
     }
 
+    if (updateUser.value.userName === '') {
+        alert("이름을 입력해주세요");
+        return;
+    }
+
     await userUpdate(updateUser.value);
     if (isUpdate.value) {
-        alert('수정 성공!!');
+        alert('회원정보를 수정했어요☺️');
         await getUserInfo(sessionStorage.getItem("accessToken"));
         router.push({ name: 'home' });
     } else {
-        alert('수정 실패!!');
+        alert('앗! 회원정보를 수정할 수 없어요😥');
         // router.push({ name: 'user-join' });
     }
 };
@@ -49,32 +61,93 @@ const update = async () => {
 const unjoin = async () => {
     await userDelete(updateUser.value.userId);
     if (isDelete.value) {
-        alert("삭제 성공!!");
+        alert("회원탈퇴가 처리되었습니다☺️");
         changeMenuState(); // logout 처리
         sessionStorage.removeItem('accessTkoen');
         sessionStorage.removeItem('refreshToken');
         router.push({ name: 'home' });
     } else {
-        alert("삭제 실패!!");
+        alert("앗! 회원탈퇴를 처리할 수 없어요😥");
     }
+};
+
+const visible = () => {
+  isVisible.value = !isVisible.value;
 };
 
 </script>
 
 <template>
   <div>
-    <h1>Mypage</h1>
-    <form>
-      <input v-model="updateUser.userId" placeholder="아이디" readonly/>
-      <br/>
-      <input v-model="updateUser.userPw" placeholder="비번" />
-      <br/>
-      <input v-model="updateUser.userName" placeholder="닉네임" />
-      <br/>
-      <button type="button" @click="update">회원수정</button>
-    </form>
-    <button type="button" @click="unjoin">회원탈퇴</button>
+    <h1>마이페이지</h1>
+
+    <form class="form">
+      <v-container>
+        <div class="form-wrapper">
+            <v-text-field label="아이디" v-model="updateUser.userId" @blur="check" variant="underlined" :messages="message" readonly>
+            <template v-slot:prepend-inner>
+              <font-awesome-icon :icon="['fas', 'user']" style="color: #787878;" />
+            </template>
+            </v-text-field>
+            
+          </div>
+
+        <div class="form-wrapper">
+          <v-text-field label="비밀번호" v-model="updateUser.userPw" variant="underlined" 
+          :type="isVisible ? 'text' : 'password'" >
+            <template v-slot:prepend-inner>
+              <font-awesome-icon :icon="['fas', 'lock']" style="color: #787878;" />
+            </template>
+            <template v-slot:append-inner>
+              <div v-if="!isVisible" @click="visible"><font-awesome-icon :icon="['fas', 'eye']" style="color: #787878;" /></div>
+              <div v-if="isVisible" @click="visible"><font-awesome-icon :icon="['fas', 'eye-slash']" style="color: #787878;" /></div>
+           </template>
+          </v-text-field>
+        </div>
+
+        <div class="form-wrapper">
+          <v-text-field label="닉네임" v-model="updateUser.userName" variant="underlined">
+            <template v-slot:prepend-inner>
+              <font-awesome-icon :icon="['fas', 'signature']" style="color: #787878;" />
+            </template>
+          </v-text-field>
+        </div>
+
+        <div class="footer-btn-container">
+            <v-btn class="custom-btn" size="x-large" variant="flat" color="black" rounded="xl" @click="update"> 정보수정 </v-btn>
+        </div>
+
+        <div class="footer-btn-container">
+            <v-btn class="custom-btn" size="x-large" variant="outlined" rounded="xl" @click="unjoin"> 회원탈퇴
+            </v-btn>
+        </div>
+      </v-container>
+    </form>    
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+h1 {
+  text-align: center;
+  font-size: 36px;
+  padding: 30px;
+}
+.form{
+  padding: 30px;
+  padding-left: 40%;
+  padding-right: 40%;
+}
+.form-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px; 
+}
+.footer-btn-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px; 
+}
+.custom-btn{
+  width: 400px;
+}
+</style>
