@@ -1,9 +1,9 @@
-import { ref } from 'vue';
-import { defineStore } from 'pinia';
-import { myListApi, shareListApi, openListApi, detailApi } from '@/api/list';
-import { httpStatusCode } from '@/util/http-status';
+import { ref } from "vue";
+import { defineStore } from "pinia";
+import { myListApi, shareListApi, openListApi, detailApi } from "@/api/list";
+import { httpStatusCode } from "@/util/http-status";
 
-export const useListStore = defineStore('listStore', () => {
+export const useListStore = defineStore("listStore", () => {
   const myListRes = ref([]);
   const shareListRes = ref([]);
   const openListRes = ref([]);
@@ -13,14 +13,15 @@ export const useListStore = defineStore('listStore', () => {
     await detailApi(
       listno,
       (response) => {
-        console.log('response');
-        console.log(response.data.list);
+        // console.log('response');
+        // console.log(response.data.list);
         if (response.status === httpStatusCode.OK) {
           detailRes.value = response.data.list;
         }
       },
       async (error) => {
-        console.log(error);
+        // console.log(error);
+        console.log("[error] loading detail...");
       }
     );
   };
@@ -29,14 +30,15 @@ export const useListStore = defineStore('listStore', () => {
     await myListApi(
       userId,
       (response) => {
-        console.log('response');
-        console.log(response.data.list);
+        // console.log('response');
+        // console.log(response.data.list);
         if (response.status === httpStatusCode.OK) {
           myListRes.value = response.data.list;
         }
       },
       async (error) => {
-        console.log(error);
+        // console.log(error);
+        console.log("[error] loading myList...");
       }
     );
   };
@@ -45,14 +47,15 @@ export const useListStore = defineStore('listStore', () => {
     await shareListApi(
       userId,
       (response) => {
-        console.log('response');
-        console.log(response.data.list);
+        // console.log('response');
+        // console.log(response.data.list);
         if (response.status === httpStatusCode.OK) {
           shareListRes.value = response.data.list;
         }
       },
       async (error) => {
-        console.log(error);
+        // console.log(error);
+        console.log("[error] loading shareList...");
       }
     );
   };
@@ -60,17 +63,27 @@ export const useListStore = defineStore('listStore', () => {
   const openList = async () => {
     await openListApi(
       (response) => {
-        console.log('response');
-        console.log(response.data.list);
+        // console.log('response');
+        // console.log(response.data.list);
         if (response.status === httpStatusCode.OK) {
           openListRes.value = response.data.list;
         }
       },
       async (error) => {
-        console.log(error);
+        // console.log(error);
+        console.log("[error] loading openList...");
       }
     );
   };
 
-  return { myListRes, shareListRes, openListRes, detailRes, myList, shareList, openList, detailList };
+  return {
+    myListRes,
+    shareListRes,
+    openListRes,
+    detailRes,
+    myList,
+    shareList,
+    openList,
+    detailList,
+  };
 });
