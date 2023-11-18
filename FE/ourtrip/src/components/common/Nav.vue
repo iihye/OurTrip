@@ -21,7 +21,7 @@ const logout = () => {
   <nav class="navbar">
     <div class="navbar__logo">
         <i class="fab fa-accusoft"></i>
-        <router-link to="/">OurTrip</router-link>
+        <router-link :to="{ name: 'home' }">OurTrip</router-link>
     </div>
 
     <ul class="navbar__menu">

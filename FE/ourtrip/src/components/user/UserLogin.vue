@@ -34,7 +34,7 @@ const login = async () => {
   let token = sessionStorage.getItem('accessToken');
   //   console.log('token', token);
   if (isLogin.value) {
-    // alert('로그인 성공!!');
+    alert('환영합니다☺️');
     getUserInfo(token);
     changeMenuState();
     router.push('/');
