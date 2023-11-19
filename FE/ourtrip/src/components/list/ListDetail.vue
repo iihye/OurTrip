@@ -24,16 +24,20 @@ const getList = async () => {
 </script>
 
 <template>
-  <div>List detail</div>
-  <span>{{ listno }}</span>
-  <span>{{ place.placeName }}</span>
+  <h1>listname</h1>
 
   <template v-for="list in place" :key="list.placeNo">
-    <li>{{ list.placeNo }}</li>
     <li>{{ list.placeUrl }}</li>
     <li>{{ list.placeName }}</li>
     <li>{{ list.placePhone }}</li>
   </template>
+  
 </template>
 
-<style scoped></style>
+<style scoped>
+h1 {
+  text-align: center;
+  font-size: 36px;
+  padding: 30px;
+}
+</style>

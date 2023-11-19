@@ -142,7 +142,7 @@ export const useMemberStore = defineStore("userStore", () => {
           userInfo.value = null;
           isValidToken.value = false;
         } else {
-          console.error("유저 정보 없음!!!!");
+          console.log("[error] user logout...");
         }
       },
       (error) => {
