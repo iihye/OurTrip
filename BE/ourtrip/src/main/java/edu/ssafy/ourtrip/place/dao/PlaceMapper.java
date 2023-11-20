@@ -9,4 +9,5 @@ import edu.ssafy.ourtrip.place.dto.PlaceDto;
 @Mapper
 public interface PlaceMapper {
 	void registerPlace(PlaceDto placeDto) throws SQLException;
+	void deletePlacesByListNo(int listNo) throws SQLException;
 }

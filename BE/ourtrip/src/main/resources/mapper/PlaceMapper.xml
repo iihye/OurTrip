@@ -15,9 +15,13 @@
 		<result column="list_no" property="listNo"/>
 	</resultMap>
 	
-	<insert id="registerPlace" parameterType="map">
+	<insert id="registerPlace" parameterType="placeDto">
 		insert into place (place_name, place_url, place_address_name, place_road_address_name, place_phone, place_x, place_y, list_no)
 		values (#{placeName}, #{placeUrl}, #{placeAddressName}, #{placeRoadAddressName}, #{placePhone}, #{placeX}, #{placeY}, #{listNo});
 	</insert>
 	
+	<delete id="deletePlacesByListNo" parameterType="placeDto">
+		delete from place
+		where list_no = #{listNo}
+	</delete>
 </mapper>

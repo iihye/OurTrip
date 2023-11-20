@@ -6,11 +6,14 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.ssafy.ourtrip.list.service.ListService;
 import edu.ssafy.ourtrip.place.dto.PlaceDto;
 import edu.ssafy.ourtrip.place.service.PlaceService;
 
@@ -38,5 +41,11 @@ public class PlaceController {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			return new ResponseEntity<Map<String, Object>>(resultMap, status);
 		}
+	}
+	
+	@DeleteMapping("/delete/{listNo}")
+	public ResponseEntity<String> deletePlacesByListNo(@PathVariable("listNo") int listNo) throws Exception {
+		placeService.deletePlacesByListNo(listNo);
+		return ResponseEntity.ok().build();
 	}
 }
