@@ -15,29 +15,29 @@ const joinUser = ref({
   userPw: '',
   userName: '',
 });
-const message = ref();
+const message = ref('');
 const isVisible = ref(false);
 
 const join = async () => {
   if (joinUser.value.userId === '') {
-    alert("아이디를 입력해주세요");
+    alert('아이디를 입력해주세요');
     return;
   }
 
   if (joinUser.value.userPw === '') {
-    alert("비밀번호를 입력해주세요");
+    alert('비밀번호를 입력해주세요');
     return;
   }
 
   if (joinUser.value.userName === '') {
-    alert("이름을 입력해주세요");
+    alert('이름을 입력해주세요');
     return;
   }
 
   if (!isCheck.value) {
-    alert("사용할 수 없는 아이디입니다");
+    alert('사용할 수 없는 아이디입니다');
     return;
-  } 
+  }
 
   await userJoin(joinUser.value);
   if (isJoin.value) {
@@ -52,10 +52,10 @@ const join = async () => {
 const check = async () => {
   await userCheck(joinUser.value);
   if (isCheck.value) {
-    message.value = "사용할 수 있는 아이디예요☺️";
+    message.value = '사용할 수 있는 아이디예요☺️';
     // console.log('등록 가능');
   } else {
-    message.value = "앗! 이미 사용 중이거나 사용할 수 없는 아이디예요😥";
+    message.value = '앗! 이미 사용 중이거나 사용할 수 없는 아이디예요😥';
     // console.log('등록 불가');
   }
 };
@@ -72,37 +72,46 @@ const visible = () => {
     <form class="form">
       <v-container>
         <div class="form-wrapper">
-            <v-text-field label="아이디" v-model="joinUser.userId" @blur="check" variant="underlined" :messages="message">
+          <v-text-field label="아이디" v-model="joinUser.userId" @blur="check" variant="underlined" :messages="message">
             <template v-slot:prepend-inner>
-              <font-awesome-icon :icon="['fas', 'user']" style="color: #787878;" />
+              <font-awesome-icon :icon="['fas', 'user']" style="color: #787878" />
             </template>
-            </v-text-field>
-            
-          </div>
+          </v-text-field>
+        </div>
 
         <div class="form-wrapper">
-          <v-text-field label="비밀번호" v-model="joinUser.userPw" variant="underlined" 
-          :type="isVisible ? 'text' : 'password'" >
+          <v-text-field
+            label="비밀번호"
+            v-model="joinUser.userPw"
+            variant="underlined"
+            :type="isVisible ? 'text' : 'password'"
+          >
             <template v-slot:prepend-inner>
-              <font-awesome-icon :icon="['fas', 'lock']" style="color: #787878;" />
+              <font-awesome-icon :icon="['fas', 'lock']" style="color: #787878" />
             </template>
             <template v-slot:append-inner>
-              <div v-if="!isVisible" @click="visible"><font-awesome-icon :icon="['fas', 'eye']" style="color: #787878;" /></div>
-              <div v-if="isVisible" @click="visible"><font-awesome-icon :icon="['fas', 'eye-slash']" style="color: #787878;" /></div>
-           </template>
+              <div v-if="!isVisible" @click="visible">
+                <font-awesome-icon :icon="['fas', 'eye']" style="color: #787878" />
+              </div>
+              <div v-if="isVisible" @click="visible">
+                <font-awesome-icon :icon="['fas', 'eye-slash']" style="color: #787878" />
+              </div>
+            </template>
           </v-text-field>
         </div>
 
         <div class="form-wrapper">
           <v-text-field label="닉네임" v-model="joinUser.userName" variant="underlined">
             <template v-slot:prepend-inner>
-              <font-awesome-icon :icon="['fas', 'signature']" style="color: #787878;" />
+              <font-awesome-icon :icon="['fas', 'signature']" style="color: #787878" />
             </template>
           </v-text-field>
         </div>
 
         <div class="footer-btn-container">
-          <v-btn class="custom-btn" size="x-large" variant="flat" color="black" rounded="xl" @click="join"> 가입하기 </v-btn>
+          <v-btn class="custom-btn" size="x-large" variant="flat" color="black" rounded="xl" @click="join">
+            가입하기
+          </v-btn>
         </div>
       </v-container>
     </form>
@@ -115,7 +124,7 @@ h1 {
   font-size: 36px;
   padding: 30px;
 }
-.form{
+.form {
   padding: 30px;
   padding-left: 40%;
   padding-right: 40%;
@@ -123,15 +132,14 @@ h1 {
 .form-wrapper {
   display: flex;
   align-items: center;
-  margin-bottom: 16px; 
+  margin-bottom: 16px;
 }
 .footer-btn-container {
   display: flex;
   justify-content: center;
-  margin-top: 16px; 
+  margin-top: 16px;
 }
-.custom-btn{
+.custom-btn {
   width: 400px;
 }
 </style>
-

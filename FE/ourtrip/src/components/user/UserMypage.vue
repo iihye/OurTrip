@@ -22,59 +22,58 @@ const updateUser = ref({
 const isVisible = ref(false);
 
 onMounted(() => {
-    fetch();
+  fetch();
 });
 
 const fetch = async () => {
-    await getUserInfo(sessionStorage.getItem("accessToken"));
-    updateUser.value.userId = userInfo.value.userId;
-    updateUser.value.userName = userInfo.value.userName;
+  await getUserInfo(sessionStorage.getItem('accessToken'));
+  updateUser.value.userId = userInfo.value.userId;
+  updateUser.value.userName = userInfo.value.userName;
 };
 
 const update = async () => {
-    if (updateUser.value.userId === '') {
-        alert("아이디를 입력해주세요");
-        return;
-    }
+  if (updateUser.value.userId === '') {
+    alert('아이디를 입력해주세요');
+    return;
+  }
 
-    if (updateUser.value.userPw === '') {
-        alert("비밀번호를 입력해주세요");
-        return;
-    }
+  if (updateUser.value.userPw === '') {
+    alert('비밀번호를 입력해주세요');
+    return;
+  }
 
-    if (updateUser.value.userName === '') {
-        alert("이름을 입력해주세요");
-        return;
-    }
+  if (updateUser.value.userName === '') {
+    alert('이름을 입력해주세요');
+    return;
+  }
 
-    await userUpdate(updateUser.value);
-    if (isUpdate.value) {
-        alert('회원정보를 수정했어요☺️');
-        await getUserInfo(sessionStorage.getItem("accessToken"));
-        router.push({ name: 'home' });
-    } else {
-        alert('앗! 회원정보를 수정할 수 없어요😥');
-        // router.push({ name: 'user-join' });
-    }
+  await userUpdate(updateUser.value);
+  if (isUpdate.value) {
+    alert('회원정보를 수정했어요☺️');
+    await getUserInfo(sessionStorage.getItem('accessToken'));
+    router.push({ name: 'home' });
+  } else {
+    alert('앗! 회원정보를 수정할 수 없어요😥');
+    // router.push({ name: 'user-join' });
+  }
 };
 
 const unjoin = async () => {
-    await userDelete(updateUser.value.userId);
-    if (isDelete.value) {
-        alert("회원탈퇴가 처리되었습니다☺️");
-        changeMenuState(); // logout 처리
-        sessionStorage.removeItem('accessTkoen');
-        sessionStorage.removeItem('refreshToken');
-        router.push({ name: 'home' });
-    } else {
-        alert("앗! 회원탈퇴를 처리할 수 없어요😥");
-    }
+  await userDelete(updateUser.value.userId);
+  if (isDelete.value) {
+    alert('회원탈퇴가 처리되었습니다☺️');
+    changeMenuState(); // logout 처리
+    sessionStorage.removeItem('accessTkoen');
+    sessionStorage.removeItem('refreshToken');
+    router.push({ name: 'home' });
+  } else {
+    alert('앗! 회원탈퇴를 처리할 수 없어요😥');
+  }
 };
 
 const visible = () => {
   isVisible.value = !isVisible.value;
 };
-
 </script>
 
 <template>
@@ -84,45 +83,53 @@ const visible = () => {
     <form class="form">
       <v-container>
         <div class="form-wrapper">
-            <v-text-field label="아이디" v-model="updateUser.userId" @blur="check" variant="underlined" :messages="message" readonly>
+          <v-text-field label="아이디" v-model="updateUser.userId" variant="underlined" readonly>
             <template v-slot:prepend-inner>
-              <font-awesome-icon :icon="['fas', 'user']" style="color: #787878;" />
+              <font-awesome-icon :icon="['fas', 'user']" style="color: #787878" />
             </template>
-            </v-text-field>
-            
-          </div>
+          </v-text-field>
+        </div>
 
         <div class="form-wrapper">
-          <v-text-field label="비밀번호" v-model="updateUser.userPw" variant="underlined" 
-          :type="isVisible ? 'text' : 'password'" >
+          <v-text-field
+            label="비밀번호"
+            v-model="updateUser.userPw"
+            variant="underlined"
+            :type="isVisible ? 'text' : 'password'"
+          >
             <template v-slot:prepend-inner>
-              <font-awesome-icon :icon="['fas', 'lock']" style="color: #787878;" />
+              <font-awesome-icon :icon="['fas', 'lock']" style="color: #787878" />
             </template>
             <template v-slot:append-inner>
-              <div v-if="!isVisible" @click="visible"><font-awesome-icon :icon="['fas', 'eye']" style="color: #787878;" /></div>
-              <div v-if="isVisible" @click="visible"><font-awesome-icon :icon="['fas', 'eye-slash']" style="color: #787878;" /></div>
-           </template>
+              <div v-if="!isVisible" @click="visible">
+                <font-awesome-icon :icon="['fas', 'eye']" style="color: #787878" />
+              </div>
+              <div v-if="isVisible" @click="visible">
+                <font-awesome-icon :icon="['fas', 'eye-slash']" style="color: #787878" />
+              </div>
+            </template>
           </v-text-field>
         </div>
 
         <div class="form-wrapper">
           <v-text-field label="닉네임" v-model="updateUser.userName" variant="underlined">
             <template v-slot:prepend-inner>
-              <font-awesome-icon :icon="['fas', 'signature']" style="color: #787878;" />
+              <font-awesome-icon :icon="['fas', 'signature']" style="color: #787878" />
             </template>
           </v-text-field>
         </div>
 
         <div class="footer-btn-container">
-            <v-btn class="custom-btn" size="x-large" variant="flat" color="black" rounded="xl" @click="update"> 정보수정 </v-btn>
+          <v-btn class="custom-btn" size="x-large" variant="flat" color="black" rounded="xl" @click="update">
+            정보수정
+          </v-btn>
         </div>
 
         <div class="footer-btn-container">
-            <v-btn class="custom-btn" size="x-large" variant="outlined" rounded="xl" @click="unjoin"> 회원탈퇴
-            </v-btn>
+          <v-btn class="custom-btn" size="x-large" variant="outlined" rounded="xl" @click="unjoin"> 회원탈퇴 </v-btn>
         </div>
       </v-container>
-    </form>    
+    </form>
   </div>
 </template>
 
@@ -132,7 +139,7 @@ h1 {
   font-size: 36px;
   padding: 30px;
 }
-.form{
+.form {
   padding: 30px;
   padding-left: 40%;
   padding-right: 40%;
@@ -140,14 +147,14 @@ h1 {
 .form-wrapper {
   display: flex;
   align-items: center;
-  margin-bottom: 16px; 
+  margin-bottom: 16px;
 }
 .footer-btn-container {
   display: flex;
   justify-content: center;
-  margin-top: 16px; 
+  margin-top: 16px;
 }
-.custom-btn{
+.custom-btn {
   width: 400px;
 }
 </style>
