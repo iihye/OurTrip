@@ -78,7 +78,7 @@ public class ShareController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	} 
 	
-	@DeleteMapping("/del")
+	@PostMapping("/del")
 	public ResponseEntity<Map<String, Object>> del(@RequestBody ShareDto shareDto){
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = HttpStatus.ACCEPTED;

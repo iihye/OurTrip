@@ -14,4 +14,8 @@ async function findOurShareApi(param, success, fail) {
   await local.post(`share/findour/`, param).then(success).catch(fail);
 }
 
-export { addShareApi, findShareApi, findOurShareApi };
+async function delShareApi(param, success, fail) {
+  await local.post(`share/del/`, param).then(success).catch(fail);
+}
+
+export { addShareApi, findShareApi, findOurShareApi, delShareApi };

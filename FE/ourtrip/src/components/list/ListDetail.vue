@@ -18,7 +18,7 @@ const memberStore = useMemberStore();
 const shareStore = useShareStore();
 
 const { findShareRes, findOurShareRes } = storeToRefs(shareStore);
-const { addShare, findShare, findOurShare } = shareStore;
+const { addShare, findShare, findOurShare, delShare } = shareStore;
 
 const { VITE_APP_SERVER_URI } = import.meta.env;
 
@@ -59,30 +59,49 @@ const addParam = ref({
   listNo: listno.value,
 });
 
+const delParam = ref({
+  userId: '',
+  listNo: listno.value,
+});
+
 const find = async () => {
-  await findShare(param.value);
-  // console.log(findShareRes.value);
-  if (findShareRes.value.length > 0) {
-    const sum = findShareRes.value.reduce((total, item) => total + item.status, 0);
-    isCheckUserId.value = sum > 0;
-  } else {
-    isCheckUserId.value = false;
-  }
+    if (param.value.userId !== undefined && param.value.userId.length > 1) { // 1글자 이상 일 때만 검색
+    await findShare(param.value);
+    // console.log(findShareRes.value);
+
+    if (findShareRes.value.length > 0) {
+      const sum = findShareRes.value.reduce((total, item) => total + item.status, 0);
+      isCheckUserId.value = sum > 0;
+    } else {
+      isCheckUserId.value = false;
+    }
+  }  
 };
 
 const findOur = async () => {
   await findOurShare(param.value);
-  console.log(findOurShareRes.value);
+  // console.log(findOurShareRes.value);
   isFindOurShare.value = findOurShareRes.value.length > 0 ? true : false;
 }
 
 const add = async (item) => {
   addParam.value.userId = item;
+  console.log(addParam.value);
   await addShare(addParam.value);
   // await findShare(param.value);
   find();
   findOur();
 };
+
+const del = async (item) => {
+  // console.log('item: ' + item);
+  delParam.value.userId = item;
+  // console.log('delParam: ' + delParam.value.userId);
+  // console.log('delParam: ' + delParam.value.listNo);
+  await delShare(delParam.value);
+  find();
+  findOur();
+}
 </script>
 
 <template>
