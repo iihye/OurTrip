@@ -16,4 +16,5 @@ public interface ListMapper {
 	List<ListDto> openList() throws SQLException;
 	int registerList(ListDto listDto) throws SQLException;
 	void deleteList(int listNo);
+	void modifyList(ListDto listDto) throws SQLException;
 }

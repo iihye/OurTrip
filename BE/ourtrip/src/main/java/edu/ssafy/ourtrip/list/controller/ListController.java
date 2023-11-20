@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -115,6 +116,12 @@ public class ListController {
 	@DeleteMapping("/delete/{listNo}")
 	public ResponseEntity<String> deleteList(@PathVariable("listNo") int listNo) throws Exception {
 		listService.deleteList(listNo);
+		return ResponseEntity.ok().build();
+	}
+	
+	@PutMapping("/modify")
+	public ResponseEntity<String> modifyList(@RequestBody ListDto listDto) throws Exception{
+		listService.modifyList(listDto);
 		return ResponseEntity.ok().build();
 	}
 }

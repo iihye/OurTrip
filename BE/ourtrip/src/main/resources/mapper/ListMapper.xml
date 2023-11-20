@@ -48,7 +48,7 @@
 		where list_no = #{listNo}
 	</select>
 	
-	<insert id="registerList" parameterType="map" useGeneratedKeys="true">
+	<insert id="registerList" parameterType="listDto" useGeneratedKeys="true">
 		insert into list (list_name, list_img, list_open, user_id)
 		values (#{listName}, #{listImg}, #{listOpen}, #{userId})
 		
@@ -61,4 +61,10 @@
 		delete from list
 		where list_no = #{listNo}
 	</delete>
+	
+	<update id="modifyList" parameterType="listDto">
+		update list
+		set list_name = #{listName}, list_img = #{listImg}, list_open = #{listOpen}
+		where list_no = #{listNo}
+	</update>
 </mapper>
