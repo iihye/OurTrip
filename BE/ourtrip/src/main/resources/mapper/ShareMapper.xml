@@ -24,8 +24,9 @@
 	
 	<select id="findOur" parameterType="shareDto" resultType="string">
 		select u.user_id
-		from user u left join share s
-		where u.user_id = #{userId} and s.list_no = #{listNo}
+		from user u left join share s 
+		on u.user_id = s.user_id
+		where s.list_no = #{listNo}
 	</select>
 	
 </mapper>
