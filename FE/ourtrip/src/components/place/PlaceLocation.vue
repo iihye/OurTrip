@@ -1,17 +1,17 @@
 <script setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-import axios from "axios";
-import { usePlaceStore } from "@/stores/place";
-import VKakaoMap from "../common/VKakaoMap.vue";
-import { storeToRefs } from "pinia";
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+import { usePlaceStore } from '@/stores/place';
+import VKakaoMap from '../common/VKakaoMap.vue';
+import { storeToRefs } from 'pinia';
 
 const router = useRouter();
 const placeStore = usePlaceStore();
 const { VITE_APP_KAKAO_API_URI, VITE_APP_KAKAO_REST_KEY } = import.meta.env;
 
 const { listInfo } = storeToRefs(placeStore);
-const searchKeyword = ref("");
+const searchKeyword = ref('');
 const searchList = ref([]);
 const selectList = ref([]);
 const selectPlace = ref({});
@@ -32,9 +32,12 @@ const selectHandler = (item) => {
   if (isNotExist) selectList.value = [...selectList.value, item];
 };
 
+const cancelHandler = (itemId) => {
+  selectList.value = selectList.value.filter((item) => item.id !== itemId);
+};
 const nextButtonHandler = () => {
   listInfo.value = { list_places: selectList.value };
-  router.push({ name: "place-title" });
+  router.push({ name: 'place-title' });
 };
 </script>
 
@@ -59,6 +62,8 @@ const nextButtonHandler = () => {
     <div v-for="item in selectList" :key="item.id">
       <li>{{ item.place_name }}</li>
       <li>{{ item.address_name }}</li>
+      <button @click="cancelHandler(item.id)">취소</button>
+      <br />
       <br />
     </div>
   </ul>
