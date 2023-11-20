@@ -1,5 +1,12 @@
 package edu.ssafy.ourtrip.share.dao;
 
-public interface ShareMapper {
+import java.sql.SQLException;
 
+import org.apache.ibatis.annotations.Mapper;
+
+import edu.ssafy.ourtrip.share.dto.ShareDto;
+
+@Mapper
+public interface ShareMapper {
+	void add(ShareDto shareDto) throws SQLException;
 }
