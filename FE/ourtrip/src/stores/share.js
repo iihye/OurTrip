@@ -32,5 +32,5 @@ export const useShareStore = defineStore('shareStore', () => {
     );
   };
 
-  return { isAdd, addShare, findShareRes, findShare };
+  return { addShare, findShareRes, findShare };
 });
