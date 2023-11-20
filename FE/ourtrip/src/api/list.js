@@ -30,4 +30,4 @@ async function findIdApi(findId, success, fail) {
   await local.get(`/list/find/${findId}`).then(success).catch(fail);
 }
 
-export { myListApi, shareListApi, openListApi, detailApi, findIdApi };
+export { myListApi, shareListApi, openListApi, placesApi, findIdApi };

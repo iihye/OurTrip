@@ -17,8 +17,6 @@ const { placeList } = listStore;
 const memberStore = useMemberStore();
 const shareStore = useShareStore();
 
-const { detailRes } = storeToRefs(listStore);
-const { detailList } = listStore;
 const { findShareRes } = storeToRefs(shareStore);
 const { addShare, findShare } = shareStore;
 
@@ -32,8 +30,6 @@ const isCheckUserId = ref(true);
 onMounted(() => {
   getPlaceList();
 });
-
-const place = ref({});
 
 const getPlaceList = async () => {
   await placeList(listno.value);
