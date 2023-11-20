@@ -2,11 +2,13 @@ package edu.ssafy.ourtrip.user.service;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import edu.ssafy.ourtrip.user.dao.UserMapper;
+import edu.ssafy.ourtrip.user.dto.UserCheckDto;
 import edu.ssafy.ourtrip.user.dto.UserDto;
 
 @Service
@@ -16,6 +18,11 @@ public class UserServiceImpl implements UserService{
 	
 	public UserServiceImpl(UserMapper userMapper) {
 		this.userMapper = userMapper;
+	}
+	
+	@Override
+	public List<UserCheckDto> checkUserId(String userId) throws SQLException {
+		return userMapper.checkUserId(userId);
 	}
 	
 	@Override

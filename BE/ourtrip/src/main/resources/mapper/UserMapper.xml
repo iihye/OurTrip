@@ -11,6 +11,17 @@
 		<result column="token" property="token"/>
 	</resultMap>
 	
+	<resultMap type="userCheckDto" id="userCheckDto">
+		<result column="user_id" property="userId"/>
+		<result column="user_name" property="userName"/>
+	</resultMap>
+	
+	<select id="checkUserId" parameterType="string" resultMap = "userCheckDto">
+		select user_id, user_name
+		from user
+		where user_id like concat('%', #{userId}, '%')
+	</select>
+	
 	<delete id="delete" parameterType="string">
 		delete from user
 		where user_id = #{userId}
