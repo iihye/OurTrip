@@ -1,17 +1,21 @@
 package edu.ssafy.ourtrip.share.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.ssafy.ourtrip.share.dto.ShareDto;
+import edu.ssafy.ourtrip.share.dto.ShareDtoRes;
 import edu.ssafy.ourtrip.share.service.ShareService;
+import edu.ssafy.ourtrip.user.dto.UserCheckDto;
 import edu.ssafy.ourtrip.user.dto.UserDto;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,12 +47,12 @@ public class ShareController {
 	
 	@PostMapping("/find")
 	public ResponseEntity<Map<String, Object>> find(@RequestBody ShareDto shareDto){
-		System.out.println(shareDto.toString());
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		HttpStatus status = HttpStatus.ACCEPTED;	
+		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
-			int cnt = shareService.find(shareDto);
-			resultMap.put("cnt", cnt);
+			List<ShareDtoRes> dto= shareService.find(shareDto);
+			System.out.println(dto.toString());
+			resultMap.put("list", dto);
 			status = HttpStatus.OK;
 		} catch(Exception e) {
 			resultMap.put("message", e.getMessage());
@@ -56,5 +60,4 @@ public class ShareController {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	} 
-
 }

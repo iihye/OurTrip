@@ -1,11 +1,13 @@
 package edu.ssafy.ourtrip.share.service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import edu.ssafy.ourtrip.share.dao.ShareMapper;
 import edu.ssafy.ourtrip.share.dto.ShareDto;
+import edu.ssafy.ourtrip.share.dto.ShareDtoRes;
 
 @Service
 public class ShareServiceImpl implements ShareService {
@@ -22,8 +24,7 @@ public class ShareServiceImpl implements ShareService {
 	}
 
 	@Override
-	public int find(ShareDto shareDto) throws SQLException {
+	public List<ShareDtoRes> find(ShareDto shareDto) throws SQLException {
 		return shareMapper.find(shareDto);
 	}
-
 }

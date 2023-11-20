@@ -1,7 +1,6 @@
 package edu.ssafy.ourtrip.user.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,12 +11,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.ssafy.ourtrip.user.dto.UserCheckDto;
 import edu.ssafy.ourtrip.user.dto.UserDto;
 import edu.ssafy.ourtrip.user.service.UserService;
 import edu.ssafy.ourtrip.util.JWTUtil;
@@ -34,22 +31,6 @@ public class UserController {
 		this.userService = userService;
 		this.jwtUtil = jwtUtil;
 	}
-	
-	@PostMapping("/checkUserId/{userId}")
-	public ResponseEntity<Map<String, Object>> checkUserId(@PathVariable("userId") String userId){
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		HttpStatus status = HttpStatus.ACCEPTED;
-		try {
-			List<UserCheckDto> dto= userService.checkUserId(userId);
-			System.out.println(dto.toString());
-			resultMap.put("list", dto);
-			status = HttpStatus.OK;
-		} catch(Exception e) {
-			resultMap.put("message", e.getMessage());
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-	} 
 	
 	@DeleteMapping("/delete/{userId}")
 	public ResponseEntity<Map<String, Object>> delete(@PathVariable("userId") String userId){

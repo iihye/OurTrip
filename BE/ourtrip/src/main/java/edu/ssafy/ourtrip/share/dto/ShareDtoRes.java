@@ -1,4 +1,4 @@
-package edu.ssafy.ourtrip.user.dto;
+package edu.ssafy.ourtrip.share.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,8 +11,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UserCheckDto {
+public class ShareDtoRes {
 	private String userId;
-	private String userName;
+	private int listNo;
+	private boolean status;
 }
-

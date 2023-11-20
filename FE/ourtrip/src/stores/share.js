@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
-import { addShareApi } from '@/api/share';
+import { addShareApi, findShareApi } from '@/api/share';
 import { httpStatusCode } from '@/util/http-status';
 
 export const useShareStore = defineStore('shareStore', () => {

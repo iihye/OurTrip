@@ -14,9 +14,12 @@
 		values (#{userId}, #{listNo})
 	</insert>
 	
-	<select id="find" parameterType="shareDto" resultType="Integer">
-		select count(user_id) from share
-		where user_id = #{userId} and list_no = #{listNo}
+	<select id="find" parameterType="shareDto" resultType="map">
+		SELECT u.user_id, u.user_name,
+	  		CASE WHEN s.user_id IS NULL THEN 'true' ELSE 'false' END AS status
+		FROM user u
+		LEFT JOIN share s ON u.user_id = s.user_id AND s.list_no = #{listNo}
+		WHERE u.user_id LIKE concat('%', #{userId}, '%');
 	</select>
 	
 </mapper>
