@@ -42,8 +42,14 @@
 		where list_open = true
 	</select>
 	
+	<select id="detailByListNo" parameterType="int" resultMap="listDto">
+		select list_no, list_name, list_img, list_open, user_id
+		from list
+		where list_no = #{listNo}
+	</select>
+	
 	<select id="detail" parameterType="string" resultMap="placeDto">
-		select place_no, place_name, place_url, place_address_name, place_road_address_name,place_phone, place_x, place_y 
+		select place_no, place_name, place_url, place_address_name, place_road_address_name,place_phone, place_x, place_y, list_no 
 		from place
 		where list_no = #{listNo}
 	</select>

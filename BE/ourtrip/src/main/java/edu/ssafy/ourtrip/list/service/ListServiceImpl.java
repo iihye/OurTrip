@@ -53,4 +53,9 @@ public class ListServiceImpl implements ListService {
 	public void modifyList(ListDto listDto) throws SQLException {
 		listMapper.modifyList(listDto);
 	}
+
+	@Override
+	public ListDto detailByListNo(int listNo) throws SQLException {
+		return listMapper.detailByListNo(listNo);
+	}
 }

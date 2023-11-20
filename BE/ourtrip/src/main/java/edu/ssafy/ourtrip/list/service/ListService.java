@@ -14,4 +14,5 @@ public interface ListService {
 	int registerList(ListDto listDto) throws SQLException;
 	void deleteList(int listNo) throws SQLException;
 	void modifyList(ListDto listDto) throws SQLException;
+	ListDto detailByListNo(int listNo) throws SQLException;
 }
