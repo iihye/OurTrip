@@ -15,7 +15,7 @@ const shareStore = useShareStore();
 
 const { detailRes } = storeToRefs(listStore);
 const { detailList } = listStore;
-const { isAdd, isFind, findShareRes } = storeToRefs(shareStore);
+const { findShareRes } = storeToRefs(shareStore);
 const { addShare, findShare } = shareStore;
 const { VITE_APP_SERVER_URI } = import.meta.env;
 
@@ -48,35 +48,26 @@ const param = ref({
   listNo: listno.value,
 });
 
+const addParam = ref({
+  userId: '',
+  listNo: listno.value,
+});
+
 const find = async () => {
   await findShare(param.value);
   // console.log(findShareRes.value);
-  console.log(findShareRes.value);
   if (findShareRes.value.length > 0) {
-    const sum = findShareRes.value.reduce((prev, item) => prev + item.status, 0);
-    console.log(sum);
-    if (sum == 0) {
-      isCheckUserId.value = false;
-    } else {
-      isCheckUserId.value = true;
-    }
+    const sum = findShareRes.value.reduce((total, item) => total + item.status, 0);
+    isCheckUserId.value = sum > 0;
   } else {
     isCheckUserId.value = false;
   }
-  // if (isFind === true) {
-  //   console.log('true야');
-  //   isCheckUserId.value = true;
-  // } else {
-  //   console.log('false야');
-  //   isCheckUserId.value = false;
-  // }
 };
 
 const add = async (item) => {
-  console.log('item ' + item);
-  param.value.userId = item;
-  console.log(param.value);
-  await addShare(param.value);
+  addParam.value.userId = item;
+  await addShare(addParam.value);
+  await findShare(param.value);
 };
 </script>
 
