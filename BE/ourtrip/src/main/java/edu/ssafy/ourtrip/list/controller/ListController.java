@@ -1,11 +1,14 @@
 package edu.ssafy.ourtrip.list.controller;
 
+import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,19 +35,31 @@ public class ListController {
 	}
 	
 	@GetMapping("/detail/{listNo}")
-	public ResponseEntity<Map<String, Object>> detail(@PathVariable("listNo") String listNo){
+	public ResponseEntity<?> detailByListNo(@PathVariable("listNo") int listNo){
+		try {
+			ListDto listDto = listService.detailByListNo(listNo);
+			HttpHeaders header = new HttpHeaders();
+			header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+			return ResponseEntity.ok().headers(header).body(listDto);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/places/{listNo}")
+	public ResponseEntity<?> detail(@PathVariable("listNo") int listNo){
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
-			List<PlaceDto> list = listService.detail(listNo);
-			System.out.println(list.toString());
-			status = HttpStatus.OK;
-			resultMap.put("list", list);
+			List<PlaceDto> places = listService.placesByListNo(listNo);
+			HttpHeaders header = new HttpHeaders();
+			header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+			return ResponseEntity.ok().headers(header).body(places);
 		} catch(Exception e) {
-			resultMap.put("message", e.getMessage());
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
+			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
 	@GetMapping("/my/{userId}")
@@ -123,5 +138,10 @@ public class ListController {
 	public ResponseEntity<String> modifyList(@RequestBody ListDto listDto) throws Exception{
 		listService.modifyList(listDto);
 		return ResponseEntity.ok().build();
+	}
+	
+	private ResponseEntity<String> exceptionHandling(Exception e) {
+		e.printStackTrace();
+		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

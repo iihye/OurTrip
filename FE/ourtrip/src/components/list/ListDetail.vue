@@ -10,6 +10,10 @@ import { useShareStore } from '@/stores/share';
 const route = useRoute();
 const router = useRouter();
 const listStore = useListStore();
+
+const { placeRes } = storeToRefs(listStore);
+const { placeList } = listStore;
+
 const memberStore = useMemberStore();
 const shareStore = useShareStore();
 
@@ -17,6 +21,7 @@ const { detailRes } = storeToRefs(listStore);
 const { detailList } = listStore;
 const { findShareRes } = storeToRefs(shareStore);
 const { addShare, findShare } = shareStore;
+
 const { VITE_APP_SERVER_URI } = import.meta.env;
 
 const listno = ref(route.params.listno);
@@ -25,12 +30,15 @@ const userId = ref('');
 const isCheckUserId = ref(true);
 
 onMounted(() => {
-  getList();
+  getPlaceList();
 });
 
-const getList = async () => {
-  await detailList(listno.value);
-  place.value = detailRes.value;
+const place = ref({});
+
+const getPlaceList = async () => {
+  await placeList(listno.value);
+  console.log(placeRes.value);
+  place.value = placeRes.value;
 };
 
 const deleteHandler = async (listNo) => {
