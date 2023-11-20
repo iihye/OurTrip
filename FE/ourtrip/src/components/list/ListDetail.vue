@@ -49,7 +49,9 @@ const deleteHandler = async (listNo) => {
   }
 };
 
-const param = ref({
+const message = ref(''); 
+
+const searchParam = ref({
   userId: '',
   listNo: listno.value,
 });
@@ -65,8 +67,9 @@ const delParam = ref({
 });
 
 const find = async () => {
-    if (param.value.userId !== undefined && param.value.userId.length > 1) { // 1글자 이상 일 때만 검색
-    await findShare(param.value);
+  if (searchParam.value.userId !== undefined && searchParam.value.userId.length >= 2) { // 2글자 이상 일 때만 검색
+    message.value = '검색되었습니다☺️';
+    await findShare(searchParam.value);
     // console.log(findShareRes.value);
 
     if (findShareRes.value.length > 0) {
@@ -74,12 +77,15 @@ const find = async () => {
       isCheckUserId.value = sum > 0;
     } else {
       isCheckUserId.value = false;
+      message.value = '';
     }
-  }  
+    } else {
+      message.value = '두 글자 이상 검색해주세요😥';
+  }
 };
 
 const findOur = async () => {
-  await findOurShare(param.value);
+  await findOurShare(searchParam.value);
   // console.log(findOurShareRes.value);
   isFindOurShare.value = findOurShareRes.value.length > 0 ? true : false;
 }
@@ -114,40 +120,57 @@ const del = async (item) => {
   </template>
   <button @click="deleteHandler(listno)">삭제</button>
 
-  <h1>공유하기</h1>
-  <div class="form-wrapper">
-    <v-text-field label="아이디 검색" v-model="param.userId" @blur="find" variant="underlined">
-      <template v-slot:prepend-inner>
-        <font-awesome-icon :icon="['fas', 'user']" style="color: #787878" />
-      </template>
-    </v-text-field>
-  </div>
-
-  <div class="empty-center" v-if="!isCheckUserId">
-    <font-awesome-icon :icon="['fas', 'list']" size="2xl" style="color: #787878" class="empty-h1" />
-    <h4>검색 결과가 없어요😥</h4>
-  </div>
-
-  <div class="list-container">
-    <template v-for="list in findShareRes" :key="list.user_id">
-      <div v-if="list.status == true">
-        <h4>{{ list.user_id }}</h4>
-        <button @click="add(list.user_id)">추가</button>
+  <div class="sharing-container">
+    <div class="left-container">
+      
+      <h2><font-awesome-icon :icon="['fas', 'share']" size="" style="color: #787878" class="empty-h1" /> 어떤 사람과 공유할까요?</h2>
+      <div class="form-wrapper">
+        <v-text-field label="아이디 검색" v-model="searchParam.userId" @blur="find" variant="underlined" :messages="message">
+          <template v-slot:prepend-inner>
+            <font-awesome-icon :icon="['fas', 'user']" style="color: #787878" />
+          </template>
+        </v-text-field>
       </div>
-    </template>
-  </div>
 
-  <h1>공유한 사람 목록</h1>
-  <template v-for="item in findOurShareRes" :key="item">
-    <h4>{{ item }}</h4>
-    <button @click="del(item)">삭제</button>
-  </template>
+      <div class="empty-center" v-if="!isCheckUserId">
+        <font-awesome-icon :icon="['fas', 'list']" size="2xl" style="color: #787878" class="empty-h1" />
+        <h4>검색 결과가 없어요😥</h4>
+      </div>
+
+      <div class="list-container">
+        <template v-for="list in findShareRes" :key="list.user_id">
+          <div v-if="list.status == true" class="shared-user">
+            <h4>{{ list.user_id }}</h4>
+            <v-btn size="large" variant="flat" rounded="xl" color="black" @click="add(list.user_id)"> 추가 </v-btn>
+          </div>
+        </template>
+      </div>
+    </div>
+
+    <div class="right-container">
+      <h2><font-awesome-icon :icon="['fas', 'list-ul']" size="" style="color: #787878" class="empty-h1" /> 공유하고 있어요!</h2>
+      <template v-for="item in findOurShareRes" :key="item">
+        <div class="shared-user">
+          <h4>{{ item }}</h4>
+          <v-btn size="large" variant="flat" rounded="xl" color="black" @click="del(item)"> 삭제 </v-btn>
+        </div>
+      </template>
+    </div>
+  </div>
+  
 </template>
 
 <style scoped>
 h1 {
   text-align: center;
   font-size: 36px;
+  padding: 30px;
+}
+
+h2 {
+  font-family: 'Pretendard-Regular';
+  text-align: center;
+  font-size: 28px;
   padding: 30px;
 }
 .form-wrapper {
@@ -159,7 +182,39 @@ h1 {
 }
 
 .list-container {
-  margin-left: 20%;
-  margin-right: 20%;
+}
+.sharing-container {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.left-container {
+  flex: 1.5;
+  padding: 20px;
+  border-right: 1px solid #ccc; /* Add a border between the two containers */
+}
+
+.right-container {
+  flex: 1;
+  padding: 20px;
+}
+
+.shared-user {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  margin-left: 2rem;
+}
+
+.shared-user h4 {
+  margin-right: 4rem;
+  font-size: 20px;
+}
+
+.v-btn{
+  font-size: 18px;
 }
 </style>
