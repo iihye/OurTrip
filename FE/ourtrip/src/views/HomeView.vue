@@ -1,5 +1,5 @@
 <script setup>
-import Footer from "@/components/common/Footer.vue";
+import Footer from '@/components/common/Footer.vue';
 </script>
 
 <template>
@@ -14,7 +14,7 @@ import Footer from "@/components/common/Footer.vue";
     <div id="footer-btn-container">
       <v-btn size="x-large" variant="outlined" rounded="xl" width="400"> 시작하기 </v-btn>
     </div>
-    <div id="super-img1" >
+    <div id="super-img1">
       <img src="@/assets/img/main1.png" alt="main-img1" width="700" />
     </div>
   </container>
@@ -23,11 +23,9 @@ import Footer from "@/components/common/Footer.vue";
   <container id="main-container">
     <div id="main-flex-container">
       <div id="sub-container">
-        <h1 id="sub-title">
-          검색
-        </h1>
+        <h1 id="sub-title">검색</h1>
         <h2 id="sub-content">
-          검색으로 찾는, <br/>
+          검색으로 찾는, <br />
           나만의 PLACE
         </h2>
       </div>
@@ -40,11 +38,9 @@ import Footer from "@/components/common/Footer.vue";
   <container id="main-container">
     <div id="main-flex-container">
       <div id="sub-container">
-        <h1 id="sub-title">
-          저장
-        </h1>
+        <h1 id="sub-title">저장</h1>
         <h2 id="sub-content">
-          알아보기 쉽게, <br/>
+          알아보기 쉽게, <br />
           어울리는 커버 사진 찾기
         </h2>
       </div>
@@ -57,11 +53,9 @@ import Footer from "@/components/common/Footer.vue";
   <container id="main-container">
     <div id="main-flex-container">
       <div id="sub-container">
-        <h1 id="sub-title">
-          공유
-        </h1>
+        <h1 id="sub-title">공유</h1>
         <h2 id="sub-content">
-          오직 친구에게만, <br/>
+          오직 친구에게만, <br />
           나만의 PLACELIST 보여주기
         </h2>
       </div>
@@ -70,7 +64,6 @@ import Footer from "@/components/common/Footer.vue";
       </div>
     </div>
   </container>
-
 
   <!--container 3!-->
   <container id="foot-container">
@@ -82,7 +75,7 @@ import Footer from "@/components/common/Footer.vue";
     </div>
   </container>
 
-  <Footer></Footer>
+  <!-- <Footer></Footer> -->
 </template>
 
 <style scoped>
@@ -93,7 +86,7 @@ import Footer from "@/components/common/Footer.vue";
   text-align: center;
   padding: 30px;
 }
-#super-text{
+#super-text {
   width: 100%;
   text-align: center;
   font-size: 66px;
@@ -105,11 +98,11 @@ import Footer from "@/components/common/Footer.vue";
   height: auto !important;
   padding: 10px;
 }
-#main-btn{
+#main-btn {
   text-align: center; /* 텍스트를 수평 가운데 정렬합니다. */
-    width: 150px;
-    font-size: 16px;
-    margin: 0 auto; /* 가운데 정렬을 위한 마진 설정 */
+  width: 150px;
+  font-size: 16px;
+  margin: 0 auto; /* 가운데 정렬을 위한 마진 설정 */
 }
 #main-container {
   display: flex;
@@ -119,7 +112,7 @@ import Footer from "@/components/common/Footer.vue";
 
 #main-flex-container {
   display: flex;
-  width: 100%; 
+  width: 100%;
 }
 
 #sub-container {
@@ -131,14 +124,14 @@ import Footer from "@/components/common/Footer.vue";
   padding-right: 10%;
   flex: 0 0 300px; /* Fixed width of 300px on the right */
 }
-#sub-title{
+#sub-title {
   width: 100%;
   text-align: left;
   font-size: 28px;
   line-height: 1.4;
   color: mediumpurple;
 }
-#sub-content{
+#sub-content {
   width: 100%;
   text-align: left;
   margin-bottom: 50px;
@@ -154,18 +147,18 @@ import Footer from "@/components/common/Footer.vue";
   padding: 30px;
   margin-bottom: 200px;
 }
-#foot-text{
+#foot-text {
   width: 100%;
   text-align: center;
   padding-top: 100px;
-  padding : 100px;
+  padding: 100px;
   font-size: 66px;
   line-height: 1.4;
   color: black;
 }
 #footer-btn-container {
   padding: 10px;
-  margin : 2%;
+  margin: 2%;
   flex: 0 0 300px; /* Fixed width of 300px on the right */
 }
 
