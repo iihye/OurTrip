@@ -133,8 +133,8 @@ const deleteMarkers = () => {
 
 <style>
 #map {
-  width: 50%;
-  height: 700px;
+  width: 720px;
+  height: 720px;
 }
 
 /* 오버레이를 위한 css */
