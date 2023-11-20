@@ -17,6 +17,7 @@ const joinUser = ref({
 });
 const userIdMessage = ref('');
 const userPwMessage = ref('');
+const isPwCheck = ref(false);
 const isVisible = ref(false);
 
 const join = async () => {
@@ -37,6 +38,11 @@ const join = async () => {
 
   if (!isCheck.value) {
     alert('사용할 수 없는 아이디입니다😥');
+    return;
+  }
+
+  if (!isPwCheck.value) {
+    alert('사용할 수 없는 비밀번호입니다😥');
     return;
   }
 
@@ -68,8 +74,10 @@ const idCheck = async () => {
 const pwCheck = async () => {
   if (joinUser.value.userPw !== undefined && joinUser.value.userPw.length >= 4 && joinUser.value.userPw.length <= 30) {
     userPwMessage.value = '사용할 수 있는 비밀번호예요☺️';
+    isPwCheck.value = true;
   } else {
     userPwMessage.value = '앗! 비밀번호를를 4자 이상 30자 이하로 설정해주세요😥';
+    isPwCheck.value = false;
   }
 }
 
