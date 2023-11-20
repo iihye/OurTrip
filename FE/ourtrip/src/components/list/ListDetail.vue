@@ -5,26 +5,30 @@ import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import { useMemberStore } from '@/stores/user';
 import { useListStore } from '@/stores/list';
+import { useShareStore } from '@/stores/share';
 
 const route = useRoute();
 const router = useRouter();
 const listStore = useListStore();
 const memberStore = useMemberStore();
+const shareStore = useShareStore();
 
 const { detailRes } = storeToRefs(listStore);
 const { detailList } = listStore;
 const { checkIdRes } = storeToRefs(memberStore);
 const { checkUserId } = memberStore;
+const { isAdd } = storeToRefs(shareStore);
+const { addShare } = shareStore;
 const { VITE_APP_SERVER_URI } = import.meta.env;
 
 const listno = ref(route.params.listno);
+const place = ref({});
+const userId = ref('');
+const isCheckUserId = ref(true);
 
 onMounted(() => {
   getList();
 });
-
-const place = ref({});
-const userId = ref('');
 
 const getList = async () => {
   await detailList(listno.value);
@@ -44,11 +48,20 @@ const deleteHandler = async (listNo) => {
 const check = async () => {
   await checkUserId(userId.value);
   // console.log(checkIdRes);
-  // if (checkIdRes != []) {
-  //   // console.log(checkIdRes);
-  // } else {
-  //   console.log('아무것도 없다!!!');
-  // }
+  if (checkIdRes.value.length > 0) {
+    isCheckUserId.value = true;
+  } else {
+    isCheckUserId.value = false;
+  }
+};
+
+const add = async (item) => {
+  const param = ref({
+    userId: item,
+    listNo: listno.value,
+  });
+  console.log(param.value);
+  // await addShare(param);
 };
 </script>
 
@@ -70,9 +83,17 @@ const check = async () => {
       </template>
     </v-text-field>
   </div>
-  <template v-for="list in checkIdRes" :key="list.userName">
-    <li>{{ list.userId }}</li>
-  </template>
+
+  <div class="empty-center" v-if="!isCheckUserId">
+    <font-awesome-icon :icon="['fas', 'list']" size="2xl" style="color: #787878" class="empty-h1" />
+    <h4>검색 결과가 없어요😥</h4>
+  </div>
+  <div class="list-container">
+    <template v-for="list in checkIdRes" :key="list.userName">
+      <h4>{{ list.userId }}</h4>
+      <button @click="add(list.userId)">추가</button>
+    </template>
+  </div>
 </template>
 
 <style scoped>
@@ -84,6 +105,13 @@ h1 {
 .form-wrapper {
   display: flex;
   align-items: center;
-  margin-bottom: 16px;
+}
+.empty-center {
+  text-align: center;
+}
+
+.list-container {
+  margin-left: 20%;
+  margin-right: 20%;
 }
 </style>
