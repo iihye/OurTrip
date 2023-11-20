@@ -55,13 +55,15 @@ const check = async () => {
   }
 };
 
+const param = ref({
+  userId: '',
+  listNo: listno.value,
+});
+
 const add = async (item) => {
-  const param = ref({
-    userId: item,
-    listNo: listno.value,
-  });
+  param.value.userId = item;
   console.log(param.value);
-  // await addShare(param);
+  await addShare(param.value);
 };
 </script>
 
