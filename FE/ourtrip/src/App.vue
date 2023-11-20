@@ -7,9 +7,7 @@ import Footer from './components/common/Footer.vue';
 <template>
   <div id="wrapper">
     <Nav />
-    <div>
-      <RouterView />
-    </div>
+    <RouterView />
   </div>
 
   <Footer></Footer>
@@ -19,7 +17,7 @@ import Footer from './components/common/Footer.vue';
 #wrapper {
   flex: 1;
   position: relative;
-  padding-bottom: 150px;
+  padding-bottom: 56px;
 }
 Footer {
   height: 150px;
