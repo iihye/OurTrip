@@ -1,4 +1,4 @@
-import { localAxios } from "@/util/http-commons";
+import { localAxios } from '@/util/http-commons';
 
 const local = localAxios();
 
@@ -26,4 +26,8 @@ async function placesApi(listno, success, fail) {
   // console.log('-----------placesApi start-----------');
 }
 
-export { myListApi, shareListApi, openListApi, placesApi };
+async function findIdApi(findId, success, fail) {
+  await local.get(`/list/find/${findId}`).then(success).catch(fail);
+}
+
+export { myListApi, shareListApi, openListApi, detailApi, findIdApi };

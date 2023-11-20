@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.ssafy.ourtrip.share.dao.ShareMapper">
+
+	<resultMap type="shareDto" id="shareDto">
+		<result column="user_id" property="userId"/>
+		<result column="list_no" property="listNo"/>
+	</resultMap>
+	
+	<insert id="add" parameterType="shareDto">
+		insert into share (user_id, list_no)
+		values (#{userId}, #{listNo})
+	</insert>
+	
+	<select id="find" parameterType="shareDto" resultType="map">
+		SELECT u.user_id, u.user_name,
+	  		CASE WHEN s.user_id IS NULL THEN true ELSE false END AS status
+		FROM user u
+		LEFT JOIN share s ON u.user_id = s.user_id AND s.list_no = #{listNo}
+		WHERE u.user_id LIKE concat(#{userId}, '%');
+	</select>
+	
+</mapper>

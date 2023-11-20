@@ -1,13 +1,15 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import { myListApi, shareListApi, openListApi, placesApi } from "@/api/list";
+import { myListApi, shareListApi, openListApi, placesApi, findIdApi } from "@/api/list";
 import { httpStatusCode } from "@/util/http-status";
 
-export const useListStore = defineStore("listStore", () => {
+export const useListStore = defineStore('listStore', () => {
   const myListRes = ref([]);
   const shareListRes = ref([]);
   const openListRes = ref([]);
   const placeRes = ref([]);
+
+  const findIdRes = ref([]);
 
   const placeList = async (listno) => {
     await placesApi(
@@ -21,7 +23,7 @@ export const useListStore = defineStore("listStore", () => {
       },
       async (error) => {
         // console.log(error);
-        console.log("[error] loading detail...");
+        console.log('[error] loading detail...');
       }
     );
   };
@@ -38,7 +40,7 @@ export const useListStore = defineStore("listStore", () => {
       },
       async (error) => {
         // console.log(error);
-        console.log("[error] loading myList...");
+        console.log('[error] loading myList...');
       }
     );
   };
@@ -55,7 +57,7 @@ export const useListStore = defineStore("listStore", () => {
       },
       async (error) => {
         // console.log(error);
-        console.log("[error] loading shareList...");
+        console.log('[error] loading shareList...');
       }
     );
   };
@@ -71,7 +73,23 @@ export const useListStore = defineStore("listStore", () => {
       },
       async (error) => {
         // console.log(error);
-        console.log("[error] loading openList...");
+        console.log('[error] loading openList...');
+      }
+    );
+  };
+
+  const findId = async () => {
+    await findIdApi(
+      (response) => {
+        // console.log('response');
+        // console.log(response.data.list);
+        if (response.status === httpStatusCode.OK) {
+          findIdRes.value = response.data.list;
+        }
+      },
+      async (error) => {
+        // console.log(error);
+        console.log('[error] loading findId...');
       }
     );
   };
@@ -81,9 +99,11 @@ export const useListStore = defineStore("listStore", () => {
     shareListRes,
     openListRes,
     placeRes,
+    findIdRes,
     myList,
     shareList,
     openList,
     placeList,
+    findId,
   };
 });
