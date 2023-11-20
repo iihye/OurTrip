@@ -71,7 +71,7 @@ a {
 }
 
 .navbar {
-  position: fixed;
+  position: sticky;
   top: 0;
   /* width: 100% */
   left: 0;
@@ -82,6 +82,7 @@ a {
   align-items: center;
   background: #5d5d5d;
   padding: 8px 12px;
+  margin: 0 0 3rem 0;
 }
 
 .navbar__logo {
