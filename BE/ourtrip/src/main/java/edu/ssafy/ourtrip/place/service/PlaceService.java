@@ -7,4 +7,5 @@ import edu.ssafy.ourtrip.place.dto.PlaceDto;
 
 public interface PlaceService {
 	void registerPlace(List<PlaceDto> places) throws SQLException;
+	void deletePlacesByListNo(int listNo) throws SQLException;
 }

@@ -20,11 +20,18 @@ public class PlaceServiceImpl implements PlaceService{
 	}
 
 
+	@Override
 	public void registerPlace(List<PlaceDto> places) throws SQLException {
 		for(PlaceDto placeDto: places) {
 			placeMapper.registerPlace(placeDto);
 		} 
 		
+	}
+
+
+	@Override
+	public void deletePlacesByListNo(int listNo) throws SQLException {
+		placeMapper.deletePlacesByListNo(listNo);
 	}
 
 }
