@@ -7,11 +7,12 @@ import edu.ssafy.ourtrip.list.dto.ListDto;
 import edu.ssafy.ourtrip.place.dto.PlaceDto;
 
 public interface ListService {
-	List<PlaceDto> detail(String listNo) throws SQLException;
+	List<PlaceDto> placesByListNo(int listNo) throws SQLException;
 	List<ListDto> myList(String userId) throws SQLException;
 	List<ListDto> shareList(String userId) throws SQLException;
 	List<ListDto> openList() throws SQLException;
 	int registerList(ListDto listDto) throws SQLException;
 	void deleteList(int listNo) throws SQLException;
 	void modifyList(ListDto listDto) throws SQLException;
+	ListDto detailByListNo(int listNo) throws SQLException;
 }
