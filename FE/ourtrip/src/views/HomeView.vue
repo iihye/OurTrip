@@ -14,10 +14,14 @@ import Footer from '@/components/common/Footer.vue';
     <div id="footer-btn-container">
       <v-btn size="x-large" variant="outlined" rounded="xl" width="400"> 시작하기 </v-btn>
     </div>
-    <div id="super-img1">
-      <img src="@/assets/img/main1.png" alt="main-img1" />
+    <div>
+      <img id="super-img1" src="@/assets/img/main1.png" alt="main-img1" width="700" />
     </div>
   </container>
+
+  <div id="parent-container">
+    <font-awesome-icon :icon="['fas', 'chevron-down']" style="color: #787878" />
+  </div>
 
   <!--container 2-->
   <container id="main-container">
@@ -30,7 +34,7 @@ import Footer from '@/components/common/Footer.vue';
         </h2>
       </div>
       <div id="sub-img-container">
-        <img src="@/assets/img/main2.png" alt="main-img2" width="400" />
+        <img src="@/assets/img/main2.png" alt="main-img2" />
       </div>
     </div>
   </container>
@@ -45,7 +49,7 @@ import Footer from '@/components/common/Footer.vue';
         </h2>
       </div>
       <div id="sub-img-container">
-        <img src="@/assets/img/main3.png" alt="main-img3" width="400" />
+        <img src="@/assets/img/main3.png" alt="main-img3" />
       </div>
     </div>
   </container>
@@ -60,7 +64,7 @@ import Footer from '@/components/common/Footer.vue';
         </h2>
       </div>
       <div id="sub-img-container">
-        <img src="@/assets/img/main4.png" alt="main-img4" width="400" />
+        <img src="@/assets/img/main4.png" alt="main-img4" />
       </div>
     </div>
   </container>
@@ -79,10 +83,28 @@ import Footer from '@/components/common/Footer.vue';
 </template>
 
 <style scoped>
+.container {
+  width: 70%;
+  height: 200px;
+  overflow: hidden;
+}
+#main-img1 {
+  max-width: 100%;
+  height: auto !important;
+  padding: 10px;
+}
+
+hr {
+  width: 30%;
+  margin: 0 auto;
+}
+#parent-container {
+  padding-top: 30px;
+  text-align: center; /* 부모 요소에 text-align: center;를 적용하여 가운데 정렬 */
+}
 #super-container {
   width: 70%;
   height: 200px;
-  max-height: 100%;
   overflow: hidden;
   text-align: center;
   padding: 30px;
@@ -96,10 +118,8 @@ import Footer from '@/components/common/Footer.vue';
 }
 #super-img1 {
   max-width: 100%;
-  width: auto !important;
-  height: auto !important;
+  height: auto;
   padding: 10px;
-  display: block;
 }
 #main-btn {
   text-align: center; /* 텍스트를 수평 가운데 정렬합니다. */
@@ -125,7 +145,11 @@ import Footer from '@/components/common/Footer.vue';
 
 #sub-img-container {
   padding-right: 10%;
-  flex: 0 0 300px; /* Fixed width of 300px on the right */
+}
+#sub-img-container img {
+  width: 400px;
+  max-width: 100%;
+  height: auto; /* 세로 크기를 자동으로 조절하여 비율 유지 */
 }
 #sub-title {
   width: 100%;

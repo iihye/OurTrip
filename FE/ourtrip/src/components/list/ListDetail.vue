@@ -31,7 +31,6 @@ const getList = async () => {
     <li>{{ list.placeName }}</li>
     <li>{{ list.placePhone }}</li>
   </template>
-  
 </template>
 
 <style scoped>
