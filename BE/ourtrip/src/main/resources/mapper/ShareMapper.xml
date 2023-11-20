@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="edu.ssafy.ourtrip.user.dao.ShareMapper">
+<mapper namespace="edu.ssafy.ourtrip.share.dao.ShareMapper">
 
 	<resultMap type="shareDto" id="shareDto">
 		<result column="user_id" property="userId"/>

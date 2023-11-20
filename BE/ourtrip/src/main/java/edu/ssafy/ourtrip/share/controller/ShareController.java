@@ -27,6 +27,7 @@ public class ShareController {
 	
 	@PostMapping("/add")
 	public ResponseEntity<Map<String, Object>> add(@RequestBody ShareDto shareDto){
+//		System.out.println(shareDto.toString());
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = HttpStatus.ACCEPTED;	
 		try {
