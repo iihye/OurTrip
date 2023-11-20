@@ -14,7 +14,6 @@ import {
   userFindApi,
   userUpdateApi,
   userDeleteApi,
-  checkUserIdApi,
 } from '@/api/user';
 import { httpStatusCode } from '@/util/http-status';
 
@@ -31,8 +30,6 @@ export const useMemberStore = defineStore('userStore', () => {
   const isFind = ref('');
   const isUpdate = ref(false);
   const isDelete = ref(false);
-
-  const checkIdRes = ref([]);
 
   const menuStore = useMenuStore();
   const { changeMenuState } = menuStore;
@@ -244,22 +241,6 @@ export const useMemberStore = defineStore('userStore', () => {
     );
   };
 
-  const checkUserId = async (userid) => {
-    await checkUserIdApi(
-      userid,
-      (response) => {
-        if (response.status === httpStatusCode.OK) {
-          // console.log(response.data.list);
-          checkIdRes.value = response.data.list;
-        }
-      },
-      async (error) => {
-        // console.log(error);
-        console.log('[error] loading findId...');
-      }
-    );
-  };
-
   return {
     isLogin,
     isLoginError,
@@ -279,7 +260,5 @@ export const useMemberStore = defineStore('userStore', () => {
     userUpdate,
     isDelete,
     userDelete,
-    checkIdRes,
-    checkUserId,
   };
 });

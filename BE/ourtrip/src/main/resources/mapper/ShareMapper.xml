@@ -16,10 +16,10 @@
 	
 	<select id="find" parameterType="shareDto" resultType="map">
 		SELECT u.user_id, u.user_name,
-	  		CASE WHEN s.user_id IS NULL THEN 'true' ELSE 'false' END AS status
+	  		CASE WHEN s.user_id IS NULL THEN true ELSE false END AS status
 		FROM user u
 		LEFT JOIN share s ON u.user_id = s.user_id AND s.list_no = #{listNo}
-		WHERE u.user_id LIKE concat('%', #{userId}, '%');
+		WHERE u.user_id LIKE concat(#{userId}, '%');
 	</select>
 	
 </mapper>

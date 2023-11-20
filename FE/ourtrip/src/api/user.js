@@ -47,10 +47,6 @@ async function userDeleteApi(userid, success, fail) {
   await local.delete(`user/delete/${userid}`).then(success).catch(fail);
 }
 
-async function checkUserIdApi(userid, success, fail) {
-  await local.post(`user/checkUserId/${userid}`).then(success).catch(fail);
-}
-
 export {
   userConfirm,
   findById,
@@ -61,5 +57,4 @@ export {
   userFindApi,
   userUpdateApi,
   userDeleteApi,
-  checkUserIdApi,
 };

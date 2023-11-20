@@ -15,10 +15,8 @@ const shareStore = useShareStore();
 
 const { detailRes } = storeToRefs(listStore);
 const { detailList } = listStore;
-const { checkIdRes } = storeToRefs(memberStore);
-const { checkUserId } = memberStore;
-const { isAdd } = storeToRefs(shareStore);
-const { addShare } = shareStore;
+const { isAdd, isFind, findShareRes } = storeToRefs(shareStore);
+const { addShare, findShare } = shareStore;
 const { VITE_APP_SERVER_URI } = import.meta.env;
 
 const listno = ref(route.params.listno);
@@ -45,22 +43,37 @@ const deleteHandler = async (listNo) => {
   }
 };
 
-const check = async () => {
-  await checkUserId(userId.value);
-  // console.log(checkIdRes);
-  if (checkIdRes.value.length > 0) {
-    isCheckUserId.value = true;
-  } else {
-    isCheckUserId.value = false;
-  }
-};
-
 const param = ref({
   userId: '',
   listNo: listno.value,
 });
 
+const find = async () => {
+  await findShare(param.value);
+  // console.log(findShareRes.value);
+  console.log(findShareRes.value);
+  if (findShareRes.value.length > 0) {
+    const sum = findShareRes.value.reduce((prev, item) => prev + item.status, 0);
+    console.log(sum);
+    if (sum == 0) {
+      isCheckUserId.value = false;
+    } else {
+      isCheckUserId.value = true;
+    }
+  } else {
+    isCheckUserId.value = false;
+  }
+  // if (isFind === true) {
+  //   console.log('true야');
+  //   isCheckUserId.value = true;
+  // } else {
+  //   console.log('false야');
+  //   isCheckUserId.value = false;
+  // }
+};
+
 const add = async (item) => {
+  console.log('item ' + item);
   param.value.userId = item;
   console.log(param.value);
   await addShare(param.value);
@@ -79,7 +92,7 @@ const add = async (item) => {
 
   <h1>공유하기</h1>
   <div class="form-wrapper">
-    <v-text-field label="아이디 검색" v-model="userId" @blur="check" variant="underlined">
+    <v-text-field label="아이디 검색" v-model="param.userId" @blur="find" variant="underlined">
       <template v-slot:prepend-inner>
         <font-awesome-icon :icon="['fas', 'user']" style="color: #787878" />
       </template>
@@ -90,10 +103,13 @@ const add = async (item) => {
     <font-awesome-icon :icon="['fas', 'list']" size="2xl" style="color: #787878" class="empty-h1" />
     <h4>검색 결과가 없어요😥</h4>
   </div>
+
   <div class="list-container">
-    <template v-for="list in checkIdRes" :key="list.userName">
-      <h4>{{ list.userId }}</h4>
-      <button @click="add(list.userId)">추가</button>
+    <template v-for="list in findShareRes" :key="list.user_id">
+      <div v-if="list.status == true">
+        <h4>{{ list.user_id }}</h4>
+        <button @click="add(list.user_id)">추가</button>
+      </div>
     </template>
   </div>
 </template>
