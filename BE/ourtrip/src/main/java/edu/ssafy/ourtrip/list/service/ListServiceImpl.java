@@ -48,4 +48,9 @@ public class ListServiceImpl implements ListService {
 	public void deleteList(int listNo) throws SQLException {
 		listMapper.deleteList(listNo);
 	}
+
+	@Override
+	public void modifyList(ListDto listDto) throws SQLException {
+		listMapper.modifyList(listDto);
+	}
 }
