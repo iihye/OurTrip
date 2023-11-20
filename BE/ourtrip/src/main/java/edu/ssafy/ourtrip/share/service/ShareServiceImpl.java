@@ -32,4 +32,9 @@ public class ShareServiceImpl implements ShareService {
 	public List<String> findOur(ShareDto shareDto) throws SQLException {
 		return shareMapper.findOur(shareDto);
 	}
+
+	@Override
+	public void del(ShareDto shareDto) throws SQLException {
+		shareMapper.del(shareDto);
+	}
 }

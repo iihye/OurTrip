@@ -10,4 +10,5 @@ public interface ShareService {
 	void add(ShareDto shareDto) throws SQLException;
 	List<ShareDtoRes> find(ShareDto shareDto) throws SQLException;
 	List<String> findOur(ShareDto shareDto) throws SQLException;
+	void del(ShareDto shareDto) throws SQLException;
 }

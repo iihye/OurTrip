@@ -29,4 +29,9 @@
 		where s.list_no = #{listNo}
 	</select>
 	
+	<delete id="del" parameterType="shareDto">
+		delete from share
+		where user_id = #{userId} and list_no = #{listNo}
+	</delete>
+	
 </mapper>

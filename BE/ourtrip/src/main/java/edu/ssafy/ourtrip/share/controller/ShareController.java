@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -70,6 +71,21 @@ public class ShareController {
 			System.out.println(dto.toString());
 			resultMap.put("list", dto);
 			status = HttpStatus.OK;
+		} catch(Exception e) {
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	} 
+	
+	@DeleteMapping("/del")
+	public ResponseEntity<Map<String, Object>> del(@RequestBody ShareDto shareDto){
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		try {
+			shareService.del(shareDto);
+			resultMap.put("message", "삭제 성공");
+			status = HttpStatus.CREATED;
 		} catch(Exception e) {
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
