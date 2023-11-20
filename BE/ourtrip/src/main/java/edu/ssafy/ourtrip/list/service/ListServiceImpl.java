@@ -34,8 +34,8 @@ public class ListServiceImpl implements ListService {
 	}
 
 	@Override
-	public List<PlaceDto> detail(String listNo) throws SQLException {
-		return listMapper.detail(listNo);
+	public List<PlaceDto> placesByListNo(int listNo) throws SQLException {
+		return listMapper.placesByListNo(listNo);
 	}
 
 	@Override

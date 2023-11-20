@@ -47,21 +47,20 @@ public class ListController {
 		}
 	}
 	
-//	@GetMapping("/detail/{listNo}")
-//	public ResponseEntity<Map<String, Object>> detail(@PathVariable("listNo") String listNo){
-//		Map<String, Object> resultMap = new HashMap<String, Object>();
-//		HttpStatus status = HttpStatus.ACCEPTED;
-//		try {
-//			List<PlaceDto> list = listService.detail(listNo);
-//			System.out.println(list.toString());
-//			status = HttpStatus.OK;
-//			resultMap.put("list", list);
-//		} catch(Exception e) {
-//			resultMap.put("message", e.getMessage());
-//			status = HttpStatus.INTERNAL_SERVER_ERROR;
-//		}
-//		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-//	}
+	@GetMapping("/places/{listNo}")
+	public ResponseEntity<?> detail(@PathVariable("listNo") int listNo){
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		try {
+			List<PlaceDto> places = listService.placesByListNo(listNo);
+			HttpHeaders header = new HttpHeaders();
+			header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+			return ResponseEntity.ok().headers(header).body(places);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 	
 	@GetMapping("/my/{userId}")
 	public ResponseEntity<Map<String, Object>> myList(@PathVariable("userId") String userId){
