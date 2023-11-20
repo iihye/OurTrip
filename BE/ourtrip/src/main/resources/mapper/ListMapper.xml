@@ -56,4 +56,9 @@
 			select LAST_INSERT_ID()
 		</selectKey>
 	</insert>
+	
+	<delete id="deleteList" parameterType="int">
+		delete from list
+		where list_no = #{listNo}
+	</delete>
 </mapper>
