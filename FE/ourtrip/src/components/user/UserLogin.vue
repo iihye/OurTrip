@@ -21,12 +21,12 @@ const isVisible = ref(false);
 
 const login = async () => {
   if (loginUser.value.userId === '') {
-    alert("아이디를 입력해주세요");
+    alert("앗! 아이디를 입력해주세요😥");
     return;
   }
 
   if (loginUser.value.userPw === '') {
-    alert("비밀번호를 입력해주세요");
+    alert("앗! 비밀번호를 입력해주세요😥");
     return;
   }
 
@@ -34,7 +34,7 @@ const login = async () => {
   let token = sessionStorage.getItem('accessToken');
   //   console.log('token', token);
   if (isLogin.value) {
-    alert('환영합니다☺️');
+    alert('반가워요! OURTRIP과 PLACELIST를 만들어보세요✈️');
     getUserInfo(token);
     changeMenuState();
     router.push('/');

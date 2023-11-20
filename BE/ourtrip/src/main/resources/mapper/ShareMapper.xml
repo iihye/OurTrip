@@ -22,4 +22,16 @@
 		WHERE u.user_id LIKE concat(#{userId}, '%');
 	</select>
 	
+	<select id="findOur" parameterType="shareDto" resultType="string">
+		select u.user_id
+		from user u left join share s 
+		on u.user_id = s.user_id
+		where s.list_no = #{listNo}
+	</select>
+	
+	<delete id="del" parameterType="shareDto">
+		delete from share
+		where user_id = #{userId} and list_no = #{listNo}
+	</delete>
+	
 </mapper>
