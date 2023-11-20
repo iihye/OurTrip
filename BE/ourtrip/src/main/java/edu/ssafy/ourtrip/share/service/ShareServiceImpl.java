@@ -21,4 +21,9 @@ public class ShareServiceImpl implements ShareService {
 		shareMapper.add(shareDto);		
 	}
 
+	@Override
+	public int find(ShareDto shareDto) throws SQLException {
+		return shareMapper.find(shareDto);
+	}
+
 }

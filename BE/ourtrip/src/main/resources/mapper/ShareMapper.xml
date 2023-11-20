@@ -14,4 +14,9 @@
 		values (#{userId}, #{listNo})
 	</insert>
 	
+	<select id="find" parameterType="shareDto" resultType="Integer">
+		select count(user_id) from share
+		where user_id = #{userId} and list_no = #{listNo}
+	</select>
+	
 </mapper>

@@ -9,4 +9,5 @@ import edu.ssafy.ourtrip.share.dto.ShareDto;
 @Mapper
 public interface ShareMapper {
 	void add(ShareDto shareDto) throws SQLException;
+	int find(ShareDto shareDto) throws SQLException;
 }

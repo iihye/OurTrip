@@ -40,4 +40,21 @@ public class ShareController {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	} 
+	
+	@PostMapping("/find")
+	public ResponseEntity<Map<String, Object>> find(@RequestBody ShareDto shareDto){
+		System.out.println(shareDto.toString());
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		HttpStatus status = HttpStatus.ACCEPTED;	
+		try {
+			int cnt = shareService.find(shareDto);
+			resultMap.put("cnt", cnt);
+			status = HttpStatus.OK;
+		} catch(Exception e) {
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	} 
+
 }
