@@ -15,7 +15,7 @@ import Footer from '@/components/common/Footer.vue';
       <v-btn size="x-large" variant="outlined" rounded="xl" width="400"> 시작하기 </v-btn>
     </div>
     <div id="super-img1">
-      <img src="@/assets/img/main1.png" alt="main-img1" width="700" />
+      <img src="@/assets/img/main1.png" alt="main-img1" />
     </div>
   </container>
 
@@ -82,6 +82,7 @@ import Footer from '@/components/common/Footer.vue';
 #super-container {
   width: 70%;
   height: 200px;
+  max-height: 100%;
   overflow: hidden;
   text-align: center;
   padding: 30px;
@@ -95,8 +96,10 @@ import Footer from '@/components/common/Footer.vue';
 }
 #super-img1 {
   max-width: 100%;
+  width: auto !important;
   height: auto !important;
   padding: 10px;
+  display: block;
 }
 #main-btn {
   text-align: center; /* 텍스트를 수평 가운데 정렬합니다. */

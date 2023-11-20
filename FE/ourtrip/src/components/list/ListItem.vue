@@ -47,6 +47,7 @@ defineProps({ list: Object });
 .list-img {
   width: 330px;
   height: 200px;
+  max-width: 100%;
   object-fit: cover;
   border-radius: 5px;
 }
