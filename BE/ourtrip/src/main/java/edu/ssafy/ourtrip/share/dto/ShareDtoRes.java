@@ -11,7 +11,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ShareDto {
+public class ShareDtoRes {
 	private String userId;
 	private int listNo;
+	private boolean status;
 }

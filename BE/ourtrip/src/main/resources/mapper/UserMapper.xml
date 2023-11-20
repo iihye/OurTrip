@@ -10,7 +10,7 @@
 		<result column="user_name" property="userName"/>
 		<result column="token" property="token"/>
 	</resultMap>
-	
+
 	<delete id="delete" parameterType="string">
 		delete from user
 		where user_id = #{userId}

@@ -1,7 +1,6 @@
 package edu.ssafy.ourtrip.user.service;
 
 import java.sql.SQLException;
-import java.util.Map;
 
 import edu.ssafy.ourtrip.user.dto.UserDto;
 
