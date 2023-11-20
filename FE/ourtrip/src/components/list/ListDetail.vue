@@ -17,8 +17,8 @@ const { placeList } = listStore;
 const memberStore = useMemberStore();
 const shareStore = useShareStore();
 
-const { findShareRes } = storeToRefs(shareStore);
-const { addShare, findShare } = shareStore;
+const { findShareRes, findOurShareRes } = storeToRefs(shareStore);
+const { addShare, findShare, findOurShare } = shareStore;
 
 const { VITE_APP_SERVER_URI } = import.meta.env;
 
@@ -26,9 +26,11 @@ const listno = ref(route.params.listno);
 const place = ref({});
 const userId = ref('');
 const isCheckUserId = ref(true);
+const isFindOurShare = ref(true);
 
 onMounted(() => {
   getPlaceList();
+  findOur();
 });
 
 const getPlaceList = async () => {
@@ -68,10 +70,18 @@ const find = async () => {
   }
 };
 
+const findOur = async () => {
+  await findOurShare(param.value);
+  console.log(findOurShareRes.value);
+  isFindOurShare.value = findOurShareRes.value.length > 0 ? true : false;
+}
+
 const add = async (item) => {
   addParam.value.userId = item;
   await addShare(addParam.value);
-  await findShare(param.value);
+  // await findShare(param.value);
+  find();
+  findOur();
 };
 </script>
 
@@ -107,6 +117,12 @@ const add = async (item) => {
       </div>
     </template>
   </div>
+
+  <h1>공유한 사람 목록</h1>
+  <template v-for="item in findOurShareRes" :key="item">
+    <h4>{{ item }}</h4>
+    <button @click="del(item)">삭제</button>
+  </template>
 </template>
 
 <style scoped>

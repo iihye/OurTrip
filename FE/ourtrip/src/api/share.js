@@ -10,4 +10,8 @@ async function findShareApi(param, success, fail) {
   await local.post(`share/find/`, param).then(success).catch(fail);
 }
 
-export { addShareApi, findShareApi };
+async function findOurShareApi(param, success, fail) {
+  await local.post(`share/findour/`, param).then(success).catch(fail);
+}
+
+export { addShareApi, findShareApi, findOurShareApi };
