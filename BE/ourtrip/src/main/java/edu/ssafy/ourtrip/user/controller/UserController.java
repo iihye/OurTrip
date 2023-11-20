@@ -42,8 +42,8 @@ public class UserController {
 		try {
 			List<UserCheckDto> dto= userService.checkUserId(userId);
 			System.out.println(dto.toString());
-			resultMap.put("UserCheckDto", dto);
-			status = HttpStatus.CREATED;
+			resultMap.put("list", dto);
+			status = HttpStatus.OK;
 		} catch(Exception e) {
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;

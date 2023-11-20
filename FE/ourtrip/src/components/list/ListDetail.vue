@@ -3,14 +3,18 @@ import { ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
+import { useMemberStore } from '@/stores/user';
 import { useListStore } from '@/stores/list';
 
 const route = useRoute();
 const router = useRouter();
 const listStore = useListStore();
+const memberStore = useMemberStore();
 
-const { detailRes, findIdRes } = storeToRefs(listStore);
-const { detailList, findId } = listStore;
+const { detailRes } = storeToRefs(listStore);
+const { detailList } = listStore;
+const { checkIdRes } = storeToRefs(memberStore);
+const { checkUserId } = memberStore;
 const { VITE_APP_SERVER_URI } = import.meta.env;
 
 const listno = ref(route.params.listno);
@@ -37,14 +41,14 @@ const deleteHandler = async (listNo) => {
   }
 };
 
-const findIdCheck = async () => {
-  console.log(findIdRes.value);
-  await userCheck(findId.value);
-  if (findIdRes != []) {
-    console.log(findIdRes);
-  } else {
-    console.log('아무것도 없다!!!');
-  }
+const check = async () => {
+  await checkUserId(userId.value);
+  // console.log(checkIdRes);
+  // if (checkIdRes != []) {
+  //   // console.log(checkIdRes);
+  // } else {
+  //   console.log('아무것도 없다!!!');
+  // }
 };
 </script>
 
@@ -60,15 +64,15 @@ const findIdCheck = async () => {
 
   <h1>공유하기</h1>
   <div class="form-wrapper">
-    <v-text-field label="아이디 검색" v-model="userId" @blur="findIdCheck" variant="underlined">
+    <v-text-field label="아이디 검색" v-model="userId" @blur="check" variant="underlined">
       <template v-slot:prepend-inner>
         <font-awesome-icon :icon="['fas', 'user']" style="color: #787878" />
       </template>
     </v-text-field>
-    <template v-for="list in findIdRes" :key="list.userName">
-      <li>{{ list.userName }}</li>
-    </template>
   </div>
+  <template v-for="list in checkIdRes" :key="list.userName">
+    <li>{{ list.userId }}</li>
+  </template>
 </template>
 
 <style scoped>
