@@ -20,10 +20,10 @@ async function openListApi(success, fail) {
   // console.log('-----------openListApi start-----------');
 }
 
-async function detailApi(listno, success, fail) {
-  // console.log('-----------detailApi start-----------');
-  await local.get(`/list/detail/${listno}`).then(success).catch(fail);
-  // console.log('-----------detailApi start-----------');
+async function placesApi(listno, success, fail) {
+  // console.log('-----------placesApi start-----------');
+  await local.get(`/list/places/${listno}`).then(success).catch(fail);
+  // console.log('-----------placesApi start-----------');
 }
 
-export { myListApi, shareListApi, openListApi, detailApi };
+export { myListApi, shareListApi, openListApi, placesApi };

@@ -8,21 +8,22 @@ import { useListStore } from "@/stores/list";
 const route = useRoute();
 const router = useRouter();
 const listStore = useListStore();
-const { detailRes } = storeToRefs(listStore);
-const { detailList } = listStore;
+const { placeRes } = storeToRefs(listStore);
+const { placeList } = listStore;
 const { VITE_APP_SERVER_URI } = import.meta.env;
 
 const listno = ref(route.params.listno);
 
 onMounted(() => {
-  getList();
+  getPlaceList();
 });
 
 const place = ref({});
 
-const getList = async () => {
-  await detailList(listno.value);
-  place.value = detailRes.value;
+const getPlaceList = async () => {
+  await placeList(listno.value);
+  console.log(placeRes.value);
+  place.value = placeRes.value;
 };
 
 const deleteHandler = async (listNo) => {
