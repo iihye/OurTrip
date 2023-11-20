@@ -20,6 +20,26 @@ import ListShare from '@/components/list/ListShare.vue';
 import ListOpen from '@/components/list/ListOpen.vue';
 import ListDetail from '@/components/list/ListDetail.vue';
 
+import { storeToRefs } from 'pinia';
+import { useMemberStore } from '@/stores/user';
+
+const onlyAuthUser = async (to, from, next) => {
+  const memberStore = useMemberStore();
+  const { userInfo, isValidToken } = storeToRefs(memberStore);
+  const { getUserInfo } = memberStore;
+
+  let token = sessionStorage.getItem('accessToken');
+
+  if (userInfo.value != null && token) {
+    await getUserInfo(token);
+  }
+  if (!isValidToken.value || userInfo.value === null) {
+    next({ name: 'user-login' });
+  } else {
+    next();
+  }
+};
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -60,6 +80,7 @@ const router = createRouter({
         {
           path: 'info',
           name: 'mypage-info',
+          beforeEnter: onlyAuthUser,
           component: UserMypage,
         },
       ],
@@ -73,21 +94,25 @@ const router = createRouter({
         {
           path: 'location',
           name: 'place-location',
+          beforeEnter: onlyAuthUser,
           component: PlaceLocation,
         },
         {
           path: 'title',
           name: 'place-title',
+          beforeEnter: onlyAuthUser,
           component: PlaceTitle,
         },
         {
           path: 'cover',
           name: 'place-cover',
+          beforeEnter: onlyAuthUser,
           component: PlaceCover,
         },
         {
           path: 'open',
           name: 'place-open',
+          beforeEnter: onlyAuthUser,
           component: PlaceOpen,
         },
       ],
@@ -101,11 +126,13 @@ const router = createRouter({
         {
           path: 'my',
           name: 'list-my',
+          beforeEnter: onlyAuthUser,
           component: ListMy,
         },
         {
           path: 'our',
           name: 'list-share',
+          beforeEnter: onlyAuthUser,
           component: ListShare,
         },
         {
