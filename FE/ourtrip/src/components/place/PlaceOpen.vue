@@ -45,7 +45,7 @@ const registerPlace = async (listNo) => {
   const list_places = listInfo.value.list_places;
   const places = list_places.map((place_info) => {
     return {
-      placeName: place_info.address_name,
+      placeName: place_info.place_name,
       placeUrl: place_info.place_url,
       placeAddressName: place_info.address_name,
       placeRoadAddressName: place_info.road_address_name,
