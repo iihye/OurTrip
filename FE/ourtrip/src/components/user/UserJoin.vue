@@ -15,7 +15,8 @@ const joinUser = ref({
   userPw: '',
   userName: '',
 });
-const message = ref('');
+const userIdMessage = ref('');
+const userPwMessage = ref('');
 const isVisible = ref(false);
 
 const join = async () => {
@@ -35,7 +36,7 @@ const join = async () => {
   }
 
   if (!isCheck.value) {
-    alert('사용할 수 없는 아이디입니다');
+    alert('사용할 수 없는 아이디입니다😥');
     return;
   }
 
@@ -49,16 +50,28 @@ const join = async () => {
   }
 };
 
-const check = async () => {
-  await userCheck(joinUser.value);
-  if (isCheck.value) {
-    message.value = '사용할 수 있는 아이디예요☺️';
-    // console.log('등록 가능');
+const idCheck = async () => {
+  if (joinUser.value.userId !== undefined && joinUser.value.userId.length >= 4 && joinUser.value.userId.length <= 16) {
+    await userCheck(joinUser.value);
+    if (isCheck.value) {
+      userIdMessage.value = '사용할 수 있는 아이디예요☺️';
+      // console.log('등록 가능');
+    } else {
+      userIdMessage.value = '앗! 이미 사용 중이거나 사용할 수 없는 아이디예요😥';
+      // console.log('등록 불가');
+    }
   } else {
-    message.value = '앗! 이미 사용 중이거나 사용할 수 없는 아이디예요😥';
-    // console.log('등록 불가');
+    userIdMessage.value = '앗! 아이디를 4자 이상 16자 이하로 설정해주세요😥';
   }
 };
+
+const pwCheck = async () => {
+  if (joinUser.value.userPw !== undefined && joinUser.value.userPw.length >= 4 && joinUser.value.userPw.length <= 30) {
+    userPwMessage.value = '사용할 수 있는 비밀번호예요☺️';
+  } else {
+    userPwMessage.value = '앗! 비밀번호를를 4자 이상 30자 이하로 설정해주세요😥';
+  }
+}
 
 const visible = () => {
   isVisible.value = !isVisible.value;
@@ -72,7 +85,7 @@ const visible = () => {
     <form class="form">
       <v-container>
         <div class="form-wrapper">
-          <v-text-field label="아이디" v-model="joinUser.userId" @blur="check" variant="underlined" :messages="message">
+          <v-text-field label="아이디" v-model="joinUser.userId" @blur="idCheck" variant="underlined" :messages="userIdMessage">
             <template v-slot:prepend-inner>
               <font-awesome-icon :icon="['fas', 'user']" style="color: #787878" />
             </template>
@@ -85,6 +98,8 @@ const visible = () => {
             v-model="joinUser.userPw"
             variant="underlined"
             :type="isVisible ? 'text' : 'password'"
+            @blur="pwCheck"
+            :messages="userPwMessage"
           >
             <template v-slot:prepend-inner>
               <font-awesome-icon :icon="['fas', 'lock']" style="color: #787878" />
