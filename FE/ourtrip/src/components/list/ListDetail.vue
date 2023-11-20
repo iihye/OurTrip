@@ -123,7 +123,7 @@ const del = async (item) => {
   <div class="sharing-container">
     <div class="left-container">
       
-      <h2><font-awesome-icon :icon="['fas', 'share']" size="" style="color: #787878" class="empty-h1" /> 어떤 사람과 공유할까요?</h2>
+      <h2><font-awesome-icon :icon="['fas', 'share']" size="" style="color: #787878" class="empty-h1" /><br>어떤 사람과 공유할까요?</h2>
       <div class="form-wrapper">
         <v-text-field label="아이디 검색" v-model="searchParam.userId" @blur="find" variant="underlined" :messages="message">
           <template v-slot:prepend-inner>
@@ -148,7 +148,7 @@ const del = async (item) => {
     </div>
 
     <div class="right-container">
-      <h2><font-awesome-icon :icon="['fas', 'list-ul']" size="" style="color: #787878" class="empty-h1" /> 공유하고 있어요!</h2>
+      <h2><font-awesome-icon :icon="['fas', 'list-ul']" size="" style="color: #787878" class="empty-h1" /><br>공유하고 있어요!</h2>
       <template v-for="item in findOurShareRes" :key="item">
         <div class="shared-user">
           <h4>{{ item }}</h4>
@@ -186,19 +186,23 @@ h2 {
 .sharing-container {
   display: flex;
   justify-content: space-between;
-  margin-left: 2rem;
-  margin-right: 2rem;
+  margin-left: 10rem;
+  margin-right: 10rem;
 }
 
 .left-container {
   flex: 1.5;
   padding: 20px;
   border-right: 1px solid #ccc; /* Add a border between the two containers */
+  padding-left: 10rem;
+  padding-right: 10rem;
 }
 
 .right-container {
   flex: 1;
   padding: 20px;
+  padding-left: 10rem;
+  padding-right: 10rem;
 }
 
 .shared-user {
