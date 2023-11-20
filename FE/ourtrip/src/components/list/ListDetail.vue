@@ -11,8 +11,8 @@ const route = useRoute();
 const router = useRouter();
 const listStore = useListStore();
 
-const { placeRes } = storeToRefs(listStore);
-const { placeList } = listStore;
+const { listDetailRes, placeRes } = storeToRefs(listStore);
+const { listDetail, placeList } = listStore;
 
 const memberStore = useMemberStore();
 const shareStore = useShareStore();
@@ -23,18 +23,27 @@ const { addShare, findShare } = shareStore;
 const { VITE_APP_SERVER_URI } = import.meta.env;
 
 const listno = ref(route.params.listno);
-const place = ref({});
+const places = ref([]);
+const listInfo = ref({});
 const userId = ref('');
 const isCheckUserId = ref(true);
 
 onMounted(() => {
+  getListDetail();
   getPlaceList();
 });
 
+const getListDetail = async () => {
+  await listDetail(listno.value);
+  console.log(listDetailRes.value);
+  listInfo.value = listDetailRes.value;
+  console.log(listInfo);
+};
+
 const getPlaceList = async () => {
   await placeList(listno.value);
-  console.log(placeRes.value);
-  place.value = placeRes.value;
+  places.value = placeRes.value;
+  console.log(places.value);
 };
 
 const deleteHandler = async (listNo) => {
@@ -47,6 +56,11 @@ const deleteHandler = async (listNo) => {
   }
 };
 
+const modifyHandler = () => {
+  // 온마운트시 listdetail get
+  // places와 함께 listInfo pinia 저장
+  router.push({ name: 'place-location' });
+};
 const param = ref({
   userId: '',
   listNo: listno.value,
@@ -76,14 +90,15 @@ const add = async (item) => {
 </script>
 
 <template>
-  <h1>listname</h1>
+  <h1>{{ listInfo.listName }}</h1>
 
-  <template v-for="list in place" :key="list.placeNo">
-    <li>{{ list.placeUrl }}</li>
-    <li>{{ list.placeName }}</li>
-    <li>{{ list.placePhone }}</li>
+  <template v-for="place in places" :key="place.placeNo">
+    <li>{{ place.placeUrl }}</li>
+    <li>{{ place.placeName }}</li>
+    <li>{{ place.placePhone }}</li>
   </template>
   <button @click="deleteHandler(listno)">삭제</button>
+  <button @click="modifyHandler(listno)">수정</button>
 
   <h1>공유하기</h1>
   <div class="form-wrapper">
