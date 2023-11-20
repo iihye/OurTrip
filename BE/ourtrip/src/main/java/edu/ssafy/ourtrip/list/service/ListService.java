@@ -12,4 +12,5 @@ public interface ListService {
 	List<ListDto> shareList(String userId) throws SQLException;
 	List<ListDto> openList() throws SQLException;
 	int registerList(ListDto listDto) throws SQLException;
+	void deleteList(int listNo) throws SQLException;
 }

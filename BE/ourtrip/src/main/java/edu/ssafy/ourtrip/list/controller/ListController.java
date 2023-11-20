@@ -1,11 +1,13 @@
 package edu.ssafy.ourtrip.list.controller;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -108,7 +110,11 @@ public class ListController {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			return new ResponseEntity<Map<String, Object>>(resultMap, status);
 		}
-		
-		
+	}
+	
+	@DeleteMapping("/delete/{listNo}")
+	public ResponseEntity<String> deleteList(@PathVariable("listNo") int listNo) throws Exception {
+		listService.deleteList(listNo);
+		return ResponseEntity.ok().build();
 	}
 }

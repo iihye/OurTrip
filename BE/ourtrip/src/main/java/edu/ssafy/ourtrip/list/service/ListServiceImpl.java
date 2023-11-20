@@ -43,4 +43,9 @@ public class ListServiceImpl implements ListService {
 		int cnt = listMapper.registerList(listDto);
 		return listDto.getListNo();
 	}
+
+	@Override
+	public void deleteList(int listNo) throws SQLException {
+		listMapper.deleteList(listNo);
+	}
 }
