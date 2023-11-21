@@ -53,3 +53,15 @@ create table `place`
     `list_no` integer NOT NULL,
      CONSTRAINT `place_to_list_list_no_fk` FOREIGN KEY (`list_no`) REFERENCES `list` (`list_no`) ON DELETE CASCADE
 );
+
+create table `article`
+(
+	`article_no` integer NOT NULL primary key AUTO_INCREMENT,
+    `article_content` varchar(512) NOT NULL,
+    `article_datetime` datetime,    
+    `list_no` integer NOT NULL,
+    `user_id` varchar(255) NOT NULL,
+     CONSTRAINT `share_to_list_list_no_fk` FOREIGN KEY (`list_no`) REFERENCES `list` (`list_no`) ON DELETE CASCADE,
+     CONSTRAINT `share_to_user_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
+);
+
