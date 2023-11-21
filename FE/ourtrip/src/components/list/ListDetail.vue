@@ -1,12 +1,12 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { storeToRefs } from 'pinia';
-import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
-import { useMemberStore } from '@/stores/user';
-import { useListStore } from '@/stores/list';
-import { useShareStore } from '@/stores/share';
-import { usePlaceStore } from '@/stores/place';
+import { ref, onMounted } from "vue";
+import { storeToRefs } from "pinia";
+import { useRoute, useRouter } from "vue-router";
+import axios from "axios";
+import { useMemberStore } from "@/stores/user";
+import { useListStore } from "@/stores/list";
+import { useShareStore } from "@/stores/share";
+import { usePlaceStore } from "@/stores/place";
 
 const route = useRoute();
 const router = useRouter();
@@ -28,7 +28,7 @@ const { VITE_APP_SERVER_URI } = import.meta.env;
 const listno = ref(route.params.listno);
 const places = ref([]);
 const listDetailInfo = ref({});
-const userId = ref('');
+const userId = ref("");
 const isCheckUserId = ref(true);
 
 onMounted(() => {
@@ -50,23 +50,41 @@ const deleteHandler = async (listNo) => {
   const url = `${VITE_APP_SERVER_URI}/list/delete/${listNo}`;
   const response = await axios.delete(url);
   if (response.status === 200) {
-    router.push({ name: 'list-my' });
+    router.push({ name: "list-my" });
   } else {
-    alert('삭제 오류');
+    alert("삭제 오류");
   }
 };
 
 const modifyHandler = () => {
-  listInfo.value = { ...listDetailInfo.value, list_places: places.value };
-  router.push({ name: 'place-location' });
+  listInfo.value = {
+    list_img: listDetailInfo.value.listImg,
+    list_name: listDetailInfo.value.listName,
+    list_open: listDetailInfo.value.listOpen,
+    user_id: listDetailInfo.value.userId,
+    list_no: listDetailInfo.value.listNo,
+    list_places: places.value.map((item) => {
+      return {
+        address_name: item.placeAddressName,
+        id: item.placeId,
+        phone: item.placePhone,
+        place_name: item.placeName,
+        place_url: item.placeUrl,
+        road_address_name: item.placeRoadAddressName,
+        x: item.placeX,
+        y: item.placeY,
+      };
+    }),
+  };
+  router.push({ name: "place-location" });
 };
 const param = ref({
-  userId: '',
+  userId: "",
   listNo: listno.value,
 });
 
 const addParam = ref({
-  userId: '',
+  userId: "",
   listNo: listno.value,
 });
 
@@ -74,7 +92,10 @@ const find = async () => {
   await findShare(param.value);
   // console.log(findShareRes.value);
   if (findShareRes.value.length > 0) {
-    const sum = findShareRes.value.reduce((total, item) => total + item.status, 0);
+    const sum = findShareRes.value.reduce(
+      (total, item) => total + item.status,
+      0
+    );
     isCheckUserId.value = sum > 0;
   } else {
     isCheckUserId.value = false;
@@ -101,7 +122,12 @@ const add = async (item) => {
 
   <h1>공유하기</h1>
   <div class="form-wrapper">
-    <v-text-field label="아이디 검색" v-model="param.userId" @blur="find" variant="underlined">
+    <v-text-field
+      label="아이디 검색"
+      v-model="param.userId"
+      @blur="find"
+      variant="underlined"
+    >
       <template v-slot:prepend-inner>
         <font-awesome-icon :icon="['fas', 'user']" style="color: #787878" />
       </template>
@@ -109,7 +135,12 @@ const add = async (item) => {
   </div>
 
   <div class="empty-center" v-if="!isCheckUserId">
-    <font-awesome-icon :icon="['fas', 'list']" size="2xl" style="color: #787878" class="empty-h1" />
+    <font-awesome-icon
+      :icon="['fas', 'list']"
+      size="2xl"
+      style="color: #787878"
+      class="empty-h1"
+    />
     <h4>검색 결과가 없어요😥</h4>
   </div>
 

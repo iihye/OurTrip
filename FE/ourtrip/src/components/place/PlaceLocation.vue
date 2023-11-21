@@ -1,17 +1,17 @@
 <script setup>
-import { onMounted, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import axios from 'axios';
-import { usePlaceStore } from '@/stores/place';
-import VKakaoMap from '../common/VKakaoMap.vue';
-import { storeToRefs } from 'pinia';
+import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+import axios from "axios";
+import { usePlaceStore } from "@/stores/place";
+import VKakaoMap from "../common/VKakaoMap.vue";
+import { storeToRefs } from "pinia";
 
 const router = useRouter();
 const placeStore = usePlaceStore();
 const { VITE_APP_KAKAO_API_URI, VITE_APP_KAKAO_REST_KEY } = import.meta.env;
 
 const { listInfo } = storeToRefs(placeStore);
-const searchKeyword = ref('');
+const searchKeyword = ref("");
 const searchList = ref([]);
 const selectList = ref([]);
 const selectPlace = ref({});
@@ -37,18 +37,13 @@ const cancelHandler = (itemId) => {
 };
 const nextButtonHandler = () => {
   listInfo.value = { ...listInfo.value, list_places: selectList.value };
-  router.push({ name: 'place-title' });
+  router.push({ name: "place-title" });
 };
 
 onMounted(() => {
-  // selectList.value = listInfo.value.list_places;
-  // console.log(listInfo.value);
-  // if (listInfo != {}) {
-  //   console.log("들어옴")
-  //   console.log(listInfo);
-  //   selectList.value = listInfo.value.list_places;
-  // } else {
-  // }
+  if (listInfo.value.list_places !== undefined) {
+    selectList.value = listInfo.value.list_places;
+  }
 });
 </script>
 
