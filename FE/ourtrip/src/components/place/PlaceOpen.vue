@@ -1,10 +1,10 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import { usePlaceStore } from '@/stores/place';
-import axios from 'axios';
-import { storeToRefs } from 'pinia';
-import { useMemberStore } from '@/stores/user';
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { usePlaceStore } from "@/stores/place";
+import axios from "axios";
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/user";
 
 const router = useRouter();
 const memberStore = useMemberStore();
@@ -21,11 +21,15 @@ onMounted(() => {
 });
 
 const fetch = async () => {
-  await getUserInfo(sessionStorage.getItem('accessToken'));
+  await getUserInfo(sessionStorage.getItem("accessToken"));
 };
 
 const openButtonHandler = () => {
   selectIsOpen.value = true;
+};
+
+const closeButtonHandler = () => {
+  selectIsOpen.value = false;
 };
 
 const saveButtonHandler = async () => {
@@ -40,7 +44,7 @@ const registerList = async () => {
   const list_info = listInfo.value;
   const url = `${VITE_APP_SERVER_URI}/list/register`;
   const headers = {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   };
   const data = {
     listName: list_info.list_name,
@@ -70,7 +74,7 @@ const registerPlace = async (listNo) => {
   });
   const url = `${VITE_APP_SERVER_URI}/place/register`;
   const headers = {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   };
   const data = places;
   await axios.post(url, data, headers);
@@ -88,7 +92,7 @@ const resetListInfo = () => {
   <br />
   <button @click="openButtonHandler">네! 공개할게요</button>
   <br />
-  <button>아니요! 저만 볼게요</button>
+  <button @click="closeButtonHandler">아니요! 저만 볼게요</button>
   <br />
   <br />
   <button @click="saveButtonHandler">저장하기</button>
