@@ -42,13 +42,17 @@ const logout = () => {
         <template v-if="menu.show">
           <template v-if="menu.routeName === 'user-logout'">
             <li class="nav-item">
-              <router-link to="/" @click.prevent="logout" class="nav-link">{{ menu.name }}</router-link>
+              <router-link to="/" @click.prevent="logout" class="nav-link">{{
+                menu.name
+              }}</router-link>
             </li>
           </template>
 
           <template v-else>
             <li class="nav-item">
-              <router-link :to="{ name: menu.routeName }" class="nav-link">{{ menu.name }}</router-link>
+              <router-link :to="{ name: menu.routeName }" class="nav-link">{{
+                menu.name
+              }}</router-link>
             </li>
           </template>
         </template>
@@ -86,7 +90,7 @@ a {
   align-items: center;
   background: #5d5d5d;
   padding: 8px 12px;
-  margin: 0 0 3rem 0;
+  /* margin: 0 0 3rem 0; */
 }
 
 .navbar__logo {
