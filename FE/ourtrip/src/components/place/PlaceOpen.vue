@@ -1,10 +1,10 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { usePlaceStore } from "@/stores/place";
-import axios from "axios";
-import { storeToRefs } from "pinia";
-import { useMemberStore } from "@/stores/user";
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { usePlaceStore } from '@/stores/place';
+import axios from 'axios';
+import { storeToRefs } from 'pinia';
+import { useMemberStore } from '@/stores/user';
 
 const router = useRouter();
 const memberStore = useMemberStore();
@@ -24,39 +24,6 @@ const fetch = async () => {
   await getUserInfo(sessionStorage.getItem('accessToken'));
 };
 
-const openButtonHandler = () => {
-  selectIsOpen.value = true;
-};
-
-const closeButtonHandler = () => {
-  selectIsOpen.value = false;
-};
-
-const saveButtonHandler = async () => {
-  listInfo.value = { ...listInfo.value, list_open: selectIsOpen.value };
-  const listNo = await registerList();
-  registerPlace(listNo);
-  resetListInfo();
-  router.push({ name: 'list-my' });
-};
-
-const registerList = async () => {
-  const list_info = listInfo.value;
-  const url = `${VITE_APP_SERVER_URI}/list/register`;
-  const headers = {
-    'Content-Type': 'application/json',
-  };
-  const data = {
-    listName: list_info.list_name,
-    listImg: list_info.list_img,
-    listOpen: list_info.list_open,
-    userId: userInfo.value.userId,
-  };
-
-  const response = await axios.post(url, data, headers);
-  return response.data.listNo;
-};
-
 const registerPlace = async (listNo) => {
   const list_places = listInfo.value.list_places;
   const places = list_places.map((place_info) => {
@@ -74,7 +41,7 @@ const registerPlace = async (listNo) => {
   });
   const url = `${VITE_APP_SERVER_URI}/place/register`;
   const headers = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   };
   const data = places;
   await axios.post(url, data, headers);
@@ -97,7 +64,7 @@ const saveButtonHandler = async () => {
     const list_info = listInfo.value;
     const url = `${VITE_APP_SERVER_URI}/list/register`;
     const headers = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
     const data = {
       listName: list_info.list_name,
@@ -114,7 +81,7 @@ const saveButtonHandler = async () => {
   const listNo = await _registerList();
   registerPlace(listNo);
   resetListInfo();
-  router.push({ name: "list-my" });
+  router.push({ name: 'list-my' });
 };
 
 const modifyButtonHandler = () => {
@@ -127,7 +94,7 @@ const modifyButtonHandler = () => {
   const _modifyList = async () => {
     const url = `${VITE_APP_SERVER_URI}/list/modify`;
     const headers = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
     const data = {
       listNo: listInfo.value.list_no,
@@ -143,12 +110,11 @@ const modifyButtonHandler = () => {
   _modifyList();
   registerPlace(listNo);
   resetListInfo();
-  router.push({ name: "list-my" });
+  router.push({ name: 'list-my' });
 };
 </script>
 
 <template>
-<<<<<<< FE/ourtrip/src/components/place/PlaceOpen.vue
   <!--stepper-->
   <div>
     <ol class="c-stepper">
@@ -197,8 +163,26 @@ const modifyButtonHandler = () => {
   <!--button-->
   <container class="btn-container">
     <div class="btn-handler">
-      <v-btn v-if="listInfo.isModifyMode == undefined" class="btn" size="large" variant="flat" rounded="xl" @click="saveButtonHandler"> 저장하기 </v-btn>
-      <v-btn v-else="listInfo.isModifyMode == true" class="btn" size="large" variant="flat" rounded="xl" @click="modifyButtonHandler"> 수정하기 </v-btn>
+      <v-btn
+        v-if="listInfo.isModifyMode == undefined"
+        class="btn"
+        size="large"
+        variant="flat"
+        rounded="xl"
+        @click="saveButtonHandler"
+      >
+        저장하기
+      </v-btn>
+      <v-btn
+        v-else="listInfo.isModifyMode == true"
+        class="btn"
+        size="large"
+        variant="flat"
+        rounded="xl"
+        @click="modifyButtonHandler"
+      >
+        수정하기
+      </v-btn>
     </div>
   </container>
 </template>
