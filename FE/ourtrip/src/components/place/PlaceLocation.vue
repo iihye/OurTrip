@@ -1,10 +1,10 @@
 <script setup>
-import { onMounted, ref } from "vue";
-import { useRouter, onBeforeRouteLeave } from "vue-router";
-import axios from "axios";
-import { usePlaceStore } from "@/stores/place";
-import VKakaoMap from "../common/VKakaoMap.vue";
-import { storeToRefs } from "pinia";
+import { onMounted, ref } from 'vue';
+import { useRouter, onBeforeRouteLeave } from 'vue-router';
+import axios from 'axios';
+import { usePlaceStore } from '@/stores/place';
+import VKakaoMap from '../common/VKakaoMap.vue';
+import { storeToRefs } from 'pinia';
 
 const router = useRouter();
 const placeStore = usePlaceStore();
@@ -45,7 +45,7 @@ const cancelHandler = (itemId) => {
 };
 const nextButtonHandler = () => {
   listInfo.value = { ...listInfo.value, list_places: selectList.value };
-  router.push({ name: "place-title" });
+  router.push({ name: 'place-title' });
 };
 
 onMounted(() => {
@@ -57,12 +57,12 @@ onMounted(() => {
 
 <template>
   <body>
-    <div
+    <!-- <div
       id="full_bg"
       style="
         background-image: url('https://cdn.music-flo.com/image/v2/album/806/970/09/04/409970806_63647474_s.jpg?1667527798269/dims/resize/500/quality/90');
       "
-    ></div>
+    ></div> -->
     <form @submit.prevent="">
       <h3>가고 싶은 장소를 검색해주세요.</h3>
       <p>-> 검색 결과에서 원하는 장소를 선택해주세요</p>
@@ -116,8 +116,6 @@ onMounted(() => {
 
 <style scoped>
 body {
-  background-color: #333;
-  color: #fff;
   height: 100%;
 }
 h3 {
@@ -176,7 +174,7 @@ input {
   padding: 9px 20px 9px 0;
 }
 
-#full_bg {
+/* #full_bg {
   position: absolute;
   top: 0;
   left: 0;
@@ -190,7 +188,7 @@ input {
   opacity: 0.2;
   will-change: transform;
   z-index: -200;
-}
+} */
 
 #list_group {
   margin: 10px 13px 10px 0;
