@@ -74,14 +74,18 @@ const unjoin = async () => {
 };
 
 const pwCheck = async () => {
-  if (updateUser.value.userPw !== undefined && updateUser.value.userPw.length >= 4 && updateUser.value.userPw.length <= 30) {
+  if (
+    updateUser.value.userPw !== undefined &&
+    updateUser.value.userPw.length >= 4 &&
+    updateUser.value.userPw.length <= 30
+  ) {
     userPwMessage.value = '사용할 수 있는 비밀번호예요☺️';
     isPwCheck.value = true;
   } else {
     userPwMessage.value = '앗! 비밀번호를를 4자 이상 30자 이하로 설정해주세요😥';
     isPwCheck.value = false;
   }
-}
+};
 
 const visible = () => {
   isVisible.value = !isVisible.value;
@@ -110,6 +114,7 @@ const visible = () => {
             :type="isVisible ? 'text' : 'password'"
             @blur="pwCheck"
             :messages="userPwMessage"
+            style="ime-mode: inactive"
           >
             <template v-slot:prepend-inner>
               <font-awesome-icon :icon="['fas', 'lock']" style="color: #787878" />
@@ -126,7 +131,7 @@ const visible = () => {
         </div>
 
         <div class="form-wrapper">
-          <v-text-field label="닉네임" v-model="updateUser.userName" variant="underlined">
+          <v-text-field label="닉네임" v-model="updateUser.userName" variant="underlined" style="ime-mode: active">
             <template v-slot:prepend-inner>
               <font-awesome-icon :icon="['fas', 'signature']" style="color: #787878" />
             </template>
