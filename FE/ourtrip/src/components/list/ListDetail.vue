@@ -11,12 +11,12 @@ import { usePlaceStore } from "@/stores/place";
 const route = useRoute();
 const router = useRouter();
 
+const memberStore = useMemberStore();
 const listStore = useListStore();
 const placeStore = usePlaceStore();
-const memberStore = useMemberStore();
 const shareStore = useShareStore();
 
-
+const { userInfo } = storeToRefs(memberStore);
 const { listDetailRes, placeRes } = storeToRefs(listStore);
 const { listInfo } = storeToRefs(placeStore);
 const { findShareRes, findOurShareRes } = storeToRefs(shareStore);
@@ -82,10 +82,10 @@ const modifyHandler = () => {
   router.push({ name: "place-location" });
 };
 
-const message = ref(''); 
+const message = ref(""); 
 
 const searchParam = ref({
-  userId: '',
+  userId: "",
   listNo: listno.value,
 });
 
@@ -95,32 +95,31 @@ const addParam = ref({
 });
 
 const delParam = ref({
-  userId: '',
+  userId: "",
   listNo: listno.value,
 });
 
 const find = async () => {
-  if (searchParam.value.userId !== undefined && searchParam.value.userId.length >= 2) { // 2글자 이상 일 때만 검색
-    message.value = '검색되었습니다☺️';
+  if (searchParam.value.userId !== undefined && searchParam.value.userId.length >= 2) {
+    message.value = "검색되었습니다☺️";
     await findShare(searchParam.value);
-    // console.log(findShareRes.value);
 
     if (findShareRes.value.length > 0) {
       const sum = findShareRes.value.reduce((total, item) => total + item.status, 0);
       isCheckUserId.value = sum > 0;
     } else {
       isCheckUserId.value = false;
-      message.value = '';
+      message.value = "";
     }
-    } else {
-      message.value = '두 글자 이상 검색해주세요😥';
+  } else {
+    message.value = "두 글자 이상 검색해주세요😥";
   }
 };
 
 const findOur = async () => {
   await findOurShare(searchParam.value);
   isFindOurShare.value = findOurShareRes.value.length > 0 ? true : false;
-}
+};
 
 const add = async (item) => {
   addParam.value.userId = item;
@@ -135,7 +134,7 @@ const del = async (item) => {
   await delShare(delParam.value);
   find();
   findOur();
-}
+};
 </script>
 
 <template>
@@ -149,12 +148,20 @@ const del = async (item) => {
   <button @click="deleteHandler(listno)">삭제</button>
   <button @click="modifyHandler(listno)">수정</button>
 
-  <div class="sharing-container">
+  <div v-if="userInfo.userId === listDetailInfo.userId" class="sharing-container">
     <div class="left-container">
-      
-      <h2><font-awesome-icon :icon="['fas', 'share']" size="" style="color: #787878" class="empty-h1" /><br>어떤 사람과 공유할까요?</h2>
+      <h2>
+        <font-awesome-icon :icon="['fas', 'share']" size="" style="color: #787878" class="empty-h1" /><br />어떤 사람과
+        공유할까요?
+      </h2>
       <div class="form-wrapper">
-        <v-text-field label="아이디 검색" v-model="searchParam.userId" @blur="find" variant="underlined" :messages="message">
+        <v-text-field
+          label="아이디 검색"
+          v-model="searchParam.userId"
+          @blur="find"
+          variant="underlined"
+          :messages="message"
+        >
           <template v-slot:prepend-inner>
             <font-awesome-icon :icon="['fas', 'user']" style="color: #787878" />
           </template>
@@ -177,7 +184,10 @@ const del = async (item) => {
     </div>
 
     <div class="right-container">
-      <h2><font-awesome-icon :icon="['fas', 'list-ul']" size="" style="color: #787878" class="empty-h1" /><br>공유하고 있어요!</h2>
+      <h2>
+        <font-awesome-icon :icon="['fas', 'list-ul']" size="" style="color: #787878" class="empty-h1" /><br />공유하고
+        있어요!
+      </h2>
       <template v-for="item in findOurShareRes" :key="item">
         <div class="shared-user">
           <h4>{{ item }}</h4>
@@ -186,7 +196,6 @@ const del = async (item) => {
       </template>
     </div>
   </div>
-  
 </template>
 
 <style scoped>
@@ -223,8 +232,8 @@ h2 {
   flex: 1.5;
   padding: 20px;
   border-right: 1px solid #ccc; /* Add a border between the two containers */
-  padding-left: 10rem;
-  padding-right: 10rem;
+  margin-left: 10rem;
+  margin-right: 10rem;
 }
 
 .right-container {
@@ -247,7 +256,7 @@ h2 {
   font-size: 20px;
 }
 
-.v-btn{
+.v-btn {
   font-size: 18px;
 }
 </style>

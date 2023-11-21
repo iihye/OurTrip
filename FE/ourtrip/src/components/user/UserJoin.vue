@@ -79,7 +79,7 @@ const pwCheck = async () => {
     userPwMessage.value = '앗! 비밀번호를를 4자 이상 30자 이하로 설정해주세요😥';
     isPwCheck.value = false;
   }
-}
+};
 
 const visible = () => {
   isVisible.value = !isVisible.value;
@@ -93,7 +93,14 @@ const visible = () => {
     <form class="form">
       <v-container>
         <div class="form-wrapper">
-          <v-text-field label="아이디" v-model="joinUser.userId" @blur="idCheck" variant="underlined" :messages="userIdMessage">
+          <v-text-field
+            label="아이디"
+            v-model="joinUser.userId"
+            @blur="idCheck"
+            variant="underlined"
+            :messages="userIdMessage"
+            style="ime-mode: inactive"
+          >
             <template v-slot:prepend-inner>
               <font-awesome-icon :icon="['fas', 'user']" style="color: #787878" />
             </template>
@@ -108,6 +115,7 @@ const visible = () => {
             :type="isVisible ? 'text' : 'password'"
             @blur="pwCheck"
             :messages="userPwMessage"
+            style="ime-mode: inactive"
           >
             <template v-slot:prepend-inner>
               <font-awesome-icon :icon="['fas', 'lock']" style="color: #787878" />
