@@ -1,10 +1,10 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import { usePlaceStore } from '@/stores/place';
-import axios from 'axios';
-import { storeToRefs } from 'pinia';
-import { useMemberStore } from '@/stores/user';
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { usePlaceStore } from "@/stores/place";
+import axios from "axios";
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/user";
 
 const router = useRouter();
 const memberStore = useMemberStore();
@@ -21,36 +21,7 @@ onMounted(() => {
 });
 
 const fetch = async () => {
-  await getUserInfo(sessionStorage.getItem('accessToken'));
-};
-
-const openButtonHandler = () => {
-  selectIsOpen.value = true;
-};
-
-const saveButtonHandler = async () => {
-  listInfo.value = { ...listInfo.value, list_open: selectIsOpen.value };
-  const listNo = await registerList();
-  registerPlace(listNo);
-  resetListInfo();
-  router.push({ name: "list-my" });
-};
-
-const registerList = async () => {
-  const list_info = listInfo.value;
-  const url = `${VITE_APP_SERVER_URI}/list/register`;
-  const headers = {
-    'Content-Type': 'application/json',
-  };
-  const data = {
-    listName: list_info.list_name,
-    listImg: list_info.list_img,
-    listOpen: list_info.list_open,
-    userId: userInfo.value.userId,
-  };
-
-  const response = await axios.post(url, data, headers);
-  return response.data.listNo;
+  await getUserInfo(sessionStorage.getItem("accessToken"));
 };
 
 const registerPlace = async (listNo) => {
@@ -70,7 +41,7 @@ const registerPlace = async (listNo) => {
   });
   const url = `${VITE_APP_SERVER_URI}/place/register`;
   const headers = {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   };
   const data = places;
   await axios.post(url, data, headers);
@@ -78,6 +49,68 @@ const registerPlace = async (listNo) => {
 
 const resetListInfo = () => {
   listInfo.value = {};
+};
+
+const openButtonHandler = () => {
+  selectIsOpen.value = true;
+};
+
+const closeButtonHandler = () => {
+  selectIsOpen.value = false;
+};
+
+const saveButtonHandler = async () => {
+  const _registerList = async () => {
+    const list_info = listInfo.value;
+    const url = `${VITE_APP_SERVER_URI}/list/register`;
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    const data = {
+      listName: list_info.list_name,
+      listImg: list_info.list_img,
+      listOpen: list_info.list_open,
+      userId: userInfo.value.userId,
+    };
+
+    const response = await axios.post(url, data, headers);
+    return response.data.listNo;
+  };
+
+  listInfo.value = { ...listInfo.value, list_open: selectIsOpen.value };
+  const listNo = await _registerList();
+  registerPlace(listNo);
+  resetListInfo();
+  router.push({ name: "list-my" });
+};
+
+const modifyButtonHandler = () => {
+  const listNo = listInfo.value.list_no;
+  const _deletePlaces = async (listNo) => {
+    const url = `${VITE_APP_SERVER_URI}/place/delete/${listNo}`;
+    await axios.delete(url);
+  };
+
+  const _modifyList = async () => {
+    const url = `${VITE_APP_SERVER_URI}/list/modify`;
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    const data = {
+      listNo: listInfo.value.list_no,
+      listName: listInfo.value.list_name,
+      listImg: listInfo.value.list_img,
+      listOpen: listInfo.value.listOpen,
+      userId: listInfo.value.user_id,
+    };
+    await axios.put(url, data, headers);
+  };
+
+  _deletePlaces(listNo);
+  _modifyList();
+  registerPlace(listNo);
+  resetListInfo();
+  router.push({ name: "list-my" });
 };
 </script>
 
@@ -88,10 +121,16 @@ const resetListInfo = () => {
   <br />
   <button @click="openButtonHandler">네! 공개할게요</button>
   <br />
-  <button>아니요! 저만 볼게요</button>
+  <button @click="closeButtonHandler">아니요! 저만 볼게요</button>
   <br />
   <br />
-  <button @click="saveButtonHandler">저장하기</button>
+
+  <button v-if="listInfo.isModifyMode == undefined" @click="saveButtonHandler">
+    저장하기
+  </button>
+  <button v-else="listInfo.isModifyMode == true" @click="modifyButtonHandler">
+    수정하기
+  </button>
 </template>
 
 <style scoped></style>
