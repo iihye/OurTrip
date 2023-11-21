@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, onBeforeRouteLeave } from 'vue-router';
 import axios from 'axios';
 import { usePlaceStore } from '@/stores/place';
 import VKakaoMap from '../common/VKakaoMap.vue';
@@ -15,6 +15,13 @@ const searchKeyword = ref('');
 const searchList = ref([]);
 const selectList = ref([]);
 const selectPlace = ref({});
+
+// onBeforeRouteLeave((to, from) => {
+//   console.log(to);
+//   const answer = window.confirm('Do you really want to leave? you have unsaved changes!');
+//   // cancel the navigation and stay on the same page
+//   if (!answer) return false;
+// });
 
 const searchHandler = async () => {
   const url = VITE_APP_KAKAO_API_URI;
