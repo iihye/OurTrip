@@ -1,4 +1,4 @@
-<script setup>
+d<script setup>
 import { onMounted, ref } from 'vue';
 import { useRouter, onBeforeRouteLeave } from 'vue-router';
 import axios from 'axios';
@@ -78,18 +78,21 @@ onMounted(() => {
   <h1>가고 싶은 PLACE를 검색해주세요</h1>
   <h2>-> 검색 결과에서 원하는 장소를 선택해주세요</h2>
 
-  <!--search form-->
-  <div id="container">
-    <form @submit.prevent="">
-      <div id="searchBox">
-        <svg
-          data-v-2885a6ec=""
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+
+  <div id='main-container'>
+
+    <!--search-->
+    <div >
+      <form @submit.prevent="">
+        <div id='searchBox'>
+          <svg
+            data-v-2885a6ec=""
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
           <path
             d="M14.3392 14.0667L18.2727 18.0001M15.75 10.875C15.75 13.5674 13.5674 15.75 10.875 15.75C8.18261 15.75 6 13.5674 6 10.875C6 8.18261 8.18261 6 10.875 6C13.5674 6 15.75 8.18261 15.75 10.875Z"
             stroke="black"
@@ -101,32 +104,38 @@ onMounted(() => {
     </form>
 
     <!--search result list-->
-    <div id="list_wrap">
-      <div id="list_group">
-        <div v-for="item in searchList" :key="item.id">
-          <div id="list_item">
+    <div>
+      <div id="list_item" v-for="item in searchList" :key="item.id">
+        <div id="list_text">
+          <div >{{ item.place_name }}</div>
+          <div >{{ item.address_name }}</div>
+        </div>
+        <button @click="selectHandler(item)">선택</button>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- map -->
+    <div>
+      <VKakaoMap id="map" :stations="selectList" :selectStation="selectPlace"></VKakaoMap>
+    </div>
+
+
+    <!-- select list -->
+    <div>
+      <h3>선택한 장소 목록</h3>
+      <div>
+        <div id="list_item" v-for="item in selectList" :key="item.id">
+          <div id="list_text">
             <div>{{ item.place_name }}</div>
             <div>{{ item.address_name }}</div>
-            <button @click="selectHandler(item)">선택</button>
           </div>
-          <br />
+          <button @click="cancelHandler(item.id)">취소</button>
         </div>
       </div>
     </div>
 
-    <!-- map -->
-    <VKakaoMap id="map" :stations="selectList" :selectStation="selectPlace"></VKakaoMap>
-  </div>
-  <!-- select list -->
-  <h3>선택한 장소 목록</h3>
-  <div>
-    <div v-for="item in selectList" :key="item.id">
-      <div>{{ item.place_name }}</div>
-      <div>{{ item.address_name }}</div>
-      <button @click="cancelHandler(item.id)">취소</button>
-      <br />
-      <br />
-    </div>
   </div>
 
   <!--button-->
@@ -145,6 +154,39 @@ onMounted(() => {
 </template>
 
 <style scoped>
+#main-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  height: 100vh; /* Set the main container to take the full height of the viewport */
+  margin: 1rem;
+}
+
+#main-container > div {
+  flex: 1; /* Each column takes an equal portion of the available space */
+  text-align: center;
+  margin-left: 2rem;
+  margin-right: 1rem;
+  margin-top: 2rem;
+  margin-down: 2rem;
+}
+#main-container > div:nth-child(1) {
+  flex: 1; /* The first column takes 2 parts of available space */
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+#main-container > div:nth-child(2) {
+  flex: 3; /* The second column takes 1 part of available space */
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+#main-container > div:nth-child(3) {
+  flex: 1; /* The third column takes 3 parts of available space */
+  margin-left: 1rem;
+  margin-right: 2rem;
+}
 h1 {
   text-align: left;
   font-size: 36px;
@@ -297,13 +339,10 @@ h3 {
 
 #searchBox {
   position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  width: 240px;
   padding: 6px 10px;
   background: hsla(0, 0%, 50%, 0.05);
   border-radius: 1000px;
@@ -316,16 +355,16 @@ input {
   background: none;
   outline: none;
 }
+
 #container {
   display: flex;
 }
 
 #map {
-  flex: 1; /* Take up the remaining space */
+  width: 100%; /* Make the width 100% */
+  height: 100vh;
   padding: 10px; /* Adjust padding as needed */
   position: relative;
-  width: 720px;
-  height: 720px;
   margin-bottom: 25px;
   background-repeat: no-repeat;
   background-repeat-x: no-repeat;
@@ -343,11 +382,18 @@ input {
 }
 
 #list_item {
+  display: flex;
+  justify-content: space-between;
   width: 340px;
   padding: 5px 0;
   margin-left: 16px;
   /* cursor: pointer; */
-  padding: 9px 20px 9px 0;
+  padding: 9px 9px 9px 0;
+}
+
+#list_text{
+  display: flex;
+  flex-direction: column;
 }
 
 /* #full_bg {
