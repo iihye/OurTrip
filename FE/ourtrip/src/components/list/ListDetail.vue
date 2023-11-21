@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
+import VKakaoMap from "../common/VKakaoMap.vue";
 import { useMemberStore } from "@/stores/user";
 import { useListStore } from "@/stores/list";
 import { useShareStore } from "@/stores/share";
@@ -30,6 +31,8 @@ const listno = ref(route.params.listno);
 const places = ref([]);
 const listDetailInfo = ref({});
 const userId = ref("");
+const placeArray = ref([]);
+const selectPlace = ref({});
 
 const isCheckUserId = ref(true);
 const isFindOurShare = ref(true);
@@ -50,6 +53,18 @@ const getListDetail = async () => {
 const getPlaceList = async () => {
   await placeList(listno.value);
   places.value = placeRes.value;
+  placeArray.value = places.value.map((item) => {
+    return {
+      address_name: item.placeAddressName,
+      id: item.placeId,
+      phone: item.placePhone,
+      place_name: item.placeName,
+      place_url: item.placeUrl,
+      road_address_name: item.placeRoadAddressName,
+      x: item.placeX,
+      y: item.placeY,
+    };
+  });
 };
 
 const shareHandler = async () => {
@@ -153,8 +168,12 @@ const del = async (item) => {
 </script>
 
 <template>
-  <h1>{{ listInfo.listName }}</h1>
-
+  <h1>{{ listDetailInfo.listName }}</h1>
+  <VKakaoMap
+    id="map"
+    :stations="placeArray"
+    :selectStation="selectPlace"
+  ></VKakaoMap>
   <template v-for="place in places" :key="place.placeNo">
     <li>{{ place.placeUrl }}</li>
     <li>{{ place.placeName }}</li>
