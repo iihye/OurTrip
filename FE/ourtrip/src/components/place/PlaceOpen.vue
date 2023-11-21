@@ -10,7 +10,6 @@ const placeStore = usePlaceStore();
 const { VITE_APP_SERVER_URI } = import.meta.env;
 
 const { listInfo } = storeToRefs(placeStore);
-
 const selectIsOpen = ref(false);
 
 const openButtonHandler = () => {
@@ -21,6 +20,7 @@ const saveButtonHandler = async () => {
   listInfo.value = { ...listInfo.value, list_open: selectIsOpen.value };
   const listNo = await registerList();
   registerPlace(listNo);
+  resetListInfo();
   router.push({ name: "list-my" });
 };
 
@@ -52,6 +52,7 @@ const registerPlace = async (listNo) => {
       placePhone: place_info.phone,
       placeX: place_info.x,
       placeY: place_info.y,
+      placeId: place_info.id,
       listNo,
     };
   });
@@ -61,6 +62,10 @@ const registerPlace = async (listNo) => {
   };
   const data = places;
   await axios.post(url, data, headers);
+};
+
+const resetListInfo = () => {
+  listInfo.value = {};
 };
 </script>
 

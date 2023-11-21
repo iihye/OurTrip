@@ -1,15 +1,37 @@
-import { ref } from "vue";
-import { defineStore } from "pinia";
-import { myListApi, shareListApi, openListApi, placesApi, findIdApi } from "@/api/list";
-import { httpStatusCode } from "@/util/http-status";
+import { ref } from 'vue';
+import { defineStore } from 'pinia';
+import {
+  myListApi,
+  shareListApi,
+  openListApi,
+  listDetailApi,
+  placesApi,
+  findIdApi,
+} from '@/api/list';
+import { httpStatusCode } from '@/util/http-status';
 
 export const useListStore = defineStore('listStore', () => {
   const myListRes = ref([]);
   const shareListRes = ref([]);
   const openListRes = ref([]);
+  const listDetailRes = ref({});
   const placeRes = ref([]);
-
   const findIdRes = ref([]);
+
+  const listDetail = async (listno) => {
+    await listDetailApi(
+      listno,
+      (response) => {
+        console.log(response);
+        if (response.status === httpStatusCode.OK) {
+          listDetailRes.value = response.data;
+        }
+      },
+      async (error) => {
+        console.log('[error] loading listDetail...');
+      }
+    );
+  };
 
   const placeList = async (listno) => {
     await placesApi(
@@ -23,7 +45,7 @@ export const useListStore = defineStore('listStore', () => {
       },
       async (error) => {
         // console.log(error);
-        console.log('[error] loading detail...');
+        console.log('[error] loading placeList...');
       }
     );
   };
@@ -98,11 +120,13 @@ export const useListStore = defineStore('listStore', () => {
     myListRes,
     shareListRes,
     openListRes,
+    listDetailRes,
     placeRes,
     findIdRes,
     myList,
     shareList,
     openList,
+    listDetail,
     placeList,
     findId,
   };
