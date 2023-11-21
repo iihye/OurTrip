@@ -114,7 +114,6 @@ const visible = () => {
             :type="isVisible ? 'text' : 'password'"
             @keydown="pwCheck"
             :messages="userPwMessage"
-            style="ime-mode: inactive"
           >
             <template v-slot:prepend-inner>
               <font-awesome-icon :icon="['fas', 'lock']" style="color: #787878" />
@@ -131,7 +130,7 @@ const visible = () => {
         </div>
 
         <div class="form-wrapper">
-          <v-text-field label="닉네임" v-model="updateUser.userName" variant="underlined" style="ime-mode: active">
+          <v-text-field label="닉네임" v-model="updateUser.userName" variant="underlined">
             <template v-slot:prepend-inner>
               <font-awesome-icon :icon="['fas', 'signature']" style="color: #787878" />
             </template>

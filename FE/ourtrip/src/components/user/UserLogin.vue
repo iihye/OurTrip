@@ -60,7 +60,7 @@ const visible = () => {
     <form class="form">
       <v-container>
         <div class="form-wrapper">
-          <v-text-field label="아이디" v-model="loginUser.userId" variant="underlined" style="ime-mode: inactive">
+          <v-text-field label="아이디" v-model="loginUser.userId" variant="underlined">
             <template v-slot:prepend-inner>
               <font-awesome-icon :icon="['fas', 'user']" style="color: #787878" />
             </template>
@@ -73,7 +73,6 @@ const visible = () => {
             v-model="loginUser.userPw"
             variant="underlined"
             :type="isVisible ? 'text' : 'password'"
-            style="ime-mode: inactive"
           >
             <template v-slot:prepend-inner>
               <font-awesome-icon :icon="['fas', 'lock']" style="color: #787878" />
