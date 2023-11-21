@@ -114,7 +114,7 @@ const visible = () => {
             variant="underlined"
             :type="isVisible ? 'text' : 'password'"
             @keydown="pwCheck"
-            :messages="userPwMessage === '' ? '4~30자 비밀번호를 입력해주세요😊' : userIdMessage"
+            :messages="userPwMessage === '' ? '4~30자 비밀번호를 입력해주세요😊' : userPwMessage"
             style="ime-mode: inactive"
           >
             <template v-slot:prepend-inner>

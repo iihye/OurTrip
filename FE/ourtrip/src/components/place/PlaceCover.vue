@@ -72,7 +72,9 @@ const nextButtonHandler = () => {
         v-model="searchKeyword"
         variant="underlined"
         style="font-size: 1.5rem"
-        placeholder="키워드를 입력해주세요"
+        placeholder="키워드 입력"
+        @blur="searchHandler"
+        message="키워드 입력 후 엔터를 눌러주세요"
         required
       />
       <span class="text-span"></span>

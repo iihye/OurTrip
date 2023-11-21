@@ -24,39 +24,6 @@ const fetch = async () => {
   await getUserInfo(sessionStorage.getItem('accessToken'));
 };
 
-const openButtonHandler = () => {
-  selectIsOpen.value = true;
-};
-
-const closeButtonHandler = () => {
-  selectIsOpen.value = false;
-};
-
-const saveButtonHandler = async () => {
-  listInfo.value = { ...listInfo.value, list_open: selectIsOpen.value };
-  const listNo = await registerList();
-  registerPlace(listNo);
-  resetListInfo();
-  router.push({ name: 'list-my' });
-};
-
-const registerList = async () => {
-  const list_info = listInfo.value;
-  const url = `${VITE_APP_SERVER_URI}/list/register`;
-  const headers = {
-    'Content-Type': 'application/json',
-  };
-  const data = {
-    listName: list_info.list_name,
-    listImg: list_info.list_img,
-    listOpen: list_info.list_open,
-    userId: userInfo.value.userId,
-  };
-
-  const response = await axios.post(url, data, headers);
-  return response.data.listNo;
-};
-
 const registerPlace = async (listNo) => {
   const list_places = listInfo.value.list_places;
   const places = list_places.map((place_info) => {
@@ -82,6 +49,68 @@ const registerPlace = async (listNo) => {
 
 const resetListInfo = () => {
   listInfo.value = {};
+};
+
+const openButtonHandler = () => {
+  selectIsOpen.value = true;
+};
+
+const closeButtonHandler = () => {
+  selectIsOpen.value = false;
+};
+
+const saveButtonHandler = async () => {
+  const _registerList = async () => {
+    const list_info = listInfo.value;
+    const url = `${VITE_APP_SERVER_URI}/list/register`;
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+    const data = {
+      listName: list_info.list_name,
+      listImg: list_info.list_img,
+      listOpen: list_info.list_open,
+      userId: userInfo.value.userId,
+    };
+
+    const response = await axios.post(url, data, headers);
+    return response.data.listNo;
+  };
+
+  listInfo.value = { ...listInfo.value, list_open: selectIsOpen.value };
+  const listNo = await _registerList();
+  registerPlace(listNo);
+  resetListInfo();
+  router.push({ name: 'list-my' });
+};
+
+const modifyButtonHandler = () => {
+  const listNo = listInfo.value.list_no;
+  const _deletePlaces = async (listNo) => {
+    const url = `${VITE_APP_SERVER_URI}/place/delete/${listNo}`;
+    await axios.delete(url);
+  };
+
+  const _modifyList = async () => {
+    const url = `${VITE_APP_SERVER_URI}/list/modify`;
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+    const data = {
+      listNo: listInfo.value.list_no,
+      listName: listInfo.value.list_name,
+      listImg: listInfo.value.list_img,
+      listOpen: listInfo.value.listOpen,
+      userId: listInfo.value.user_id,
+    };
+    await axios.put(url, data, headers);
+  };
+
+  _deletePlaces(listNo);
+  _modifyList();
+  registerPlace(listNo);
+  resetListInfo();
+  router.push({ name: 'list-my' });
 };
 </script>
 
@@ -134,7 +163,26 @@ const resetListInfo = () => {
   <!--button-->
   <container class="btn-container">
     <div class="btn-handler">
-      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="saveButtonHandler"> 저장하기 </v-btn>
+      <v-btn
+        v-if="listInfo.isModifyMode == undefined"
+        class="btn"
+        size="large"
+        variant="flat"
+        rounded="xl"
+        @click="saveButtonHandler"
+      >
+        저장하기
+      </v-btn>
+      <v-btn
+        v-else="listInfo.isModifyMode == true"
+        class="btn"
+        size="large"
+        variant="flat"
+        rounded="xl"
+        @click="modifyButtonHandler"
+      >
+        수정하기
+      </v-btn>
     </div>
   </container>
 </template>

@@ -1,12 +1,13 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { storeToRefs } from 'pinia';
-import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
-import { useMemberStore } from '@/stores/user';
-import { useListStore } from '@/stores/list';
-import { useShareStore } from '@/stores/share';
-import { usePlaceStore } from '@/stores/place';
+import { ref, onMounted } from "vue";
+import { storeToRefs } from "pinia";
+import { useRoute, useRouter } from "vue-router";
+import axios from "axios";
+import VKakaoMap from "../common/VKakaoMap.vue";
+import { useMemberStore } from "@/stores/user";
+import { useListStore } from "@/stores/list";
+import { useShareStore } from "@/stores/share";
+import { usePlaceStore } from "@/stores/place";
 
 const route = useRoute();
 const router = useRouter();
@@ -29,10 +30,14 @@ const { VITE_APP_SERVER_URI } = import.meta.env;
 const listno = ref(route.params.listno);
 const places = ref([]);
 const listDetailInfo = ref({});
-const userId = ref('');
+const userId = ref("");
+const placeArray = ref([]);
+const selectPlace = ref({});
+
 const isCheckUserId = ref(true);
 const isFindOurShare = ref(true);
 const isShare = ref(false);
+const isModifyMode = ref(false);
 
 onMounted(() => {
   getListDetail();
@@ -48,26 +53,38 @@ const getListDetail = async () => {
 const getPlaceList = async () => {
   await placeList(listno.value);
   places.value = placeRes.value;
+  placeArray.value = places.value.map((item) => {
+    return {
+      address_name: item.placeAddressName,
+      id: item.placeId,
+      phone: item.placePhone,
+      place_name: item.placeName,
+      place_url: item.placeUrl,
+      road_address_name: item.placeRoadAddressName,
+      x: item.placeX,
+      y: item.placeY,
+    };
+  });
 };
 
 const shareHandler = async () => {
   isShare.value = !isShare.value;
 };
 
-console.log(isShare.value);
-
 const deleteHandler = async (listNo) => {
   const url = `${VITE_APP_SERVER_URI}/list/delete/${listNo}`;
   const response = await axios.delete(url);
   if (response.status === 200) {
-    router.push({ name: 'list-my' });
+    router.push({ name: "list-my" });
   } else {
-    alert('삭제 오류');
+    alert("삭제 오류");
   }
 };
 
 const modifyHandler = () => {
+  isModifyMode.value = true;
   listInfo.value = {
+    isModifyMode: isModifyMode.value,
     list_img: listDetailInfo.value.listImg,
     list_name: listDetailInfo.value.listName,
     list_open: listDetailInfo.value.listOpen,
@@ -86,40 +103,46 @@ const modifyHandler = () => {
       };
     }),
   };
-  router.push({ name: 'place-location' });
+  router.push({ name: "place-location" });
 };
 
-const message = ref('');
+const message = ref("");
 
 const searchParam = ref({
-  userId: '',
+  userId: "",
   listNo: listno.value,
 });
 
 const addParam = ref({
-  userId: '',
+  userId: "",
   listNo: listno.value,
 });
 
 const delParam = ref({
-  userId: '',
+  userId: "",
   listNo: listno.value,
 });
 
 const find = async () => {
-  if (searchParam.value.userId !== undefined && searchParam.value.userId.length >= 2) {
-    message.value = '검색되었습니다☺️';
+  if (
+    searchParam.value.userId !== undefined &&
+    searchParam.value.userId.length >= 2
+  ) {
+    message.value = "검색되었습니다☺️";
     await findShare(searchParam.value);
 
     if (findShareRes.value.length > 0) {
-      const sum = findShareRes.value.reduce((total, item) => total + item.status, 0);
+      const sum = findShareRes.value.reduce(
+        (total, item) => total + item.status,
+        0
+      );
       isCheckUserId.value = sum > 0;
     } else {
       isCheckUserId.value = false;
-      message.value = '';
+      message.value = "";
     }
   } else {
-    message.value = '두 글자 이상 검색해주세요😥';
+    message.value = "두 글자 이상 검색해주세요😥";
   }
 };
 
@@ -145,8 +168,12 @@ const del = async (item) => {
 </script>
 
 <template>
-  <h1>{{ listInfo.listName }}</h1>
-
+  <h1>{{ listDetailInfo.listName }}</h1>
+  <VKakaoMap
+    id="map"
+    :stations="placeArray"
+    :selectStation="selectPlace"
+  ></VKakaoMap>
   <template v-for="place in places" :key="place.placeNo">
     <li>{{ place.placeUrl }}</li>
     <li>{{ place.placeName }}</li>
@@ -155,13 +182,34 @@ const del = async (item) => {
 
   <div v-if="userInfo !== null && userInfo.userId === listDetailInfo.userId">
     <div class="btn-container">
-      <v-btn id="btn-handler" size="large" variant="flat" rounded="xl" color="black" @click="shareHandler()">
+      <v-btn
+        id="btn-handler"
+        size="large"
+        variant="flat"
+        rounded="xl"
+        color="black"
+        @click="shareHandler()"
+      >
         공유
       </v-btn>
-      <v-btn id="btn-handler" size="large" variant="flat" rounded="xl" color="black" @click="modifyHandler(listno)">
+      <v-btn
+        id="btn-handler"
+        size="large"
+        variant="flat"
+        rounded="xl"
+        color="black"
+        @click="modifyHandler(listno)"
+      >
         수정
       </v-btn>
-      <v-btn id="btn-handler" size="large" variant="flat" rounded="xl" color="black" @click="deleteHandler(listno)">
+      <v-btn
+        id="btn-handler"
+        size="large"
+        variant="flat"
+        rounded="xl"
+        color="black"
+        @click="deleteHandler(listno)"
+      >
         삭제
       </v-btn>
     </div>
@@ -169,8 +217,12 @@ const del = async (item) => {
     <div v-if="isShare" class="sharing-container">
       <div class="left-container">
         <h2>
-          <font-awesome-icon :icon="['fas', 'share']" size="" style="color: #787878" class="empty-h1" /><br />어떤
-          사람과 공유할까요?
+          <font-awesome-icon
+            :icon="['fas', 'share']"
+            size=""
+            style="color: #787878"
+            class="empty-h1"
+          /><br />어떤 사람과 공유할까요?
         </h2>
         <div class="form-wrapper">
           <v-text-field
@@ -181,13 +233,21 @@ const del = async (item) => {
             :messages="message"
           >
             <template v-slot:prepend-inner>
-              <font-awesome-icon :icon="['fas', 'user']" style="color: #787878" />
+              <font-awesome-icon
+                :icon="['fas', 'user']"
+                style="color: #787878"
+              />
             </template>
           </v-text-field>
         </div>
 
         <div class="empty-center" v-if="!isCheckUserId">
-          <font-awesome-icon :icon="['fas', 'list']" size="2xl" style="color: #787878" class="empty-h1" />
+          <font-awesome-icon
+            :icon="['fas', 'list']"
+            size="2xl"
+            style="color: #787878"
+            class="empty-h1"
+          />
           <h4>검색 결과가 없어요😥</h4>
         </div>
 
@@ -195,7 +255,15 @@ const del = async (item) => {
           <template v-for="list in findShareRes" :key="list.user_id">
             <div v-if="list.status == true" class="shared-user">
               <h4>{{ list.user_id }}</h4>
-              <v-btn size="large" variant="flat" rounded="xl" color="black" @click="add(list.user_id)"> 추가 </v-btn>
+              <v-btn
+                size="large"
+                variant="flat"
+                rounded="xl"
+                color="black"
+                @click="add(list.user_id)"
+              >
+                추가
+              </v-btn>
             </div>
           </template>
         </div>
@@ -203,13 +271,25 @@ const del = async (item) => {
 
       <div class="right-container">
         <h2>
-          <font-awesome-icon :icon="['fas', 'list-ul']" size="" style="color: #787878" class="empty-h1" /><br />공유하고
-          있어요!
+          <font-awesome-icon
+            :icon="['fas', 'list-ul']"
+            size=""
+            style="color: #787878"
+            class="empty-h1"
+          /><br />공유하고 있어요!
         </h2>
         <template v-for="item in findOurShareRes" :key="item">
           <div class="shared-user">
             <h4>{{ item }}</h4>
-            <v-btn size="large" variant="flat" rounded="xl" color="black" @click="del(item)"> 삭제 </v-btn>
+            <v-btn
+              size="large"
+              variant="flat"
+              rounded="xl"
+              color="black"
+              @click="del(item)"
+            >
+              삭제
+            </v-btn>
           </div>
         </template>
       </div>
@@ -225,7 +305,7 @@ h1 {
 }
 
 h2 {
-  font-family: 'Pretendard-Regular';
+  font-family: "Pretendard-Regular";
   text-align: center;
   font-size: 28px;
   padding: 30px;
