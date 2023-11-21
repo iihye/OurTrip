@@ -1,12 +1,12 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import { storeToRefs } from "pinia";
-import { useRoute, useRouter } from "vue-router";
-import axios from "axios";
-import { useMemberStore } from "@/stores/user";
-import { useListStore } from "@/stores/list";
-import { useShareStore } from "@/stores/share";
-import { usePlaceStore } from "@/stores/place";
+import { ref, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useRoute, useRouter } from 'vue-router';
+import axios from 'axios';
+import { useMemberStore } from '@/stores/user';
+import { useListStore } from '@/stores/list';
+import { useShareStore } from '@/stores/share';
+import { usePlaceStore } from '@/stores/place';
 
 const route = useRoute();
 const router = useRouter();
@@ -29,9 +29,10 @@ const { VITE_APP_SERVER_URI } = import.meta.env;
 const listno = ref(route.params.listno);
 const places = ref([]);
 const listDetailInfo = ref({});
-const userId = ref("");
+const userId = ref('');
 const isCheckUserId = ref(true);
 const isFindOurShare = ref(true);
+const isShare = ref(false);
 
 onMounted(() => {
   getListDetail();
@@ -49,13 +50,19 @@ const getPlaceList = async () => {
   places.value = placeRes.value;
 };
 
+const shareHandler = async () => {
+  isShare.value = !isShare.value;
+};
+
+console.log(isShare.value);
+
 const deleteHandler = async (listNo) => {
   const url = `${VITE_APP_SERVER_URI}/list/delete/${listNo}`;
   const response = await axios.delete(url);
   if (response.status === 200) {
-    router.push({ name: "list-my" });
+    router.push({ name: 'list-my' });
   } else {
-    alert("삭제 오류");
+    alert('삭제 오류');
   }
 };
 
@@ -79,29 +86,29 @@ const modifyHandler = () => {
       };
     }),
   };
-  router.push({ name: "place-location" });
+  router.push({ name: 'place-location' });
 };
 
-const message = ref(""); 
+const message = ref('');
 
 const searchParam = ref({
-  userId: "",
+  userId: '',
   listNo: listno.value,
 });
 
 const addParam = ref({
-  userId: "",
+  userId: '',
   listNo: listno.value,
 });
 
 const delParam = ref({
-  userId: "",
+  userId: '',
   listNo: listno.value,
 });
 
 const find = async () => {
   if (searchParam.value.userId !== undefined && searchParam.value.userId.length >= 2) {
-    message.value = "검색되었습니다☺️";
+    message.value = '검색되었습니다☺️';
     await findShare(searchParam.value);
 
     if (findShareRes.value.length > 0) {
@@ -109,10 +116,10 @@ const find = async () => {
       isCheckUserId.value = sum > 0;
     } else {
       isCheckUserId.value = false;
-      message.value = "";
+      message.value = '';
     }
   } else {
-    message.value = "두 글자 이상 검색해주세요😥";
+    message.value = '두 글자 이상 검색해주세요😥';
   }
 };
 
@@ -145,55 +152,67 @@ const del = async (item) => {
     <li>{{ place.placeName }}</li>
     <li>{{ place.placePhone }}</li>
   </template>
-  <button @click="deleteHandler(listno)">삭제</button>
-  <button @click="modifyHandler(listno)">수정</button>
 
-  <div v-if="userInfo.userId === listDetailInfo.userId" class="sharing-container">
-    <div class="left-container">
-      <h2>
-        <font-awesome-icon :icon="['fas', 'share']" size="" style="color: #787878" class="empty-h1" /><br />어떤 사람과
-        공유할까요?
-      </h2>
-      <div class="form-wrapper">
-        <v-text-field
-          label="아이디 검색"
-          v-model="searchParam.userId"
-          @blur="find"
-          variant="underlined"
-          :messages="message"
-        >
-          <template v-slot:prepend-inner>
-            <font-awesome-icon :icon="['fas', 'user']" style="color: #787878" />
+  <div v-if="userInfo !== null && userInfo.userId === listDetailInfo.userId">
+    <div class="btn-container">
+      <v-btn id="btn-handler" size="large" variant="flat" rounded="xl" color="black" @click="shareHandler()">
+        공유
+      </v-btn>
+      <v-btn id="btn-handler" size="large" variant="flat" rounded="xl" color="black" @click="modifyHandler(listno)">
+        수정
+      </v-btn>
+      <v-btn id="btn-handler" size="large" variant="flat" rounded="xl" color="black" @click="deleteHandler(listno)">
+        삭제
+      </v-btn>
+    </div>
+
+    <div v-if="isShare" class="sharing-container">
+      <div class="left-container">
+        <h2>
+          <font-awesome-icon :icon="['fas', 'share']" size="" style="color: #787878" class="empty-h1" /><br />어떤
+          사람과 공유할까요?
+        </h2>
+        <div class="form-wrapper">
+          <v-text-field
+            label="아이디 검색"
+            v-model="searchParam.userId"
+            @keydown="find"
+            variant="underlined"
+            :messages="message"
+          >
+            <template v-slot:prepend-inner>
+              <font-awesome-icon :icon="['fas', 'user']" style="color: #787878" />
+            </template>
+          </v-text-field>
+        </div>
+
+        <div class="empty-center" v-if="!isCheckUserId">
+          <font-awesome-icon :icon="['fas', 'list']" size="2xl" style="color: #787878" class="empty-h1" />
+          <h4>검색 결과가 없어요😥</h4>
+        </div>
+
+        <div class="list-container">
+          <template v-for="list in findShareRes" :key="list.user_id">
+            <div v-if="list.status == true" class="shared-user">
+              <h4>{{ list.user_id }}</h4>
+              <v-btn size="large" variant="flat" rounded="xl" color="black" @click="add(list.user_id)"> 추가 </v-btn>
+            </div>
           </template>
-        </v-text-field>
+        </div>
       </div>
 
-      <div class="empty-center" v-if="!isCheckUserId">
-        <font-awesome-icon :icon="['fas', 'list']" size="2xl" style="color: #787878" class="empty-h1" />
-        <h4>검색 결과가 없어요😥</h4>
-      </div>
-
-      <div class="list-container">
-        <template v-for="list in findShareRes" :key="list.user_id">
-          <div v-if="list.status == true" class="shared-user">
-            <h4>{{ list.user_id }}</h4>
-            <v-btn size="large" variant="flat" rounded="xl" color="black" @click="add(list.user_id)"> 추가 </v-btn>
+      <div class="right-container">
+        <h2>
+          <font-awesome-icon :icon="['fas', 'list-ul']" size="" style="color: #787878" class="empty-h1" /><br />공유하고
+          있어요!
+        </h2>
+        <template v-for="item in findOurShareRes" :key="item">
+          <div class="shared-user">
+            <h4>{{ item }}</h4>
+            <v-btn size="large" variant="flat" rounded="xl" color="black" @click="del(item)"> 삭제 </v-btn>
           </div>
         </template>
       </div>
-    </div>
-
-    <div class="right-container">
-      <h2>
-        <font-awesome-icon :icon="['fas', 'list-ul']" size="" style="color: #787878" class="empty-h1" /><br />공유하고
-        있어요!
-      </h2>
-      <template v-for="item in findOurShareRes" :key="item">
-        <div class="shared-user">
-          <h4>{{ item }}</h4>
-          <v-btn size="large" variant="flat" rounded="xl" color="black" @click="del(item)"> 삭제 </v-btn>
-        </div>
-      </template>
     </div>
   </div>
 </template>
@@ -221,26 +240,31 @@ h2 {
 
 .list-container {
 }
+.btn-container {
+  display: flex;
+  justify-content: center;
+}
 .sharing-container {
   display: flex;
   justify-content: space-between;
   margin-left: 10rem;
   margin-right: 10rem;
+  margin-top: 2rem;
 }
 
 .left-container {
-  flex: 1.5;
+  flex: 1;
   padding: 20px;
   border-right: 1px solid #ccc; /* Add a border between the two containers */
-  margin-left: 10rem;
-  margin-right: 10rem;
+  margin-left: 2rem;
+  margin-right: 1rem;
 }
 
 .right-container {
   flex: 1;
   padding: 20px;
-  padding-left: 10rem;
-  padding-right: 10rem;
+  margin-left: 1rem;
+  margin-right: 2rem;
 }
 
 .shared-user {
@@ -258,5 +282,9 @@ h2 {
 
 .v-btn {
   font-size: 18px;
+}
+
+#btn-handler {
+  margin: 1rem;
 }
 </style>
