@@ -17,6 +17,7 @@ const { placeList } = listStore;
 const memberStore = useMemberStore();
 const shareStore = useShareStore();
 
+const { userInfo } = storeToRefs(memberStore);
 const { findShareRes, findOurShareRes } = storeToRefs(shareStore);
 const { addShare, findShare, findOurShare, delShare } = shareStore;
 
@@ -121,7 +122,7 @@ const del = async (item) => {
   </template>
   <button @click="deleteHandler(listno)">삭제</button>
 
-  <div class="sharing-container">
+  <div v-if="userInfo.userId === listDetailInfo.userId" class="sharing-container">
     <div class="left-container">
       <h2>
         <font-awesome-icon :icon="['fas', 'share']" size="" style="color: #787878" class="empty-h1" /><br />어떤 사람과
