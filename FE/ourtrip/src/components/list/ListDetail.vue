@@ -298,9 +298,6 @@ h2 {
 .empty-center {
   text-align: center;
 }
-
-.list-container {
-}
 .btn-container {
   display: flex;
   justify-content: center;

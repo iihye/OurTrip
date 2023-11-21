@@ -43,7 +43,7 @@ const find = async () => {
     <form class="form">
       <v-container>
         <div class="form-wrapper">
-          <v-text-field label="아이디" v-model="findUser.userId" variant="underlined" style="ime-mode: inactive">
+          <v-text-field label="아이디" v-model="findUser.userId" variant="underlined">
             <template v-slot:prepend-inner>
               <font-awesome-icon :icon="['fas', 'user']" style="color: #787878" />
             </template>
@@ -51,7 +51,7 @@ const find = async () => {
         </div>
 
         <div class="form-wrapper">
-          <v-text-field label="닉네임" v-model="findUser.userName" variant="underlined" style="ime-mode: active">
+          <v-text-field label="닉네임" v-model="findUser.userName" variant="underlined">
             <template v-slot:prepend-inner>
               <font-awesome-icon :icon="['fas', 'signature']" style="color: #787878" />
             </template>
