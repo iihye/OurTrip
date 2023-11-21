@@ -12,7 +12,7 @@ import Footer from '@/components/common/Footer.vue';
       </h1>
     </div>
     <div id="footer-btn-container">
-      <v-btn size="x-large" variant="outlined" rounded="xl" width="400"> 시작하기 </v-btn>
+      <v-btn id="footer-btn" size="x-large" variant="outlined" rounded="xl" width="400"> 시작하기 </v-btn>
     </div>
     <div>
       <img id="super-img1" src="@/assets/img/main1.png" alt="main-img1" width="700" />
@@ -69,6 +69,10 @@ import Footer from '@/components/common/Footer.vue';
     </div>
   </container>
 
+  <div id="parent-container">
+    <font-awesome-icon :icon="['fas', 'chevron-down']" style="color: #787878" />
+  </div>
+
   <!--container 3!-->
   <container id="foot-container">
     <div>
@@ -87,6 +91,9 @@ import Footer from '@/components/common/Footer.vue';
   width: 70%;
   height: 200px;
   overflow: hidden;
+}
+.v-btn{
+  font-size: 20px;
 }
 #main-img1 {
   max-width: 100%;
@@ -173,6 +180,10 @@ hr {
   text-align: center;
   padding: 30px;
   margin-bottom: 200px;
+}
+#footer-btn:hover{
+  background-color: black;
+  color: white;
 }
 #foot-text {
   width: 100%;

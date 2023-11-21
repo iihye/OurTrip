@@ -21,12 +21,12 @@ const isVisible = ref(false);
 
 const login = async () => {
   if (loginUser.value.userId === '') {
-    alert("아이디를 입력해주세요");
+    alert('앗! 아이디를 입력해주세요😥');
     return;
   }
 
   if (loginUser.value.userPw === '') {
-    alert("비밀번호를 입력해주세요");
+    alert('앗! 비밀번호를 입력해주세요😥');
     return;
   }
 
@@ -34,7 +34,7 @@ const login = async () => {
   let token = sessionStorage.getItem('accessToken');
   //   console.log('token', token);
   if (isLogin.value) {
-    alert('환영합니다☺️');
+    alert('반가워요! OURTRIP과 PLACELIST를 만들어보세요✈️');
     getUserInfo(token);
     changeMenuState();
     router.push('/');
@@ -46,7 +46,7 @@ const login = async () => {
 
 const find = async () => {
   router.push({ name: 'user-find' });
-}
+};
 
 const visible = () => {
   isVisible.value = !isVisible.value;
@@ -60,33 +60,44 @@ const visible = () => {
     <form class="form">
       <v-container>
         <div class="form-wrapper">
-            <v-text-field label="아이디" v-model="loginUser.userId" variant="underlined">
+          <v-text-field label="아이디" v-model="loginUser.userId" variant="underlined" style="ime-mode: inactive">
             <template v-slot:prepend-inner>
-              <font-awesome-icon :icon="['fas', 'user']" style="color: #787878;" />
+              <font-awesome-icon :icon="['fas', 'user']" style="color: #787878" />
             </template>
-            </v-text-field>
-            
-          </div>
+          </v-text-field>
+        </div>
 
         <div class="form-wrapper">
-          <v-text-field label="비밀번호" v-model="loginUser.userPw" variant="underlined" 
-          :type="isVisible ? 'text' : 'password'" >
+          <v-text-field
+            label="비밀번호"
+            v-model="loginUser.userPw"
+            variant="underlined"
+            :type="isVisible ? 'text' : 'password'"
+            style="ime-mode: inactive"
+          >
             <template v-slot:prepend-inner>
-              <font-awesome-icon :icon="['fas', 'lock']" style="color: #787878;" />
+              <font-awesome-icon :icon="['fas', 'lock']" style="color: #787878" />
             </template>
             <template v-slot:append-inner>
-              <div v-if="!isVisible" @click="visible"><font-awesome-icon :icon="['fas', 'eye']" style="color: #787878;" /></div>
-              <div v-if="isVisible" @click="visible"><font-awesome-icon :icon="['fas', 'eye-slash']" style="color: #787878;" /></div>
-           </template>
+              <div v-if="!isVisible" @click="visible">
+                <font-awesome-icon :icon="['fas', 'eye']" style="color: #787878" />
+              </div>
+              <div v-if="isVisible" @click="visible">
+                <font-awesome-icon :icon="['fas', 'eye-slash']" style="color: #787878" />
+              </div>
+            </template>
           </v-text-field>
         </div>
 
         <div class="footer-btn-container">
-          <v-btn class="custom-btn" size="x-large" variant="flat" color="black" rounded="xl" @click="login"> 로그인 </v-btn>
+          <v-btn class="custom-btn" size="x-large" variant="flat" color="black" rounded="xl" @click="login">
+            로그인
+          </v-btn>
         </div>
 
         <div class="footer-btn-container">
-          <v-btn class="custom-btn" size="x-large" variant="outlined" rounded="xl" @click="find"> 비밀번호 찾기
+          <v-btn class="custom-btn" size="x-large" variant="outlined" rounded="xl" @click="find">
+            비밀번호 찾기
             <!-- <router-link :to="{name: 'user-find'}">비밀번호 찾기</router-link> -->
           </v-btn>
         </div>
@@ -100,7 +111,6 @@ const visible = () => {
     <input v-model="loginUser.userPw" placeholder="비번" />
     <button type="button" @click="login">로그인</button>
   </form> -->
-  
 </template>
 
 <style scoped>
@@ -109,7 +119,7 @@ h1 {
   font-size: 36px;
   padding: 30px;
 }
-.form{
+.form {
   padding: 30px;
   padding-left: 40%;
   padding-right: 40%;
@@ -117,14 +127,14 @@ h1 {
 .form-wrapper {
   display: flex;
   align-items: center;
-  margin-bottom: 16px; 
+  margin-bottom: 16px;
 }
 .footer-btn-container {
   display: flex;
   justify-content: center;
-  margin-top: 16px; 
+  margin-top: 16px;
 }
-.custom-btn{
+.custom-btn {
   width: 400px;
 }
 </style>

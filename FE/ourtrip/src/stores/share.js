@@ -1,10 +1,11 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
-import { addShareApi, findShareApi } from '@/api/share';
+import { addShareApi, findShareApi, findOurShareApi, delShareApi } from '@/api/share';
 import { httpStatusCode } from '@/util/http-status';
 
 export const useShareStore = defineStore('shareStore', () => {
   const findShareRes = ref([]);
+  const findOurShareRes = ref([]);
 
   const addShare = async (param) => {
     // console.log(param);
@@ -32,5 +33,29 @@ export const useShareStore = defineStore('shareStore', () => {
     );
   };
 
-  return { addShare, findShareRes, findShare };
+  const findOurShare = async (param) => {
+    // console.log(param);
+    await findOurShareApi(
+      param,
+      (response) => {
+        findOurShareRes.value = response.data.list;
+      },
+      async (error) => {
+        console.log('[error] find shareList');
+      }
+    );
+  };
+
+  const delShare = async (param) => {
+    console.log('param: ' + param.value);
+    await delShareApi(
+      param,
+      (response) => {},
+      async (error) => {
+        console.log('[error] find shareList');
+      }
+    );
+  };
+
+  return { addShare, findShareRes, findShare, findOurShareRes, findOurShare, delShare };
 });

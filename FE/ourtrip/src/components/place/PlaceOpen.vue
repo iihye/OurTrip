@@ -1,17 +1,28 @@
 <script setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { usePlaceStore } from "@/stores/place";
-import axios from "axios";
-import { storeToRefs } from "pinia";
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { usePlaceStore } from '@/stores/place';
+import axios from 'axios';
+import { storeToRefs } from 'pinia';
+import { useMemberStore } from '@/stores/user';
 
 const router = useRouter();
+const memberStore = useMemberStore();
 const placeStore = usePlaceStore();
 const { VITE_APP_SERVER_URI } = import.meta.env;
 
+const { userInfo } = storeToRefs(memberStore);
+const { getUserInfo } = memberStore;
 const { listInfo } = storeToRefs(placeStore);
-
 const selectIsOpen = ref(false);
+
+onMounted(() => {
+  fetch();
+});
+
+const fetch = async () => {
+  await getUserInfo(sessionStorage.getItem('accessToken'));
+};
 
 const openButtonHandler = () => {
   selectIsOpen.value = true;
@@ -21,6 +32,7 @@ const saveButtonHandler = async () => {
   listInfo.value = { ...listInfo.value, list_open: selectIsOpen.value };
   const listNo = await registerList();
   registerPlace(listNo);
+  resetListInfo();
   router.push({ name: "list-my" });
 };
 
@@ -28,13 +40,13 @@ const registerList = async () => {
   const list_info = listInfo.value;
   const url = `${VITE_APP_SERVER_URI}/list/register`;
   const headers = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   };
   const data = {
     listName: list_info.list_name,
     listImg: list_info.list_img,
     listOpen: list_info.list_open,
-    userId: "test",
+    userId: userInfo.value.userId,
   };
 
   const response = await axios.post(url, data, headers);
@@ -52,15 +64,20 @@ const registerPlace = async (listNo) => {
       placePhone: place_info.phone,
       placeX: place_info.x,
       placeY: place_info.y,
+      placeId: place_info.id,
       listNo,
     };
   });
   const url = `${VITE_APP_SERVER_URI}/place/register`;
   const headers = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   };
   const data = places;
   await axios.post(url, data, headers);
+};
+
+const resetListInfo = () => {
+  listInfo.value = {};
 };
 </script>
 

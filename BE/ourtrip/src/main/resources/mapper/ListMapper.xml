@@ -21,6 +21,7 @@
 		<result column="place_phone" property="placePhone"/>
 		<result column="place_x" property="placeX"/>
 		<result column="place_y" property="placeY"/>
+		<result column="place_id" property="placeId"/>
 		<result column="list_no" property="listNo"/>
 	</resultMap>
 	

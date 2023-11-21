@@ -1,9 +1,11 @@
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useMenuStore } from '@/stores/menu';
 import { storeToRefs } from 'pinia';
 
 const root = ref(`${import.meta.env.VITE_APP_CLIENT_URI}`);
+const router = useRouter();
 const menuStore = useMenuStore();
 
 const { menuList } = storeToRefs(menuStore);
@@ -14,6 +16,8 @@ const logout = () => {
   changeMenuState();
   sessionStorage.removeItem('accessToken');
   sessionStorage.removeItem('refreshToken');
+  router.push({ name: 'home' });
+  window.location.reload();
 };
 </script>
 
@@ -26,7 +30,7 @@ const logout = () => {
 
     <ul class="navbar__menu">
       <li class="nav-item">
-        <router-link :to="{ name: 'place' }" class="nav-link">PLACELIST 만들기</router-link>
+        <router-link :to="{ name: 'place-location' }" class="nav-link">PLACELIST 만들기</router-link>
       </li>
 
       <li class="nav-item">

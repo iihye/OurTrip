@@ -19,6 +19,8 @@ const updateUser = ref({
   userName: '',
 });
 
+const userPwMessage = ref('');
+const isPwCheck = ref(false);
 const isVisible = ref(false);
 
 onMounted(() => {
@@ -32,18 +34,18 @@ const fetch = async () => {
 };
 
 const update = async () => {
-  if (updateUser.value.userId === '') {
-    alert('아이디를 입력해주세요');
-    return;
-  }
-
   if (updateUser.value.userPw === '') {
-    alert('비밀번호를 입력해주세요');
+    alert('앗! 비밀번호를 입력해주세요😥');
     return;
   }
 
   if (updateUser.value.userName === '') {
-    alert('이름을 입력해주세요');
+    alert('앗! 이름을 입력해주세요😥');
+    return;
+  }
+
+  if (!isPwCheck.value) {
+    alert('사용할 수 없는 비밀번호입니다😥');
     return;
   }
 
@@ -61,13 +63,27 @@ const update = async () => {
 const unjoin = async () => {
   await userDelete(updateUser.value.userId);
   if (isDelete.value) {
-    alert('회원탈퇴가 처리되었습니다☺️');
+    alert('회원탈퇴가 처리되었습니다😭');
     changeMenuState(); // logout 처리
     sessionStorage.removeItem('accessTkoen');
     sessionStorage.removeItem('refreshToken');
     router.push({ name: 'home' });
   } else {
     alert('앗! 회원탈퇴를 처리할 수 없어요😥');
+  }
+};
+
+const pwCheck = async () => {
+  if (
+    updateUser.value.userPw !== undefined &&
+    updateUser.value.userPw.length >= 4 &&
+    updateUser.value.userPw.length <= 30
+  ) {
+    userPwMessage.value = '사용할 수 있는 비밀번호예요☺️';
+    isPwCheck.value = true;
+  } else {
+    userPwMessage.value = '앗! 비밀번호를를 4자 이상 30자 이하로 설정해주세요😥';
+    isPwCheck.value = false;
   }
 };
 
@@ -96,6 +112,9 @@ const visible = () => {
             v-model="updateUser.userPw"
             variant="underlined"
             :type="isVisible ? 'text' : 'password'"
+            @blur="pwCheck"
+            :messages="userPwMessage"
+            style="ime-mode: inactive"
           >
             <template v-slot:prepend-inner>
               <font-awesome-icon :icon="['fas', 'lock']" style="color: #787878" />
@@ -112,7 +131,7 @@ const visible = () => {
         </div>
 
         <div class="form-wrapper">
-          <v-text-field label="닉네임" v-model="updateUser.userName" variant="underlined">
+          <v-text-field label="닉네임" v-model="updateUser.userName" variant="underlined" style="ime-mode: active">
             <template v-slot:prepend-inner>
               <font-awesome-icon :icon="['fas', 'signature']" style="color: #787878" />
             </template>

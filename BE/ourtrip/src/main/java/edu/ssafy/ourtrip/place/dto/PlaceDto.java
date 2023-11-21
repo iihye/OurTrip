@@ -14,6 +14,7 @@ import java.math.*;
 @ToString
 public class PlaceDto {
 	private int placeNo;
+	private int placeId;
 	private String placeName;
 	private String placeUrl;
 	private String placeAddressName;
