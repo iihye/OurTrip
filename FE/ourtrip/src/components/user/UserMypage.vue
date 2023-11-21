@@ -112,7 +112,7 @@ const visible = () => {
             v-model="updateUser.userPw"
             variant="underlined"
             :type="isVisible ? 'text' : 'password'"
-            @blur="pwCheck"
+            @keydown="pwCheck"
             :messages="userPwMessage"
             style="ime-mode: inactive"
           >

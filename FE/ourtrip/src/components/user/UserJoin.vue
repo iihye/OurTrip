@@ -96,9 +96,9 @@ const visible = () => {
           <v-text-field
             label="아이디"
             v-model="joinUser.userId"
-            @blur="idCheck"
+            @keydown="idCheck"
             variant="underlined"
-            :messages="userIdMessage"
+            :messages="userIdMessage === '' ? '4~16자 아이디를 입력해주세요😊' : userIdMessage"
             style="ime-mode: inactive"
           >
             <template v-slot:prepend-inner>
@@ -113,8 +113,8 @@ const visible = () => {
             v-model="joinUser.userPw"
             variant="underlined"
             :type="isVisible ? 'text' : 'password'"
-            @blur="pwCheck"
-            :messages="userPwMessage"
+            @keydown="pwCheck"
+            :messages="userPwMessage === '' ? '4~30자 비밀번호를 입력해주세요😊' : userIdMessage"
             style="ime-mode: inactive"
           >
             <template v-slot:prepend-inner>
