@@ -85,6 +85,7 @@ const saveButtonHandler = async () => {
 };
 
 const modifyButtonHandler = () => {
+  const listNo = listInfo.value.list_no;
   const _deletePlaces = async (listNo) => {
     const url = `${VITE_APP_SERVER_URI}/place/delete/${listNo}`;
     await axios.delete(url);
@@ -105,8 +106,9 @@ const modifyButtonHandler = () => {
     await axios.put(url, data, headers);
   };
 
-  _deletePlaces(listInfo.value.list_no);
+  _deletePlaces(listNo);
   _modifyList();
+  registerPlace(listNo);
   resetListInfo();
   router.push({ name: "list-my" });
 };
