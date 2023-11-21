@@ -82,7 +82,7 @@ const pwCheck = async () => {
     userPwMessage.value = '사용할 수 있는 비밀번호예요☺️';
     isPwCheck.value = true;
   } else {
-    userPwMessage.value = '앗! 비밀번호를를 4자 이상 30자 이하로 설정해주세요😥';
+    userPwMessage.value = '앗! 비밀번호를 4자 이상 30자 이하로 설정해주세요😥';
     isPwCheck.value = false;
   }
 };
