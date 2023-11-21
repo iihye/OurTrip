@@ -35,7 +35,6 @@ const searchHandler = async (event) => {
 };
 
 const selectHandler = (item) => {
-  console.log('com');
   const isNotExist = !selectList.value.includes(item);
   if (isNotExist) selectList.value = [...selectList.value, item];
 };
@@ -81,7 +80,10 @@ onMounted(() => {
             stroke-opacity="0.3"
           ></path>
         </svg>
-        <input placeholder="가고 싶은 장소를 검색해주세요." @input="searchHandler" />
+        <input
+          placeholder="가고 싶은 장소를 검색해주세요."
+          @input="searchHandler"
+        />
       </div>
     </form>
     <div id="list_wrap">
@@ -98,7 +100,11 @@ onMounted(() => {
       </div>
     </div>
 
-    <VKakaoMap id="map" :stations="selectList" :selectStation="selectPlace"></VKakaoMap>
+    <VKakaoMap
+      id="map"
+      :stations="selectList"
+      :selectStation="selectPlace"
+    ></VKakaoMap>
     <h3>선택한 장소 목록</h3>
     <div>
       <div v-for="item in selectList" :key="item.id">
