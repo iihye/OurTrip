@@ -27,4 +27,14 @@ public class ShareServiceImpl implements ShareService {
 	public List<ShareDtoRes> find(ShareDto shareDto) throws SQLException {
 		return shareMapper.find(shareDto);
 	}
+
+	@Override
+	public List<String> findOur(ShareDto shareDto) throws SQLException {
+		return shareMapper.findOur(shareDto);
+	}
+
+	@Override
+	public void del(ShareDto shareDto) throws SQLException {
+		shareMapper.del(shareDto);
+	}
 }
