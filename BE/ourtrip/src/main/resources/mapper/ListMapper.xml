@@ -50,7 +50,7 @@
 	</select>
 	
 	<select id="placesByListNo" parameterType="int" resultMap="placeDto">
-		select place_no, place_name, place_url, place_address_name, place_road_address_name,place_phone, place_x, place_y, list_no 
+		select place_no, place_name, place_url, place_address_name, place_road_address_name,place_phone, place_x, place_y, place_id, list_no 
 		from place
 		where list_no = #{listNo}
 	</select>

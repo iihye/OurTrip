@@ -49,6 +49,7 @@ create table `place`
     `place_phone` varchar(255) NOT NULL,
     `place_x` varchar(255) NOT NULL,
     `place_y` varchar(255) NOT NULL,
+    `place_id` varchar(255) NOT NULL,
     `list_no` integer NOT NULL,
      CONSTRAINT `place_to_list_list_no_fk` FOREIGN KEY (`list_no`) REFERENCES `list` (`list_no`) ON DELETE CASCADE
 );
