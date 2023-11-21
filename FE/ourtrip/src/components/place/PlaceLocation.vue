@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { usePlaceStore } from '@/stores/place';
@@ -36,9 +36,20 @@ const cancelHandler = (itemId) => {
   selectList.value = selectList.value.filter((item) => item.id !== itemId);
 };
 const nextButtonHandler = () => {
-  listInfo.value = { list_places: selectList.value };
+  listInfo.value = { ...listInfo.value, list_places: selectList.value };
   router.push({ name: 'place-title' });
 };
+
+onMounted(() => {
+  // selectList.value = listInfo.value.list_places;
+  // console.log(listInfo.value);
+  // if (listInfo != {}) {
+  //   console.log("들어옴")
+  //   console.log(listInfo);
+  //   selectList.value = listInfo.value.list_places;
+  // } else {
+  // }
+});
 </script>
 
 <template>

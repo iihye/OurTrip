@@ -6,25 +6,28 @@ import axios from 'axios';
 import { useMemberStore } from '@/stores/user';
 import { useListStore } from '@/stores/list';
 import { useShareStore } from '@/stores/share';
+import { usePlaceStore } from '@/stores/place';
 
 const route = useRoute();
 const router = useRouter();
+
 const listStore = useListStore();
-
-const { listDetailRes, placeRes } = storeToRefs(listStore);
-const { listDetail, placeList } = listStore;
-
+const placeStore = usePlaceStore();
 const memberStore = useMemberStore();
 const shareStore = useShareStore();
 
+const { listDetailRes, placeRes } = storeToRefs(listStore);
+const { listInfo } = storeToRefs(placeStore);
 const { findShareRes } = storeToRefs(shareStore);
+
+const { listDetail, placeList } = listStore;
 const { addShare, findShare } = shareStore;
 
 const { VITE_APP_SERVER_URI } = import.meta.env;
 
 const listno = ref(route.params.listno);
 const places = ref([]);
-const listInfo = ref({});
+const listDetailInfo = ref({});
 const userId = ref('');
 const isCheckUserId = ref(true);
 
@@ -35,15 +38,12 @@ onMounted(() => {
 
 const getListDetail = async () => {
   await listDetail(listno.value);
-  console.log(listDetailRes.value);
-  listInfo.value = listDetailRes.value;
-  console.log(listInfo);
+  listDetailInfo.value = listDetailRes.value;
 };
 
 const getPlaceList = async () => {
   await placeList(listno.value);
   places.value = placeRes.value;
-  console.log(places.value);
 };
 
 const deleteHandler = async (listNo) => {
@@ -57,8 +57,7 @@ const deleteHandler = async (listNo) => {
 };
 
 const modifyHandler = () => {
-  // 온마운트시 listdetail get
-  // places와 함께 listInfo pinia 저장
+  listInfo.value = { ...listDetailInfo.value, list_places: places.value };
   router.push({ name: 'place-location' });
 };
 const param = ref({
