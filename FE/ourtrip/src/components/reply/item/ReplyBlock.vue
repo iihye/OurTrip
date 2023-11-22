@@ -1,9 +1,23 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { storeToRefs } from "pinia";
 import axios, { HttpStatusCode } from "axios";
+import { useMemberStore } from "@/stores/user";
 
 const { VITE_APP_SERVER_URI } = import.meta.env;
 const props = defineProps({ item: Object, getReply: Function });
+
+const memberStore = useMemberStore();
+const { getUserInfo } = memberStore;
+const { userInfo } = storeToRefs(memberStore);
+
+onMounted(() => {
+  fetch();
+});
+
+const fetch = async () => {
+  await getUserInfo(sessionStorage.getItem("accessToken"));
+};
 
 const deleteReplyHandler = async (replyNo) => {
   const url = `${VITE_APP_SERVER_URI}/reply/delete`;
@@ -12,7 +26,7 @@ const deleteReplyHandler = async (replyNo) => {
   };
   const data = {
     replyNo: replyNo,
-    userId: "test",
+    userId: userInfo.value.userId,
   };
   try {
     await axios.delete(url, { headers, data });
