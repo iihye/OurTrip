@@ -87,11 +87,11 @@ const likeSvg = `${VITE_APP_CLIENT_URI}/like.svg`;
             <div id="user_name">{{ props.item.user_id }}</div>
             <div id="content">{{ props.item.reply_content }}</div>
           </div>
-          <img v-if="props.item.reply_like >= 1" height="18" :src="likeSvg" alt="like" />
+          <img v-if="props.item.status == 1" height="18" :src="likeSvg" alt="like" />
         </div>
         <div id="button_wrap">
           <button
-            v-if="props.item.reply_like >= 1"
+            v-if="props.item.status == 1"
             class="button"
             @click="cancelLikeHandler(item.reply_no)"
           >
