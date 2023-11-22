@@ -24,9 +24,9 @@
 		values (#{replyContent}, #{listNo}, #{userId})
 	</insert>
 	
-	<delete id="delete" parameterType="int">
+	<delete id="delete" parameterType="map">
 		delete from reply
-		where reply_no = #{replyNo}
+		where reply_no = #{replyNo} and user_id = #{userId}
 	</delete>
 	
 	<update id="addLike" parameterType="int" >
@@ -47,10 +47,12 @@
 		where reply_no = #{replyNo}
 	</select>
 	
-	<select id="getReply" parameterType="int" resultType="map">
-		select *
-		from reply
-		where list_no = #{listNo}
+	<select id="getReply" parameterType="map" resultType="map">
+		SELECT r.reply_no, r.reply_content, r.reply_datetime, r.reply_like, r.list_no, r.user_id, 
+			case when l.user_id IS NOT NULL THEN true ELSE false END AS status
+		FROM reply r 
+		LEFT JOIN replylike l ON r.reply_no = l.reply_no AND l.user_id = #{userId}
+		WHERE r.list_no = #{listNo}
 	</select>
 	
 	<insert id="addReplyLike" parameterType="map">
@@ -63,9 +65,4 @@
 		where reply_no = #{replyNo} and user_id = #{userId}
 	</delete>
 	
-	<select id="getReplyLike" parameterType="map" resultType="Integer">
-		select count(*)
-		from replylike
-		where reply_no = #{replyNo} and user_id = #{userId}
-	</select>
 </mapper>

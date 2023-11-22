@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.ssafy.ourtrip.reply.dto.LikeDto;
 import edu.ssafy.ourtrip.reply.dto.ReplyDto;
+import edu.ssafy.ourtrip.reply.dto.ReplyGetDto;
+import edu.ssafy.ourtrip.reply.dto.ReplyResDto;
 import edu.ssafy.ourtrip.reply.service.ReplyService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,12 +46,12 @@ public class ReplyController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
-	@DeleteMapping("/delete/{replyNo}")
-	public ResponseEntity<Map<String, Object>> delete(@PathVariable("replyNo") int replyNo){
+	@DeleteMapping("/delete")
+	public ResponseEntity<Map<String, Object>> delete(@RequestBody LikeDto likeDto){
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
-			replyService.delete(replyNo);
+			replyService.delete(likeDto);
 			resultMap.put("message", "삭제 성공");
 			status = HttpStatus.CREATED;
 		} catch(Exception e) {
@@ -64,16 +66,14 @@ public class ReplyController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
-			int cnt = replyService.addLike(likeDto.getReplyNo());
-			System.out.println(cnt);
 			int isAdd = replyService.addReplyLike(likeDto);
-			System.out.println("likeService: " + isAdd);
-			if(cnt > 0) {
-				resultMap.put("message", "좋아요 증가 성공");
-				status = HttpStatus.OK;
-			}
 			if(isAdd > 0) {
+				int cnt = replyService.addLike(likeDto.getReplyNo());
 				resultMap.put("message", "좋아요 입력 성공");
+				status = HttpStatus.OK;
+			} else {
+				resultMap.put("message", "좋아요 입력 실패");
+				status = HttpStatus.FORBIDDEN;
 			}
 		} catch(Exception e) {
 			resultMap.put("message", e.getMessage());
@@ -87,14 +87,14 @@ public class ReplyController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
-			int cnt = replyService.subLike(likeDto.getReplyNo());
 			int isSub = replyService.subReplyLike(likeDto);
-			if(cnt > 0) {
-				resultMap.put("message", "좋아요 감소 성공");
-				status = HttpStatus.OK;
-			}
 			if(isSub > 0) {
-				resultMap.put("message", "좋아요 입력 성공");
+				int cnt = replyService.subLike(likeDto.getReplyNo());
+				resultMap.put("message", "좋아요 취소 성공");
+				status = HttpStatus.OK;
+			}else {
+				resultMap.put("message", "좋아요 취소 실패");
+				status = HttpStatus.FORBIDDEN;
 			}
 		} catch(Exception e) {
 			resultMap.put("message", e.getMessage());
@@ -103,18 +103,13 @@ public class ReplyController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
-	@GetMapping("/getLike")
-	public ResponseEntity<Map<String, Object>> getLike(@RequestBody LikeDto likeDto){
+	@GetMapping("/getLike/{replyNo}")
+	public ResponseEntity<Map<String, Object>> getLike(@PathVariable("replyNo") int replyNo){
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
-			int cnt = replyService.getLike(likeDto.getReplyNo());
-			boolean isLike = false;
-			if(replyService.getReplyLike(likeDto) > 0) {
-				isLike = true;
-			} 
+			int cnt = replyService.getLike(replyNo);
 			resultMap.put("replyLike", cnt);
-			resultMap.put("isLike", isLike);
 			status = HttpStatus.CREATED;
 		} catch(Exception e) {
 			resultMap.put("message", e.getMessage());
@@ -123,12 +118,13 @@ public class ReplyController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
-	@GetMapping("/getReply/{listNo}")
-	public ResponseEntity<Map<String, Object>> getReply(@PathVariable("listNo") int listNo){
+	@PostMapping("/getReply")
+	public ResponseEntity<Map<String, Object>> getReply(@RequestBody ReplyGetDto replyGetDto){
 		Map<String, Object> resultMap = new HashMap<String, Object>();
+		System.out.println(replyGetDto.toString());
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
-			List<ReplyDto> list= replyService.getReply(listNo);
+			List<ReplyResDto> list= replyService.getReply(replyGetDto);
 			resultMap.put("list", list);
 			status = HttpStatus.CREATED;
 		} catch(Exception e) {
