@@ -1,9 +1,16 @@
 <script setup>
 import axios from "axios";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 const { VITE_APP_SERVER_URI } = import.meta.env;
 const props = defineProps({ listNo: Number });
 const replyContent = ref("");
+const replys = ref([]);
+
+const getReply = async () => {
+  const url = `${VITE_APP_SERVER_URI}/reply/getReply/${props.listNo}`;
+  const response = await axios.get(url);
+  replys.value = response.data.list;
+};
 
 const addReplyHandler = async () => {
   const url = `${VITE_APP_SERVER_URI}/reply/regist`;
@@ -31,12 +38,22 @@ const cancelLikeHandler = async (replyNo) => {
   const url = `${VITE_APP_SERVER_URI}/reply/sublike/${replyNo}`;
   const response = await axios.post(url);
 };
+
+onMounted(() => {
+  getReply();
+});
 </script>
 
 <template>
   <h1>Reply</h1>
   <div>listNo {{ listNo }}</div>
-
+  <ul>
+    <li v-for="item in replys">
+      {
+      {{ item }}
+      }
+    </li>
+  </ul>
   <div>
     <button @click="deleteReplyHandler"></button>
   </div>
