@@ -8,6 +8,7 @@ import { useMemberStore } from "@/stores/user";
 import { useListStore } from "@/stores/list";
 import { useShareStore } from "@/stores/share";
 import { usePlaceStore } from "@/stores/place";
+import Reply from "../reply/Reply.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -180,6 +181,7 @@ const del = async (item) => {
     <li>{{ place.placePhone }}</li>
   </template>
 
+  <Reply :listNo="listno"></Reply>
   <div v-if="userInfo !== null && userInfo.userId === listDetailInfo.userId">
     <div class="btn-container">
       <v-btn
