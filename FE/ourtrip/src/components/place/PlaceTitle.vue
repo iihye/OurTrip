@@ -16,13 +16,6 @@ const nextButtonHandler = () => {
 </script>
 
 <template>
-  <!--button-->
-  <container class="btn-container">
-    <div class="btn-handler">
-      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="nextButtonHandler"> 다음으로 </v-btn>
-    </div>
-  </container>
-
   <!--stepper-->
   <div>
     <ol class="c-stepper">
@@ -43,6 +36,13 @@ const nextButtonHandler = () => {
 
   <!--logo-->
   <h1>PLACELIST의 이름을 지어주세요</h1>
+
+  <!--button-->
+  <container class="btn-container">
+    <div class="btn-handler">
+      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="nextButtonHandler"> 다음으로 </v-btn>
+    </div>
+  </container>
 
   <!--input-->
   <form class="form-container">
@@ -235,7 +235,7 @@ h3 {
 .btn-container {
   position: absolute;
   right: 0px;
-  bottom: 0px;
+  top: 0px;
   padding: 3rem;
 }
 .btn-handler {
