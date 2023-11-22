@@ -1,13 +1,20 @@
 <script setup>
-import { ref } from "vue";
-import axios from "axios";
+import { ref } from 'vue';
+import axios from 'axios';
 
 const { VITE_APP_SERVER_URI } = import.meta.env;
 const props = defineProps({ item: Object, getReply: Function });
 
 const deleteReplyHandler = async (replyNo) => {
-  const url = `${VITE_APP_SERVER_URI}/reply/delete/${replyNo}`;
-  await axios.delete(url);
+  const url = `${VITE_APP_SERVER_URI}/reply/delete`;
+  const headers = {
+    'Content-Type': 'application/json',
+  };
+  const data = {
+    replyNo: replyNo,
+    userId: 'test',
+  };
+  await axios.delete(url, { headers, data });
   props.getReply();
 };
 
@@ -36,9 +43,7 @@ const cancelLikeHandler = async (replyNo) => {
         </div>
         <div id="button_wrap">
           <button class="button">좋아요</button>
-          <button class="button" @click="deleteReplyHandler(item.reply_no)">
-            삭제
-          </button>
+          <button class="button" @click="deleteReplyHandler(item.reply_no)">삭제</button>
         </div>
       </div>
     </div>
