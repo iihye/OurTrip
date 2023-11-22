@@ -154,7 +154,6 @@ const findOur = async () => {
 
 const add = async (item) => {
   addParam.value.userId = item;
-  console.log(addParam.value);
   await addShare(addParam.value);
   find();
   findOur();
