@@ -60,9 +60,4 @@ public class ReplyServiceImpl implements ReplyService {
 		return replyMapper.subReplyLike(likeDto);
 	}
 
-	@Override
-	public int getReplyLike(LikeDto likeDto) throws SQLException {
-		return replyMapper.getReplyLike(likeDto);
-	}
-
 }

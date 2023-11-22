@@ -103,18 +103,13 @@ public class ReplyController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
-	@GetMapping("/getLike")
-	public ResponseEntity<Map<String, Object>> getLike(@RequestBody LikeDto likeDto){
+	@GetMapping("/getLike/{replyNo}")
+	public ResponseEntity<Map<String, Object>> getLike(@PathVariable("replyNo") int replyNo){
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
-			int cnt = replyService.getLike(likeDto.getReplyNo());
-			boolean isLike = false;
-			if(replyService.getReplyLike(likeDto) > 0) {
-				isLike = true;
-			} 
+			int cnt = replyService.getLike(replyNo);
 			resultMap.put("replyLike", cnt);
-			resultMap.put("isLike", isLike);
 			status = HttpStatus.CREATED;
 		} catch(Exception e) {
 			resultMap.put("message", e.getMessage());

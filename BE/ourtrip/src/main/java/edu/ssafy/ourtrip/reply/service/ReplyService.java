@@ -16,5 +16,4 @@ public interface ReplyService {
 	
 	int addReplyLike(LikeDto likeDto) throws SQLException;
 	int subReplyLike(LikeDto likeDto) throws SQLException;
-	int getReplyLike(LikeDto likeDto) throws SQLException;
 }
