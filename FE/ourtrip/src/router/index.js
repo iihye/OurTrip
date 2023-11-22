@@ -4,6 +4,7 @@ import UserView from '../views/UserView.vue';
 import MypageView from '../views/MypageView.vue';
 import PlaceView from '@/views/PlaceView.vue';
 import ListView from '../views/ListView.vue';
+import NotFoundView from '../views/NotFoundView.vue';
 
 import UserJoin from '@/components/user/UserJoin.vue';
 import UserLogin from '@/components/user/UserLogin.vue';
@@ -146,6 +147,15 @@ const router = createRouter({
           component: ListDetail,
         },
       ],
+    },
+    {
+      path: '/notFound',
+      name: 'notFound',
+      component: NotFoundView,
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: '/notFound',
     },
   ],
 });
