@@ -92,7 +92,7 @@ import Footer from '@/components/common/Footer.vue';
   height: 200px;
   overflow: hidden;
 }
-.v-btn{
+.v-btn {
   font-size: 20px;
 }
 #main-img1 {
@@ -120,6 +120,7 @@ hr {
   width: 100%;
   text-align: center;
   font-size: 66px;
+  margin-top: 4rem;
   line-height: 1.4;
   color: black;
 }
@@ -181,7 +182,7 @@ hr {
   padding: 30px;
   margin-bottom: 200px;
 }
-#footer-btn:hover{
+#footer-btn:hover {
   background-color: black;
   color: white;
 }

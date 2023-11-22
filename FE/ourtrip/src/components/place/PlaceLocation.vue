@@ -1,3 +1,4 @@
+d
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useRouter, onBeforeRouteLeave } from 'vue-router';
@@ -35,6 +36,7 @@ const searchHandler = async (event) => {
 };
 
 const selectHandler = (item) => {
+  console.log('com');
   const isNotExist = !selectList.value.includes(item);
   if (isNotExist) selectList.value = [...selectList.value, item];
 };
@@ -73,69 +75,104 @@ onMounted(() => {
     </ol>
   </div>
 
-  <body>
-    <div
+  <!--logo-->
+  <h1>가고 싶은 PLACE를 검색해주세요</h1>
+  <h2>-> 검색 결과에서 원하는 장소를 선택해주세요</h2>
+
+  <div id="main-contain">
+    <div>
+      <!--search bar-->
+      <form @submit.prevent="">
+        <div id="searchBox">
+          <svg
+            data-v-2885a6ec=""
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M14.3392 14.0667L18.2727 18.0001M15.75 10.875C15.75 13.5674 13.5674 15.75 10.875 15.75C8.18261 15.75 6 13.5674 6 10.875C6 8.18261 8.18261 6 10.875 6C13.5674 6 15.75 8.18261 15.75 10.875Z"
+              stroke="black"
+              stroke-opacity="0.3"
+            ></path>
+          </svg>
+          <input placeholder="가고 싶은 PLACE를 검색해주세요." @input="searchHandler" />
+        </div>
+      </form>
+
+      <!--search result list-->
+      <div id="list_item" v-for="item in searchList" :key="item.id">
+        <div id="list_text">
+          <div>{{ item.place_name }}</div>
+          <div>{{ item.address_name }}</div>
+        </div>
+        <button @click="selectHandler(item)">선택</button>
+      </div>
+    </div>
+
+    <div>
+      <!-- map -->
+      <VKakaoMap id="map" :stations="selectList" :selectStation="selectPlace"></VKakaoMap>
+    </div>
+
+    <div>
+      <!-- select list -->
+      <h3>선택한 장소 목록</h3>
+      <div id="list_item" v-for="item in selectList" :key="item.id">
+        <div id="list_text">
+          <div>{{ item.place_name }}</div>
+          <div>{{ item.address_name }}</div>
+        </div>
+        <button @click="cancelHandler(item.id)">취소</button>
+      </div>
+    </div>
+  </div>
+
+  <!--button-->
+  <container class="btn-container">
+    <div class="btn-handler">
+      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="nextButtonHandler"> 다음으로 </v-btn>
+    </div>
+  </container>
+
+  <!-- <div
       id="full_bg"
       style="
         background-image: url('https://cdn.music-flo.com/image/v2/album/806/970/09/04/409970806_63647474_s.jpg?1667527798269/dims/resize/500/quality/90');
       "
-    ></div>
-    <form @submit.prevent="">
-      <h3>가고 싶은 장소를 검색해주세요.</h3>
-      <p>-> 검색 결과에서 원하는 장소를 선택해주세요</p>
-      <div id="searchBox">
-        <svg
-          data-v-2885a6ec=""
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M14.3392 14.0667L18.2727 18.0001M15.75 10.875C15.75 13.5674 13.5674 15.75 10.875 15.75C8.18261 15.75 6 13.5674 6 10.875C6 8.18261 8.18261 6 10.875 6C13.5674 6 15.75 8.18261 15.75 10.875Z"
-            stroke="white"
-            stroke-opacity="0.3"
-          ></path>
-        </svg>
-        <input placeholder="가고 싶은 장소를 검색해주세요." @input="searchHandler" />
-      </div>
-    </form>
-    <div id="list_wrap">
-      <div id="list_group">
-        <div v-for="item in searchList" :key="item.id">
-          <div id="list_item">
-            <div>{{ item.place_name }}</div>
-            <div>{{ item.address_name }}</div>
-            <button @click="selectHandler(item)">선택</button>
-          </div>
-
-          <br />
-        </div>
-      </div>
-    </div>
-
-    <VKakaoMap id="map" :stations="selectList" :selectStation="selectPlace"></VKakaoMap>
-    <h3>선택한 장소 목록</h3>
-    <div>
-      <div v-for="item in selectList" :key="item.id">
-        <div>{{ item.place_name }}</div>
-        <div>{{ item.address_name }}</div>
-        <button @click="cancelHandler(item.id)">취소</button>
-        <br />
-        <br />
-      </div>
-    </div>
-
-    <button @click="nextButtonHandler">다음</button>
-  </body>
+    ></div> -->
 </template>
 
 <style scoped>
+#main-contain {
+  display: flex;
+  padding-top: 4rem;
+}
+
+#main-contain > div {
+  margin: 1rem;
+}
+
+#main-contain > div:nth-child(1),
+#main-contain > div:nth-child(3) {
+  flex: 0 0 280px; /* 고정된 너비 240px */
+}
+
+#main-contain > div:nth-child(2) {
+  flex: 1; /* 남은 공간을 차지 */
+}
+
 h1 {
   text-align: left;
   font-size: 36px;
   padding: 4rem 4rem 0 4rem;
+}
+h2 {
+  text-align: left;
+  font-size: 24px;
+  padding: 0 4rem 0 4rem;
 }
 h3 {
   margin-top: 1rem;
@@ -258,43 +295,53 @@ h3 {
   background-color: #e0e0e0;
   order: -1;
 }
-body {
-  background-color: #333;
-  color: #fff;
-  height: 100%;
+.btn-container {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  padding: 3rem;
 }
-h3 {
-  width: 100%;
-  margin-bottom: 8px;
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 25px;
-  color: #fff;
+.btn-handler {
+  margin-left: auto;
+  margin-right: 2rem;
 }
+.btn {
+  background-color: #3182f6;
+  color: white;
+}
+.btn:hover {
+  background-color: #1b64da;
+  color: white;
+}
+
 #searchBox {
   position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  width: 240px;
   padding: 6px 10px;
-  background: hsla(0, 0%, 100%, 0.05);
+  background: hsla(0, 0%, 50%, 0.05);
   border-radius: 1000px;
+  width: 260px;
 }
+
 input {
   width: 195px;
   font-size: 12px;
-  color: #fff;
+  color: #000000;
   background: none;
   outline: none;
 }
+
+#container {
+  display: flex;
+}
+
 #map {
+  width: 100%; /* Make the width 100% */
+  height: 100vh;
   position: relative;
-  width: 720px;
-  height: 720px;
   margin-bottom: 25px;
   background-repeat: no-repeat;
   background-repeat-x: no-repeat;
@@ -310,16 +357,40 @@ input {
   outline-style: none;
   outline-width: initial;
 }
+#list_wrap {
+  width: 260px;
+}
 
 #list_item {
-  width: 340px;
+  display: flex;
+  justify-content: space-between;
+  width: 260px;
   padding: 5px 0;
   margin-left: 16px;
   /* cursor: pointer; */
-  padding: 9px 20px 9px 0;
+  padding: 9px 9px 9px 0;
 }
 
-#full_bg {
+#list_text {
+  display: flex;
+  text-align: left;
+  flex-direction: column;
+}
+
+#list_group {
+  margin: 10px 13px 10px 0;
+  background: hsla(0, 0%, 90%, 0.2);
+  border-radius: 5px;
+}
+
+#list_wrap {
+  flex: 1; /* Take up the remaining space */
+  padding: 10px; /* Adjust padding as needed */
+  width: 605px;
+  margin-top: 20px;
+}
+
+/* #full_bg {
   position: absolute;
   top: 0;
   left: 0;
@@ -333,16 +404,5 @@ input {
   opacity: 0.2;
   will-change: transform;
   z-index: -200;
-}
-
-#list_group {
-  margin: 10px 13px 10px 0;
-  background: hsla(0, 0%, 90%, 0.2);
-  border-radius: 5px;
-}
-
-#list_wrap {
-  width: 605px;
-  margin-top: 20px;
-}
+} */
 </style>
