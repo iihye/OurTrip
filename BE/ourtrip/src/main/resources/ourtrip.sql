@@ -1,4 +1,4 @@
--- drop database if exists `ourtrip`;
+drop database if exists `ourtrip`;
 
 create database `ourtrip`;
 
@@ -70,8 +70,9 @@ create table `reply`
 
 create table `replylike`
 (
-	`reply_no` integer NOT NULL primary key,
-    `user_id` varchar(255) NOT NULL primary key,
+	`reply_no` integer NOT NULL,
+    `user_id` varchar(255) NOT NULL,
+	primary key (`reply_no`, `user_id`),
     CONSTRAINT `replylike_to_reply_reply_no_fk` FOREIGN KEY (`reply_no`) REFERENCES `reply` (`reply_no`) ON DELETE CASCADE,
     CONSTRAINT `replylike_to_user_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
 );
