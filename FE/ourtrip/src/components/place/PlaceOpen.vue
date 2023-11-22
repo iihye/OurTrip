@@ -112,6 +112,10 @@ const modifyButtonHandler = () => {
   resetListInfo();
   router.push({ name: 'list-my' });
 };
+
+const leftButtonHandler = () => {
+  router.push({name: 'place-cover'})
+}
 </script>
 
 <template>
@@ -135,6 +139,13 @@ const modifyButtonHandler = () => {
 
   <!--logo-->
   <h1>{{ listInfo.list_name }} PLACELIST를 모두에게 공개할까요?</h1>
+
+  <!--button-->
+  <container class="btnleft-container">
+    <div class="btnleft-handler">
+      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="leftButtonHandler"> 이전으로 </v-btn>
+    </div>
+    </container>
 
   <!--button-->
   <container class="btn-container">
@@ -345,6 +356,16 @@ h3 {
 .btn-handler {
   margin-left: auto;
   margin-right: 2rem;
+}
+.btnleft-container {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  padding: 3rem;
+}
+.btnleft-handler {
+  margin-left: 2rem;
+  margin-right: auto;
 }
 .btn {
   background-color: #3182f6;
