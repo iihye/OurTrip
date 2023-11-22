@@ -1,40 +1,47 @@
 <script setup>
-import axios from "axios";
-import { ref, onMounted } from "vue";
-import ReplyBlock from "../../components/reply/item/ReplyBlock.vue";
+import axios from 'axios';
+import { ref, onMounted } from 'vue';
+import ReplyBlock from '../../components/reply/item/ReplyBlock.vue';
 
 const { VITE_APP_SERVER_URI } = import.meta.env;
 const props = defineProps({ listNo: Number });
-const replyContent = ref("");
+const replyContent = ref('');
 const replys = ref([]);
 
 const getReply = async () => {
-  const url = `${VITE_APP_SERVER_URI}/reply/getReply/${props.listNo}`;
-  const response = await axios.get(url);
-  replys.value = response.data.list;
-};
-
-const addReplyHandler = async (event) => {
-  const url = `${VITE_APP_SERVER_URI}/reply/regist`;
+  const url = `${VITE_APP_SERVER_URI}/reply/getReply`;
   const headers = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   };
 
   const data = {
     listNo: props.listNo,
-    userId: "test",
+    userId: 'test',
+  };
+
+  const response = await axios.post(url, data, headers);
+  replys.value = response.data.list;
+};
+
+const addReplyHandler = async () => {
+  const url = `${VITE_APP_SERVER_URI}/reply/regist`;
+  const headers = {
+    'Content-Type': 'application/json',
+  };
+
+  const data = {
+    listNo: props.listNo,
+    userId: 'test',
     replyContent: replyContent.value,
   };
   await axios.post(url, data, headers);
-  replyContent.value = "";
+  replyContent.value = '';
   getReply();
 };
 
 onMounted(() => {
   getReply();
 });
-
-const item = { userName: "jam", content: "test" };
 </script>
 
 <template>
@@ -48,12 +55,7 @@ const item = { userName: "jam", content: "test" };
     </div>
     <div id="input_container">
       <form id="input_form" @submit.prevent="" @submit="addReplyHandler">
-        <input
-          id="input"
-          type="text"
-          v-model="replyContent"
-          placeholder="댓글을 입력하세요..."
-        />
+        <input id="input" type="text" v-model="replyContent" placeholder="댓글을 입력하세요..." />
         <p id="input_description">글을 게시하려면 Enter 키를 누르세요.</p>
         <button type="submit" hidden>등록</button>
       </form>
