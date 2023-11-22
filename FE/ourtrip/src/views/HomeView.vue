@@ -1,5 +1,10 @@
 <script setup>
-import Footer from '@/components/common/Footer.vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
+const goPlace = async () => {
+  router.push({ name: 'place-location' });
+};
 </script>
 
 <template>
@@ -12,7 +17,7 @@ import Footer from '@/components/common/Footer.vue';
       </h1>
     </div>
     <div id="footer-btn-container">
-      <v-btn id="footer-btn" size="x-large" variant="outlined" rounded="xl" width="400"> 시작하기 </v-btn>
+      <v-btn id="footer-btn" size="x-large" variant="outlined" rounded="xl" width="400" @click="goPlace"> 시작하기 </v-btn>
     </div>
     <div>
       <img id="super-img1" src="@/assets/img/main1.png" alt="main-img1" width="700" />
