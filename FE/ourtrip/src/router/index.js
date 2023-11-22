@@ -94,7 +94,7 @@ const router = createRouter({
         {
           path: 'location',
           name: 'place-location',
-          beforeEnter: onlyAuthUser,
+          // beforeEnter: onlyAuthUser,
           component: PlaceLocation,
         },
         {

@@ -1,4 +1,5 @@
-d<script setup>
+d
+<script setup>
 import { onMounted, ref } from 'vue';
 import { useRouter, onBeforeRouteLeave } from 'vue-router';
 import axios from 'axios';
@@ -78,13 +79,11 @@ onMounted(() => {
   <h1>가고 싶은 PLACE를 검색해주세요</h1>
   <h2>-> 검색 결과에서 원하는 장소를 선택해주세요</h2>
 
-
-  <div id='main-container'>
-
+  <div id="main-container">
     <!--search-->
-    <div >
+    <div>
       <form @submit.prevent="">
-        <div id='searchBox'>
+        <div id="searchBox">
           <svg
             data-v-2885a6ec=""
             width="24"
@@ -93,34 +92,32 @@ onMounted(() => {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-          <path
-            d="M14.3392 14.0667L18.2727 18.0001M15.75 10.875C15.75 13.5674 13.5674 15.75 10.875 15.75C8.18261 15.75 6 13.5674 6 10.875C6 8.18261 8.18261 6 10.875 6C13.5674 6 15.75 8.18261 15.75 10.875Z"
-            stroke="black"
-            stroke-opacity="0.3"
-          ></path>
-        </svg>
-        <input placeholder="가고 싶은 PLACE를 검색해주세요." @input="searchHandler" />
-      </div>
-    </form>
-
-    <!--search result list-->
-    <div>
-      <div id="list_item" v-for="item in searchList" :key="item.id">
-        <div id="list_text">
-          <div >{{ item.place_name }}</div>
-          <div >{{ item.address_name }}</div>
+            <path
+              d="M14.3392 14.0667L18.2727 18.0001M15.75 10.875C15.75 13.5674 13.5674 15.75 10.875 15.75C8.18261 15.75 6 13.5674 6 10.875C6 8.18261 8.18261 6 10.875 6C13.5674 6 15.75 8.18261 15.75 10.875Z"
+              stroke="black"
+              stroke-opacity="0.3"
+            ></path>
+          </svg>
+          <input placeholder="가고 싶은 PLACE를 검색해주세요." @input="searchHandler" />
         </div>
-        <button @click="selectHandler(item)">선택</button>
+      </form>
+
+      <!--search result list-->
+      <div>
+        <div id="list_item" v-for="item in searchList" :key="item.id">
+          <div id="list_text">
+            <div>{{ item.place_name }}</div>
+            <div>{{ item.address_name }}</div>
+          </div>
+          <button @click="selectHandler(item)">선택</button>
+        </div>
       </div>
     </div>
-  </div>
-
 
     <!-- map -->
     <div>
       <VKakaoMap id="map" :stations="selectList" :selectStation="selectPlace"></VKakaoMap>
     </div>
-
 
     <!-- select list -->
     <div>
@@ -135,7 +132,6 @@ onMounted(() => {
         </div>
       </div>
     </div>
-
   </div>
 
   <!--button-->
@@ -391,7 +387,7 @@ input {
   padding: 9px 9px 9px 0;
 }
 
-#list_text{
+#list_text {
   display: flex;
   flex-direction: column;
 }
