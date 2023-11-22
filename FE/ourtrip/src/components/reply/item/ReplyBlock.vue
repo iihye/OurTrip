@@ -98,7 +98,7 @@ const likeSvg = `${VITE_APP_CLIENT_URI}/like.svg`;
             좋아요 취소
           </button>
           <button
-            v-if="props.item.reply_like == 0"
+            v-if="props.item.status == 0"
             class="button"
             @click="addLikeHandler(item.reply_no)"
           >
