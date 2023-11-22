@@ -45,6 +45,10 @@ const nextButtonHandler = () => {
     router.push({ name: 'place-open' });
   }
 };
+
+const leftButtonHandler = () => {
+  router.push({name: 'place-title'})
+}
 </script>
 
 <template>
@@ -68,6 +72,13 @@ const nextButtonHandler = () => {
 
   <!--logo-->
   <h1>PLACELIST의 커버 이미지를 골라주세요</h1>
+
+  <!--button-->
+  <container class="btnleft-container">
+    <div class="btnleft-handler">
+      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="leftButtonHandler"> 이전으로 </v-btn>
+    </div>
+  </container>
 
   <!--button-->
   <container class="btn-container">
@@ -329,6 +340,7 @@ h4{
   flex-wrap: wrap;
   justify-content: space-between;
   margin: 2rem 2rem 2rem 2rem;
+  background-color: #f2f4f6;
 }
 .list-container img {
   width: 240px;
@@ -364,6 +376,16 @@ h4{
 .btn-handler {
   margin-left: auto;
   margin-right: 2rem;
+}
+.btnleft-container {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  padding: 3rem;
+}
+.btnleft-handler {
+  margin-left: 2rem;
+  margin-right: auto;
 }
 .btn {
   background-color: #3182f6;
