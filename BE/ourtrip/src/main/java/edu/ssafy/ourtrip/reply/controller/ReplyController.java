@@ -53,9 +53,14 @@ public class ReplyController {
 		try {
 			int cnt = replyService.delete(likeDto);
 			
-			System.out.print(cnt);
-			resultMap.put("message", "삭제 성공");
-			status = HttpStatus.CREATED;
+			if(cnt==1) {
+				resultMap.put("message", "삭제 성공");
+				status = HttpStatus.CREATED;
+			}else {
+				resultMap.put("message", "삭제 실패 : 해당 사용자가 작성한 댓글이 아닙니다요.");
+				status = HttpStatus.UNAUTHORIZED;
+			}
+			
 		} catch(Exception e) {
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
