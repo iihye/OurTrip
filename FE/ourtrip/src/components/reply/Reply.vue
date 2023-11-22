@@ -14,7 +14,7 @@ const getReply = async () => {
   replys.value = response.data.list;
 };
 
-const addReplyHandler = async () => {
+const addReplyHandler = async (event) => {
   const url = `${VITE_APP_SERVER_URI}/reply/regist`;
   const headers = {
     "Content-Type": "application/json",
@@ -26,6 +26,8 @@ const addReplyHandler = async () => {
     replyContent: replyContent.value,
   };
   await axios.post(url, data, headers);
+  replyContent.value = "";
+  getReply();
 };
 
 onMounted(() => {
@@ -42,7 +44,7 @@ const item = { userName: "jam", content: "test" };
 
   <div>
     <div v-for="item in replys" :key="item.reply_no">
-      <ReplyBlock :item="item"></ReplyBlock>
+      <ReplyBlock :item="item" :getReply="getReply"></ReplyBlock>
     </div>
     <div id="input_container">
       <form id="input_form" @submit.prevent="" @submit="addReplyHandler">

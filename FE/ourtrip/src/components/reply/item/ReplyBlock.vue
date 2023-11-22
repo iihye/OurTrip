@@ -3,11 +3,12 @@ import { ref } from "vue";
 import axios from "axios";
 
 const { VITE_APP_SERVER_URI } = import.meta.env;
-const props = defineProps({ item: Object });
+const props = defineProps({ item: Object, getReply: Function });
 
 const deleteReplyHandler = async (replyNo) => {
   const url = `${VITE_APP_SERVER_URI}/reply/delete/${replyNo}`;
   await axios.delete(url);
+  props.getReply();
 };
 
 const addLikeHandler = async (replyNo) => {

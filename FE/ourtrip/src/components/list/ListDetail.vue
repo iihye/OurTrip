@@ -174,11 +174,11 @@ const del = async (item) => {
     :stations="placeArray"
     :selectStation="selectPlace"
   ></VKakaoMap>
-  <template v-for="place in places" :key="place.placeNo">
+  <!-- <template v-for="place in places" :key="place.placeNo">
     <li>{{ place.placeUrl }}</li>
     <li>{{ place.placeName }}</li>
     <li>{{ place.placePhone }}</li>
-  </template>
+  </template> -->
 
   <Reply :listNo="listno"></Reply>
   <div v-if="userInfo !== null && userInfo.userId === listDetailInfo.userId">
