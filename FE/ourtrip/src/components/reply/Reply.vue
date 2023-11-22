@@ -1,11 +1,22 @@
 <script setup>
 import axios from "axios";
 import { ref } from "vue";
+const { VITE_APP_SERVER_URI } = import.meta.env;
 const props = defineProps({ listNo: Number });
+const replyContent = ref("");
 
 const addReplyHandler = async () => {
-  const url = `${VITE_APP_SERVER_URI}/reply/add/${listNo}`;
-  const response = await axios.post(url);
+  const url = `${VITE_APP_SERVER_URI}/reply/regist`;
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  const data = {
+    listNo: props.listNo,
+    userId: "test",
+    replyContent: replyContent.value,
+  };
+  await axios.post(url, data, headers);
 };
 const deleteReplyHandler = async () => {
   const url = `${VITE_APP_SERVER_URI}/reply/delete/${listNo}`;
@@ -31,6 +42,7 @@ const cancelLikeHandler = async (replyNo) => {
   </div>
 
   <form @submit.prevent="" @submit="addReplyHandler">
+    <input type="text" v-model="replyContent" />
     <button type="submit">등록</button>
   </form>
   <button @click="addLikeHandler()">좋아요 증가</button>
