@@ -25,15 +25,19 @@ const addReplyHandler = async () => {
   };
   await axios.post(url, data, headers);
 };
-const deleteReplyHandler = async () => {
-  const url = `${VITE_APP_SERVER_URI}/reply/delete/${listNo}`;
+
+const deleteReplyHandler = async (replyNo) => {
+  const url = `${VITE_APP_SERVER_URI}/reply/delete/${replyNo}`;
   const response = await axios.delete(url);
+  console.log("delete");
+  console.log(response);
 };
 
 const addLikeHandler = async (replyNo) => {
   const url = `${VITE_APP_SERVER_URI}/reply/addlike/${replyNo}`;
   const response = await axios.post(url);
 };
+
 const cancelLikeHandler = async (replyNo) => {
   const url = `${VITE_APP_SERVER_URI}/reply/sublike/${replyNo}`;
   const response = await axios.post(url);
@@ -48,15 +52,13 @@ onMounted(() => {
   <h1>Reply</h1>
   <div>listNo {{ listNo }}</div>
   <ul>
-    <li v-for="item in replys">
+    <div v-for="item in replys">
       {
       {{ item }}
       }
-    </li>
+      <button @click="deleteReplyHandler(item.reply_no)">삭제</button>
+    </div>
   </ul>
-  <div>
-    <button @click="deleteReplyHandler"></button>
-  </div>
 
   <form @submit.prevent="" @submit="addReplyHandler">
     <input type="text" v-model="replyContent" />
