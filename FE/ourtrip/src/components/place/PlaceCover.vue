@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { usePlaceStore } from '@/stores/place';
 import axios from 'axios';
@@ -13,6 +13,7 @@ const { listInfo } = storeToRefs(placeStore);
 const searchKeyword = ref('');
 const searchList = ref([]);
 const selectImageUrl = ref('');
+const noImageUrl = ref("../src/assets/img/noimage.png");
 
 const searchHandler = async () => {
   const url = VITE_APP_UNSPLASH_API_URI;
@@ -26,26 +27,27 @@ const searchHandler = async () => {
   searchList.value = response.data.results;
 };
 
+const handleImageError = async () => {
+  selectImageUrl.value = noImageUrl.value;
+}
+
 const selectHandler = (image_url) => {
   selectImageUrl.value = image_url;
   // console.log(selectImageUrl.value);
 };
 
 const nextButtonHandler = () => {
-  listInfo.value = { ...listInfo.value, list_img: selectImageUrl.value };
-  // console.log(listInfo.value);
-  router.push({ name: 'place-open' });
+  if (selectImageUrl.value === noImageUrl.value) {
+    alert("키워드 검색 후 커버 이미지를 선택해주세요☺️");
+  } else {
+    listInfo.value = { ...listInfo.value, list_img: selectImageUrl.value };
+    // console.log(listInfo.value);
+    router.push({ name: 'place-open' });
+  }
 };
 </script>
 
 <template>
-  <!--button-->
-  <container class="btn-container">
-    <div class="btn-handler">
-      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="nextButtonHandler"> 다음으로 </v-btn>
-    </div>
-  </container>
-
   <!--stepper-->
   <div>
     <ol class="c-stepper">
@@ -67,33 +69,63 @@ const nextButtonHandler = () => {
   <!--logo-->
   <h1>PLACELIST의 커버 이미지를 골라주세요</h1>
 
+  <!--button-->
+  <container class="btn-container">
+    <div class="btn-handler">
+      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="nextButtonHandler"> 다음으로 </v-btn>
+    </div>
+  </container>
+
   <!--input-->
   <form class="form-container" @submit.prevent="" @submit="searchHandler">
     <div class="text-div">
-      <button class="btn" size="large" variant="flat" rounded="xl">
-        <font-awesome-icon :icon="['fas', 'magnifying-glass']" size="2xl" style="color: #646464" />
-      </button>
+      <font-awesome-icon :icon="['fas', 'magnifying-glass']" size="2xl" style="color: #646464" />
       <input
         class="text-input"
         type="text"
         v-model="searchKeyword"
         variant="underlined"
         style="font-size: 1.5rem"
-        placeholder="키워드 입력"
+        placeholder="키워드 검색"
         @blur="searchHandler"
-        message="키워드 입력 후 엔터를 눌러주세요"
+        message="키워드 검색 후 엔터를 눌러주세요"
         required
       />
       <span class="text-span"></span>
     </div>
   </form>
 
-  <!--picture list-->
-  <div class="list-container">
+  <div class="result-container">
+    <!--select picture-->
+    <div class="select-container">
+      <h4>선택한 커버 이미지</h4>
+      <img :src="selectImageUrl" :alt="선택한이미지" @error="handleImageError" />
+    </div>
+    <!--search list-->
+    <div class="list-container">
+      <div v-for="item in searchList" :key="item.id">
+        <img :src="item.urls.thumb" :alt="item.alt_description" @click="selectHandler(item.urls.thumb)" />
+      </div>
+    </div>
+  </div>
+
+
+  <!-- <div class="list-container">
+    <div v-for="item in searchList" :key="item.id">
+      <div class="image-container" @click="toggleSelection(item)">
+        <img :src="item.urls.thumb" :alt="item.alt_description" />
+        <div v-if="isItemSelected)">
+          <font-awesome-icon :icon="['fas', 'magnifying-glass']" size="2x" class="selected-icon" />
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- <div class="list-container">
     <div v-for="item in searchList" :key="item.id">
       <img :src="item.urls.thumb" :alt="item.alt_description" @click="selectHandler(item.urls.thumb)" />
     </div>
-  </div>
+  </div> -->
 </template>
 
 <style scoped>
@@ -104,6 +136,11 @@ h1 {
 }
 h3 {
   margin-top: 1rem;
+}
+h4{
+  font-size: 20px;
+  color: #1b64da;
+  text-align: center;
 }
 .c-stepper {
   display: flex;
@@ -225,21 +262,27 @@ h3 {
 }
 .form-container {
   display: flex;
-  padding: 4rem 4rem 0 4rem;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 4rem 2rem 4rem;
 }
 .text-div {
   display: flex;
+  justify-content: center;
   align-items: center;
-  width: 200px;
+  background: hsla(0, 0%, 50%, 0.08);
+  border-radius: 1000px;
+  width: 500px;
+  height: 50px;
 }
 .text-input {
   font-size: 16px;
-  color: #222222;
-  width: 200px;
+  align-items: center;
+  text-align: center;
+  color: black;
+  width: 400px;
   border: none;
-  border-bottom: solid #aaaaaa 1px;
-  padding-bottom: 10px;
-  padding-left: 10px;
+  /* border-bottom: solid #aaaaaa 1px; */
   position: relative;
   background: none;
   z-index: 5;
@@ -265,25 +308,57 @@ h3 {
 .text-input:valid ~ .text-span {
   width: 100%;
 }
+.result-container{
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15% 0 15%;
+}
+.select-container{
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+.select-container img{
+  width: 240px;
+  height: 180px;
+  margin-top: 0.5rem;
+  object-fit: cover;
+  border: 3px solid #3182f6;;
+}
 .list-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-left: 20%;
-  margin-right: 20%;
-  margin-top: 4rem;
+  margin: 2rem 2rem 2rem 2rem;
 }
 .list-container img {
   width: 240px;
   height: 180px;
   max-width: 100%;
   object-fit: cover;
-  border-radius: 5px;
+  /* border-radius: 5px; */
 }
+.list-container > div {
+  position: relative; /* 컨테이너에 대해 상대 위치 설정 */
+  margin: 10px; /* 선택 사진 사이의 간격 조절 */
+}
+
+.selected-icon {
+  position: absolute; /* 아이콘에 대해 절대 위치 설정 */
+  top: 0;
+  right: 0;
+  color: #646464;
+  cursor: pointer;
+}
+
+.list-container .image-container {
+  position: relative;
+  margin: 10px;
+}
+
 .btn-container {
   position: absolute;
   right: 0px;
-  bottom: 0px;
+  top: 0px;
   padding: 3rem;
 }
 .btn-handler {
