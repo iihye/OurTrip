@@ -22,7 +22,7 @@ export const useListStore = defineStore('listStore', () => {
     await listDetailApi(
       listno,
       (response) => {
-        console.log(response);
+        // console.log(response);
         if (response.status === httpStatusCode.OK) {
           listDetailRes.value = response.data;
         }
