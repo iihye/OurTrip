@@ -57,12 +57,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <!--button-->
-  <container class="btn-container">
-    <div class="btn-handler">
-      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="nextButtonHandler"> 다음으로 </v-btn>
-    </div>
-  </container>
 
   <!--stepper-->
   <div>
@@ -85,6 +79,13 @@ onMounted(() => {
   <!--logo-->
   <h1>가고 싶은 PLACE를 검색해주세요</h1>
   <h2>검색 결과에서 원하는 장소를 선택해주세요</h2>
+
+  <!--button-->
+  <container class="btn-container">
+  <div class="btn-handler">
+    <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="nextButtonHandler"> 다음으로 </v-btn>
+  </div>
+  </container>
 
   <div id="main-contain">
     <div>
@@ -165,16 +166,19 @@ onMounted(() => {
   
 }
 
-#main-contain > div:nth-child(1),
+#main-contain > div:nth-child(1){
+  flex: 0 0 300px; /* 고정된 너비 240px */
+  margin-left: 2rem;
+}
 #main-contain > div:nth-child(3) {
-  flex: 0 0 280px; /* 고정된 너비 240px */
-  margin: 1rem;
+  flex: 0 0 300px; /* 고정된 너비 240px */
+  margin-right: 2rem;
 }
 
 #main-contain > div:nth-child(2) {
   display: flex;
   justify-content: center; /* 수평 가운데에 정렬 */
-  flex: 1;
+  flex: 1.2;
 }
 
 h1 {
@@ -316,7 +320,7 @@ h4{
 .btn-container {
   position: absolute;
   right: 0px;
-  bottom: 0px;
+  top: 0px;
   padding: 3rem;
 }
 .btn-handler {
@@ -338,10 +342,10 @@ h4{
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  padding: 6px 10px;
+  padding: 6px ;
   background: hsla(0, 0%, 50%, 0.05);
   border-radius: 1000px;
-  width: 260px;
+  width: 280px;
 }
 #searchBox input{
   font-size: 16px;
@@ -361,8 +365,8 @@ h4{
 }
 
 #map {
-  width: 95%; /* Make the width 100% */
-  height: 100vh;
+  width: 98%; /* Make the width 100% */
+  height: auto;
   position: relative;
   margin-bottom: 25px;
   background-repeat: no-repeat;
@@ -384,15 +388,13 @@ h4{
 }
 
 #list-container {
-  overflow-y: auto; /* 수직 스크롤을 추가 */
-  max-height: 100vh; /* 최대 높이를 설정하거나 필요에 따라 조절 */
 }
 
 #list_items {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 260px;
+  width: 280px;
   padding: 5px 0;
   margin-left: 16px;
   /* cursor: pointer; */
