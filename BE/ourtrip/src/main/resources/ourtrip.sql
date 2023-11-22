@@ -15,6 +15,8 @@ create table `user`
 
 insert into `user`
 values ("test", "test", "test", "test");
+insert into `user`
+values ("admin", "admin", "admin", "admin");
 
 create table `list`
 (
@@ -68,8 +70,8 @@ create table `reply`
 
 create table `replylike`
 (
-	`reply_no` integer NOT NULL,
-    `user_id` varchar(255) NOT NULL,
+	`reply_no` integer NOT NULL primary key,
+    `user_id` varchar(255) NOT NULL primary key,
     CONSTRAINT `replylike_to_reply_reply_no_fk` FOREIGN KEY (`reply_no`) REFERENCES `reply` (`reply_no`) ON DELETE CASCADE,
     CONSTRAINT `replylike_to_user_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
 );
