@@ -1,22 +1,37 @@
 <script setup>
-import axios from 'axios';
-import { ref, onMounted } from 'vue';
-import ReplyBlock from '../../components/reply/item/ReplyBlock.vue';
+import axios from "axios";
+import { storeToRefs } from "pinia";
+import { ref, onMounted } from "vue";
+import { useMemberStore } from "@/stores/user";
+
+import ReplyBlock from "../../components/reply/item/ReplyBlock.vue";
 
 const { VITE_APP_SERVER_URI } = import.meta.env;
 const props = defineProps({ listNo: Number });
-const replyContent = ref('');
+const replyContent = ref("");
 const replys = ref([]);
+
+const memberStore = useMemberStore();
+const { getUserInfo } = memberStore;
+const { userInfo } = storeToRefs(memberStore);
+
+onMounted(() => {
+  fetch();
+});
+
+const fetch = async () => {
+  await getUserInfo(sessionStorage.getItem("accessToken"));
+};
 
 const getReply = async () => {
   const url = `${VITE_APP_SERVER_URI}/reply/getReply`;
   const headers = {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   };
 
   const data = {
     listNo: props.listNo,
-    userId: 'test',
+    userId: "test",
   };
 
   const response = await axios.post(url, data, headers);
@@ -26,22 +41,24 @@ const getReply = async () => {
 const addReplyHandler = async () => {
   const url = `${VITE_APP_SERVER_URI}/reply/regist`;
   const headers = {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   };
 
   const data = {
     listNo: props.listNo,
-    userId: 'test',
+    userId: userInfo.value.userId,
     replyContent: replyContent.value,
   };
   await axios.post(url, data, headers);
-  replyContent.value = '';
+  replyContent.value = "";
   getReply();
 };
 
 onMounted(() => {
   getReply();
 });
+
+setInterval(() => getReply(), 3000);
 </script>
 
 <template>

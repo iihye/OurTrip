@@ -27,8 +27,8 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public void delete(LikeDto likeDto) throws SQLException {
-		replyMapper.delete(likeDto);
+	public int delete(LikeDto likeDto) throws SQLException {
+		return replyMapper.delete(likeDto);
 		
 	}
 
