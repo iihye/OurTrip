@@ -1,18 +1,18 @@
 <script setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { usePlaceStore } from "@/stores/place";
-import axios from "axios";
-import { storeToRefs } from "pinia";
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { usePlaceStore } from '@/stores/place';
+import axios from 'axios';
+import { storeToRefs } from 'pinia';
 
 const router = useRouter();
 const placeStore = usePlaceStore();
 const { VITE_APP_UNSPLASH_API_URI, VITE_APP_UNSPLASH_KEY } = import.meta.env;
 
 const { listInfo } = storeToRefs(placeStore);
-const searchKeyword = ref("");
+const searchKeyword = ref('');
 const searchList = ref([]);
-const selectImageUrl = ref("");
+const selectImageUrl = ref('');
 
 const searchHandler = async () => {
   const url = VITE_APP_UNSPLASH_API_URI;
@@ -34,11 +34,18 @@ const selectHandler = (image_url) => {
 const nextButtonHandler = () => {
   listInfo.value = { ...listInfo.value, list_img: selectImageUrl.value };
   // console.log(listInfo.value);
-  router.push({ name: "place-open" });
+  router.push({ name: 'place-open' });
 };
 </script>
 
 <template>
+  <!--button-->
+  <container class="btn-container">
+    <div class="btn-handler">
+      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="nextButtonHandler"> 다음으로 </v-btn>
+    </div>
+  </container>
+
   <!--stepper-->
   <div>
     <ol class="c-stepper">
@@ -64,11 +71,7 @@ const nextButtonHandler = () => {
   <form class="form-container" @submit.prevent="" @submit="searchHandler">
     <div class="text-div">
       <button class="btn" size="large" variant="flat" rounded="xl">
-        <font-awesome-icon
-          :icon="['fas', 'magnifying-glass']"
-          size="2xl"
-          style="color: #646464"
-        />
+        <font-awesome-icon :icon="['fas', 'magnifying-glass']" size="2xl" style="color: #646464" />
       </button>
       <input
         class="text-input"
@@ -88,28 +91,9 @@ const nextButtonHandler = () => {
   <!--picture list-->
   <div class="list-container">
     <div v-for="item in searchList" :key="item.id">
-      <img
-        :src="item.urls.thumb"
-        :alt="item.alt_description"
-        @click="selectHandler(item.urls.thumb)"
-      />
+      <img :src="item.urls.thumb" :alt="item.alt_description" @click="selectHandler(item.urls.thumb)" />
     </div>
   </div>
-
-  <!--button-->
-  <container class="btn-container">
-    <div class="btn-handler">
-      <v-btn
-        class="btn"
-        size="large"
-        variant="flat"
-        rounded="xl"
-        @click="nextButtonHandler"
-      >
-        다음으로
-      </v-btn>
-    </div>
-  </container>
 </template>
 
 <style scoped>
@@ -213,7 +197,7 @@ h3 {
   background-color: #7c7c7c;
 }
 .c-stepper__item1::after {
-  content: "";
+  content: '';
   position: relative;
   top: 1.5rem;
   left: 50%;
@@ -222,7 +206,7 @@ h3 {
   order: -1;
 }
 .c-stepper__item2::after {
-  content: "";
+  content: '';
   position: relative;
   top: 1.5rem;
   left: 50%;
@@ -231,7 +215,7 @@ h3 {
   order: -1;
 }
 .c-stepper__item3::after {
-  content: "";
+  content: '';
   position: relative;
   top: 1.5rem;
   left: 50%;

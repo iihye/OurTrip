@@ -57,6 +57,13 @@ onMounted(() => {
 </script>
 
 <template>
+  <!--button-->
+  <container class="btn-container">
+    <div class="btn-handler">
+      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="nextButtonHandler"> 다음으로 </v-btn>
+    </div>
+  </container>
+
   <!--stepper-->
   <div>
     <ol class="c-stepper">
@@ -129,13 +136,6 @@ onMounted(() => {
       </div>
     </div>
   </div>
-
-  <!--button-->
-  <container class="btn-container">
-    <div class="btn-handler">
-      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="nextButtonHandler"> 다음으로 </v-btn>
-    </div>
-  </container>
 
   <!-- <div
       id="full_bg"

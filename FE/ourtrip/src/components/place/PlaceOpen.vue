@@ -115,6 +115,32 @@ const modifyButtonHandler = () => {
 </script>
 
 <template>
+  <!--button-->
+  <container class="btn-container">
+    <div class="btn-handler">
+      <v-btn
+        v-if="listInfo.isModifyMode == undefined"
+        class="btn"
+        size="large"
+        variant="flat"
+        rounded="xl"
+        @click="saveButtonHandler"
+      >
+        저장하기
+      </v-btn>
+      <v-btn
+        v-else="listInfo.isModifyMode == true"
+        class="btn"
+        size="large"
+        variant="flat"
+        rounded="xl"
+        @click="modifyButtonHandler"
+      >
+        수정하기
+      </v-btn>
+    </div>
+  </container>
+
   <!--stepper-->
   <div>
     <ol class="c-stepper">
@@ -159,32 +185,6 @@ const modifyButtonHandler = () => {
       아니요! 저만 볼게요
     </v-btn>
   </div>
-
-  <!--button-->
-  <container class="btn-container">
-    <div class="btn-handler">
-      <v-btn
-        v-if="listInfo.isModifyMode == undefined"
-        class="btn"
-        size="large"
-        variant="flat"
-        rounded="xl"
-        @click="saveButtonHandler"
-      >
-        저장하기
-      </v-btn>
-      <v-btn
-        v-else="listInfo.isModifyMode == true"
-        class="btn"
-        size="large"
-        variant="flat"
-        rounded="xl"
-        @click="modifyButtonHandler"
-      >
-        수정하기
-      </v-btn>
-    </div>
-  </container>
 </template>
 
 <style scoped>
