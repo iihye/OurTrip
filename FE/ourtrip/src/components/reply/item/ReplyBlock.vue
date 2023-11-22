@@ -39,15 +39,41 @@ const deleteReplyHandler = async (replyNo) => {
 };
 
 const addLikeHandler = async (replyNo) => {
-  const url = `${VITE_APP_SERVER_URI}/reply/addlike/${replyNo}`;
-  const response = await axios.post(url);
-  console.log(response);
+  const url = `${VITE_APP_SERVER_URI}/reply/addLike`;
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  const data = {
+    replyNo: replyNo,
+    userId: userInfo.value.userId,
+  };
+  try {
+    await axios.post(url, data, headers);
+  } catch (e) {
+    if (e.response.status == HttpStatusCode.Forbidden) {
+      alert("좋아요는 한번만 할 수 있습니다잉!!");
+    }
+  }
+  props.getReply();
 };
 
 const cancelLikeHandler = async (replyNo) => {
-  const url = `${VITE_APP_SERVER_URI}/reply/sublike/${replyNo}`;
-  const response = await axios.post(url);
-  console.log(response);
+  const url = `${VITE_APP_SERVER_URI}/reply/subLike`;
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  const data = {
+    replyNo: replyNo,
+    userId: userInfo.value.userId,
+  };
+  try {
+    await axios.post(url, data, headers);
+  } catch (e) {
+    if (e.response.status == HttpStatusCode.Forbidden) {
+      alert("취소는 한번만 할 수 있습니다잉!!");
+    }
+  }
+  props.getReply();
 };
 </script>
 
@@ -62,7 +88,20 @@ const cancelLikeHandler = async (replyNo) => {
           </div>
         </div>
         <div id="button_wrap">
-          <button class="button">좋아요</button>
+          <button
+            v-if="props.item.reply_like == 1"
+            class="button"
+            @click="cancelLikeHandler(item.reply_no)"
+          >
+            좋아요 취소
+          </button>
+          <button
+            v-if="props.item.reply_like == 0"
+            class="button"
+            @click="addLikeHandler(item.reply_no)"
+          >
+            좋아요
+          </button>
           <button class="button" @click="deleteReplyHandler(item.reply_no)">삭제</button>
         </div>
       </div>
