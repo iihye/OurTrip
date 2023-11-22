@@ -54,14 +54,15 @@ create table `place`
      CONSTRAINT `place_to_list_list_no_fk` FOREIGN KEY (`list_no`) REFERENCES `list` (`list_no`) ON DELETE CASCADE
 );
 
-create table `article`
+create table `reply`
 (
-	`article_no` integer NOT NULL primary key AUTO_INCREMENT,
-    `article_content` varchar(512) NOT NULL,
-    `article_datetime` datetime,    
+	`reply_no` integer NOT NULL primary key AUTO_INCREMENT,
+    `reply_content` varchar(512) NOT NULL,
+    `reply_datetime` datetime default current_timestamp,    
+    `reply_like` integer default 0,
     `list_no` integer NOT NULL,
     `user_id` varchar(255) NOT NULL,
-     CONSTRAINT `share_to_list_list_no_fk` FOREIGN KEY (`list_no`) REFERENCES `list` (`list_no`) ON DELETE CASCADE,
-     CONSTRAINT `share_to_user_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
+     CONSTRAINT `reply_to_list_list_no_fk` FOREIGN KEY (`list_no`) REFERENCES `list` (`list_no`) ON DELETE CASCADE,
+     CONSTRAINT `reply_to_user_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
 );
 

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.ssafy.ourtrip.reply.dao.ReplyMapper">
+
+	<resultMap type="replyDto" id="replyDto">
+		<result column="reply_no" property="replyNo"/>
+		<result column="reply_content" property="replyContent"/>
+		<result column="reply_datetime" property="replyDatetime"/>
+		<result column="reply_like" property="replyLike"/>
+		<result column="list_no" property="listNo"/>
+		<result column="user_id" property="userId"/>
+	</resultMap>
+
+	<insert id="regist" parameterType="map">
+		insert into reply (reply_content, list_no, user_id)
+		values (#{replyContent}, #{listNo}, #{userId})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from reply
+		where reply_no = #{replyNo}
+	</delete>
+	
+	<update id="addLike" parameterType="int" >
+		update reply
+		set reply_like = reply_like + 1
+		where reply_no = #{replyNo}
+	</update>
+	
+	<update id="subLike" parameterType="int" >
+		update reply
+		set reply_like = reply_like - 1
+		where reply_no = #{replyNo}
+	</update>
+	
+	<select id="getLike" parameterType="int" resultType="Integer">
+		select reply_like
+		from reply
+		where reply_no = #{replyNo}
+	</select>
+	
+	<select id="getReply" parameterType="int" resultType="map">
+		select *
+		from reply
+		where list_no = #{listNo}
+	</select>
+</mapper>
