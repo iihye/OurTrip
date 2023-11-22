@@ -138,7 +138,7 @@ const leftButtonHandler = () => {
   </div>
 
   <!--logo-->
-  <h1>{{ listInfo.list_name }} PLACELIST를 모두에게 공개할까요?</h1>
+  <h1>'{{ listInfo.list_name }}' PLACELIST를 모두에게 공개할까요?</h1>
 
   <!--button-->
   <container class="btnleft-container">

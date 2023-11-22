@@ -96,6 +96,7 @@ a {
 .navbar__logo {
   font-size: 24px;
   color: white;
+  margin-left: 2rem;
 }
 
 .navbar__logo i {
@@ -110,6 +111,7 @@ a {
 
 .navbar__menu li {
   padding: 8px 12px;
+  margin-right: 2rem;
 }
 
 .navbar__menu :hover {

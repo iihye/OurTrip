@@ -39,10 +39,14 @@ const goPlace = async () => {
         </h2>
       </div>
       <div id="sub-img-container">
-        <img src="@/assets/img/main2.png" alt="main-img2" />
+        <img src="@/assets/img/test1.png" alt="Make your PLACELIST by searching PLACE" />
       </div>
     </div>
   </container>
+
+  <div id="parent-container">
+    <font-awesome-icon :icon="['fas', 'chevron-down']" style="color: #787878" />
+  </div>
 
   <container id="main-container">
     <div id="main-flex-container">
@@ -54,10 +58,14 @@ const goPlace = async () => {
         </h2>
       </div>
       <div id="sub-img-container">
-        <img src="@/assets/img/main3.png" alt="main-img3" />
+        <img src="@/assets/img/test2.png" alt="find cover image for PLACELIST" />
       </div>
     </div>
   </container>
+
+  <div id="parent-container">
+    <font-awesome-icon :icon="['fas', 'chevron-down']" style="color: #787878" />
+  </div>
 
   <container id="main-container">
     <div id="main-flex-container">
@@ -69,7 +77,7 @@ const goPlace = async () => {
         </h2>
       </div>
       <div id="sub-img-container">
-        <img src="@/assets/img/main4.png" alt="main-img4" />
+        <img src="@/assets/img/main4.png" alt="share your PLACELIST with friends" />
       </div>
     </div>
   </container>
@@ -111,8 +119,8 @@ hr {
   margin: 0 auto;
 }
 #parent-container {
-  padding-top: 30px;
   text-align: center; /* 부모 요소에 text-align: center;를 적용하여 가운데 정렬 */
+  margin: 2rem 0 2rem 0;
 }
 #super-container {
   width: 70%;
@@ -160,7 +168,7 @@ hr {
   padding-right: 10%;
 }
 #sub-img-container img {
-  width: 400px;
+  width: 1200px;
   max-width: 100%;
   height: auto; /* 세로 크기를 자동으로 조절하여 비율 유지 */
 }
@@ -169,7 +177,7 @@ hr {
   text-align: left;
   font-size: 28px;
   line-height: 1.4;
-  color: mediumpurple;
+  color: #3182f6;
 }
 #sub-content {
   width: 100%;
