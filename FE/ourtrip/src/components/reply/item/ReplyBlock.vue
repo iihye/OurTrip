@@ -4,7 +4,7 @@ import { storeToRefs } from "pinia";
 import axios, { HttpStatusCode } from "axios";
 import { useMemberStore } from "@/stores/user";
 
-const { VITE_APP_SERVER_URI } = import.meta.env;
+const { VITE_APP_SERVER_URI, VITE_APP_CLIENT_URI } = import.meta.env;
 const props = defineProps({ item: Object, getReply: Function });
 
 const memberStore = useMemberStore();
@@ -75,6 +75,7 @@ const cancelLikeHandler = async (replyNo) => {
   }
   props.getReply();
 };
+const likeSvg = `${VITE_APP_CLIENT_URI}/like.svg`;
 </script>
 
 <template>
@@ -86,10 +87,11 @@ const cancelLikeHandler = async (replyNo) => {
             <div id="user_name">{{ props.item.user_id }}</div>
             <div id="content">{{ props.item.reply_content }}</div>
           </div>
+          <img v-if="props.item.reply_like >= 1" height="18" :src="likeSvg" alt="like" />
         </div>
         <div id="button_wrap">
           <button
-            v-if="props.item.reply_like == 1"
+            v-if="props.item.reply_like >= 1"
             class="button"
             @click="cancelLikeHandler(item.reply_no)"
           >
