@@ -42,6 +42,8 @@ const addReplyHandler = async () => {
 onMounted(() => {
   getReply();
 });
+
+setInterval(() => getReply(), 3000);
 </script>
 
 <template>
