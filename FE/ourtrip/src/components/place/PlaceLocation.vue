@@ -79,9 +79,9 @@ onMounted(() => {
   <h1>가고 싶은 PLACE를 검색해주세요</h1>
   <h2>-> 검색 결과에서 원하는 장소를 선택해주세요</h2>
 
-  <div id="main-container">
-    <!--search-->
+  <div id="main-contain">
     <div>
+      <!--search bar-->
       <form @submit.prevent="">
         <div id="searchBox">
           <svg
@@ -103,33 +103,29 @@ onMounted(() => {
       </form>
 
       <!--search result list-->
-      <div>
-        <div id="list_item" v-for="item in searchList" :key="item.id">
-          <div id="list_text">
-            <div>{{ item.place_name }}</div>
-            <div>{{ item.address_name }}</div>
-          </div>
-          <button @click="selectHandler(item)">선택</button>
+      <div id="list_item" v-for="item in searchList" :key="item.id">
+        <div id="list_text">
+          <div>{{ item.place_name }}</div>
+          <div>{{ item.address_name }}</div>
         </div>
+        <button @click="selectHandler(item)">선택</button>
       </div>
     </div>
 
-    <!-- map -->
     <div>
+      <!-- map -->
       <VKakaoMap id="map" :stations="selectList" :selectStation="selectPlace"></VKakaoMap>
     </div>
 
-    <!-- select list -->
     <div>
+      <!-- select list -->
       <h3>선택한 장소 목록</h3>
-      <div>
-        <div id="list_item" v-for="item in selectList" :key="item.id">
-          <div id="list_text">
-            <div>{{ item.place_name }}</div>
-            <div>{{ item.address_name }}</div>
-          </div>
-          <button @click="cancelHandler(item.id)">취소</button>
+      <div id="list_item" v-for="item in selectList" :key="item.id">
+        <div id="list_text">
+          <div>{{ item.place_name }}</div>
+          <div>{{ item.address_name }}</div>
         </div>
+        <button @click="cancelHandler(item.id)">취소</button>
       </div>
     </div>
   </div>
@@ -150,39 +146,24 @@ onMounted(() => {
 </template>
 
 <style scoped>
-#main-container {
+#main-contain {
   display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
-  height: 100vh; /* Set the main container to take the full height of the viewport */
+  padding-top: 4rem;
+}
+
+#main-contain > div {
   margin: 1rem;
 }
 
-#main-container > div {
-  flex: 1; /* Each column takes an equal portion of the available space */
-  text-align: center;
-  margin-left: 2rem;
-  margin-right: 1rem;
-  margin-top: 2rem;
-  margin-down: 2rem;
-}
-#main-container > div:nth-child(1) {
-  flex: 1; /* The first column takes 2 parts of available space */
-  margin-left: 1rem;
-  margin-right: 1rem;
+#main-contain > div:nth-child(1),
+#main-contain > div:nth-child(3) {
+  flex: 0 0 280px; /* 고정된 너비 240px */
 }
 
-#main-container > div:nth-child(2) {
-  flex: 3; /* The second column takes 1 part of available space */
-  margin-left: 1rem;
-  margin-right: 1rem;
+#main-contain > div:nth-child(2) {
+  flex: 1; /* 남은 공간을 차지 */
 }
 
-#main-container > div:nth-child(3) {
-  flex: 1; /* The third column takes 3 parts of available space */
-  margin-left: 1rem;
-  margin-right: 2rem;
-}
 h1 {
   text-align: left;
   font-size: 36px;
@@ -342,6 +323,7 @@ h3 {
   padding: 6px 10px;
   background: hsla(0, 0%, 50%, 0.05);
   border-radius: 1000px;
+  width: 260px;
 }
 
 input {
@@ -359,7 +341,6 @@ input {
 #map {
   width: 100%; /* Make the width 100% */
   height: 100vh;
-  padding: 10px; /* Adjust padding as needed */
   position: relative;
   margin-bottom: 25px;
   background-repeat: no-repeat;
@@ -376,11 +357,14 @@ input {
   outline-style: none;
   outline-width: initial;
 }
+#list_wrap {
+  width: 260px;
+}
 
 #list_item {
   display: flex;
   justify-content: space-between;
-  width: 340px;
+  width: 260px;
   padding: 5px 0;
   margin-left: 16px;
   /* cursor: pointer; */
@@ -389,7 +373,21 @@ input {
 
 #list_text {
   display: flex;
+  text-align: left;
   flex-direction: column;
+}
+
+#list_group {
+  margin: 10px 13px 10px 0;
+  background: hsla(0, 0%, 90%, 0.2);
+  border-radius: 5px;
+}
+
+#list_wrap {
+  flex: 1; /* Take up the remaining space */
+  padding: 10px; /* Adjust padding as needed */
+  width: 605px;
+  margin-top: 20px;
 }
 
 /* #full_bg {
@@ -407,17 +405,4 @@ input {
   will-change: transform;
   z-index: -200;
 } */
-
-#list_group {
-  margin: 10px 13px 10px 0;
-  background: hsla(0, 0%, 90%, 0.2);
-  border-radius: 5px;
-}
-
-#list_wrap {
-  flex: 1; /* Take up the remaining space */
-  padding: 10px; /* Adjust padding as needed */
-  width: 605px;
-  margin-top: 20px;
-}
 </style>
