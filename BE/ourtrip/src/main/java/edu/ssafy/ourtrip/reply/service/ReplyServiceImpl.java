@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import edu.ssafy.ourtrip.reply.dao.ReplyMapper;
+import edu.ssafy.ourtrip.reply.dto.LikeDto;
 import edu.ssafy.ourtrip.reply.dto.ReplyDto;
 
 @Service
@@ -47,6 +48,21 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public List<ReplyDto> getReply(int listNo) throws SQLException {
 		return replyMapper.getReply(listNo);
+	}
+	
+	@Override
+	public int addReplyLike(LikeDto likeDto) throws SQLException {
+		return replyMapper.addReplyLike(likeDto);
+	}
+
+	@Override
+	public int subReplyLike(LikeDto likeDto) throws SQLException {
+		return replyMapper.subReplyLike(likeDto);
+	}
+
+	@Override
+	public int getReplyLike(LikeDto likeDto) throws SQLException {
+		return replyMapper.getReplyLike(likeDto);
 	}
 
 }

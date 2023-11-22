@@ -12,6 +12,12 @@
 		<result column="list_no" property="listNo"/>
 		<result column="user_id" property="userId"/>
 	</resultMap>
+	
+	<resultMap type="likeDto" id="likeDto">
+		<result column="reply_no" property="replyNo"/>
+		<result column="user_id" property="userId"/>
+	</resultMap>
+	
 
 	<insert id="regist" parameterType="map">
 		insert into reply (reply_content, list_no, user_id)
@@ -45,5 +51,21 @@
 		select *
 		from reply
 		where list_no = #{listNo}
+	</select>
+	
+	<insert id="addReplyLike" parameterType="map">
+		insert into replylike (reply_no, user_id)
+		values (#{replyNo}, #{userId})
+	</insert>
+	
+	<delete id="subReplyLike" parameterType="map">
+		delete from replylike
+		where reply_no = #{replyNo} and user_id = #{userId}
+	</delete>
+	
+	<select id="getReplyLike" parameterType="map" resultType="Integer">
+		select count(*)
+		from replylike
+		where reply_no = #{replyNo} and user_id = #{userId}
 	</select>
 </mapper>
