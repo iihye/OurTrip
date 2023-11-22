@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import axios from "axios";
+import axios, { HttpStatusCode } from "axios";
 
 const { VITE_APP_SERVER_URI } = import.meta.env;
 const props = defineProps({ item: Object, getReply: Function });
@@ -14,7 +14,13 @@ const deleteReplyHandler = async (replyNo) => {
     replyNo: replyNo,
     userId: "test",
   };
-  await axios.delete(url, { headers, data });
+  try {
+    await axios.delete(url, { headers, data });
+  } catch (e) {
+    if (e.response.status == HttpStatusCode.Unauthorized) {
+      alert("본인의 댓글만 삭제하실 수 있습니다잉!!");
+    }
+  }
   props.getReply();
 };
 
