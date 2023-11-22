@@ -23,7 +23,7 @@ const getReply = async () => {
   replys.value = response.data.list;
 };
 
-const addReplyHandler = async (event) => {
+const addReplyHandler = async () => {
   const url = `${VITE_APP_SERVER_URI}/reply/regist`;
   const headers = {
     'Content-Type': 'application/json',
@@ -42,8 +42,6 @@ const addReplyHandler = async (event) => {
 onMounted(() => {
   getReply();
 });
-
-const item = { userName: 'jam', content: 'test' };
 </script>
 
 <template>
