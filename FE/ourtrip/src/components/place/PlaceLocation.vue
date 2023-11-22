@@ -160,6 +160,7 @@ onMounted(() => {
 #main-contain {
   display: flex;
   padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 #main-contain > div {
@@ -366,7 +367,6 @@ h4{
 
 #map {
   width: 98%; /* Make the width 100% */
-  height: auto;
   position: relative;
   margin-bottom: 25px;
   background-repeat: no-repeat;
@@ -388,13 +388,16 @@ h4{
 }
 
 #list-container {
+  overflow-y: auto;
+  height: 700px;
+  width: 100%;
 }
 
 #list_items {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 280px;
+  width: 260px;
   padding: 5px 0;
   margin-left: 16px;
   /* cursor: pointer; */
