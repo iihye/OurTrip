@@ -13,7 +13,7 @@ import edu.ssafy.ourtrip.reply.dto.ReplyResDto;
 @Mapper
 public interface ReplyMapper {
 	void regist(ReplyDto replyDto) throws SQLException;
-	void delete(LikeDto likeDto) throws SQLException;
+	int delete(LikeDto likeDto) throws SQLException;
 	int addLike(int replyNo) throws SQLException;
 	int subLike(int replyNo) throws SQLException;
 	int getLike(int replyNo) throws SQLException;

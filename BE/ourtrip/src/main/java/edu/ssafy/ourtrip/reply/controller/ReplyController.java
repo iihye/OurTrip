@@ -51,7 +51,9 @@ public class ReplyController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
-			replyService.delete(likeDto);
+			int cnt = replyService.delete(likeDto);
+			
+			System.out.print(cnt);
 			resultMap.put("message", "삭제 성공");
 			status = HttpStatus.CREATED;
 		} catch(Exception e) {
@@ -121,7 +123,6 @@ public class ReplyController {
 	@PostMapping("/getReply")
 	public ResponseEntity<Map<String, Object>> getReply(@RequestBody ReplyGetDto replyGetDto){
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		System.out.println(replyGetDto.toString());
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
 			List<ReplyResDto> list= replyService.getReply(replyGetDto);
