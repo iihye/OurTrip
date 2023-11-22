@@ -84,7 +84,7 @@ onMounted(() => {
 
   <!--logo-->
   <h1>가고 싶은 PLACE를 검색해주세요</h1>
-  <h2>-> 검색 결과에서 원하는 장소를 선택해주세요</h2>
+  <h2>검색 결과에서 원하는 장소를 선택해주세요</h2>
 
   <div id="main-contain">
     <div>
@@ -105,17 +105,22 @@ onMounted(() => {
               stroke-opacity="0.3"
             ></path>
           </svg>
-          <input placeholder="가고 싶은 PLACE를 검색해주세요." @input="searchHandler" />
+          <input placeholder="검색어를 입력하세요" @input="searchHandler" />
         </div>
       </form>
 
       <!--search result list-->
-      <div id="list_item" v-for="item in searchList" :key="item.id">
-        <div id="list_text">
-          <div>{{ item.place_name }}</div>
-          <div>{{ item.address_name }}</div>
+      <div id="list-container">
+        <div id="list_items" v-for="item in searchList" :key="item.id" @click="selectHandler(item)">
+          <div id="list_item">
+            <font-awesome-icon :icon="['fas', 'location-dot']" style="color: #1b64da" />
+            <div id="list_text">
+              <div>{{ item.place_name }}</div>
+              <div>{{ item.address_name }}</div>
+            </div>
+            <!-- <button>선택</button> -->
+          </div>
         </div>
-        <button @click="selectHandler(item)">선택</button>
       </div>
     </div>
 
@@ -126,14 +131,19 @@ onMounted(() => {
 
     <div>
       <!-- select list -->
-      <h3>선택한 장소 목록</h3>
-      <div id="list_item" v-for="item in selectList" :key="item.id">
-        <div id="list_text">
-          <div>{{ item.place_name }}</div>
-          <div>{{ item.address_name }}</div>
+      <h4>선택한 PLACE 목록</h4>
+      <div id="list-container">
+        <div id="list_items" v-for="item in selectList" :key="item.id" @click="cancelHandler(item.id)">
+          <div id="list_item">
+            <font-awesome-icon :icon="['fas', 'xmark']" style="color: #1b64da" />
+            <div id="list_text">
+              <div>{{ item.place_name }}</div>
+              <div>{{ item.address_name }}</div>
+            </div>
+            <!-- <button></button> -->
+          </div>
         </div>
-        <button @click="cancelHandler(item.id)">취소</button>
-      </div>
+    </div>
     </div>
   </div>
 
@@ -148,26 +158,29 @@ onMounted(() => {
 <style scoped>
 #main-contain {
   display: flex;
-  padding-top: 4rem;
+  padding-top: 1rem;
 }
 
 #main-contain > div {
-  margin: 1rem;
+  
 }
 
 #main-contain > div:nth-child(1),
 #main-contain > div:nth-child(3) {
   flex: 0 0 280px; /* 고정된 너비 240px */
+  margin: 1rem;
 }
 
 #main-contain > div:nth-child(2) {
-  flex: 1; /* 남은 공간을 차지 */
+  display: flex;
+  justify-content: center; /* 수평 가운데에 정렬 */
+  flex: 1;
 }
 
 h1 {
   text-align: left;
   font-size: 36px;
-  padding: 4rem 4rem 0 4rem;
+  padding: 1rem 4rem 0 4rem;
 }
 h2 {
   text-align: left;
@@ -176,6 +189,11 @@ h2 {
 }
 h3 {
   margin-top: 1rem;
+}
+h4{
+  font-size: 20px;
+  color: #1b64da;
+  text-align: center;
 }
 .c-stepper {
   display: flex;
@@ -325,21 +343,25 @@ h3 {
   border-radius: 1000px;
   width: 260px;
 }
+#searchBox input{
+  font-size: 16px;
+  margin-left: 1rem;
+}
 
-input {
+/* input {
   width: 195px;
   font-size: 12px;
   color: #000000;
   background: none;
   outline: none;
-}
+} */
 
 #container {
   display: flex;
 }
 
 #map {
-  width: 100%; /* Make the width 100% */
+  width: 95%; /* Make the width 100% */
   height: 100vh;
   position: relative;
   margin-bottom: 25px;
@@ -361,20 +383,33 @@ input {
   width: 260px;
 }
 
-#list_item {
+#list-container {
+  overflow-y: auto; /* 수직 스크롤을 추가 */
+  max-height: 100vh; /* 최대 높이를 설정하거나 필요에 따라 조절 */
+}
+
+#list_items {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 260px;
   padding: 5px 0;
   margin-left: 16px;
   /* cursor: pointer; */
-  padding: 9px 9px 9px 0;
+  padding: 9px 9px 9px 0 ;
+}
+#list_item{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid #d8d8d8 ;
 }
 
 #list_text {
   display: flex;
   text-align: left;
   flex-direction: column;
+  margin-left: 1rem;
 }
 
 #list_group {

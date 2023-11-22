@@ -191,7 +191,7 @@ const modifyButtonHandler = () => {
 h1 {
   text-align: left;
   font-size: 36px;
-  padding: 4rem 4rem 0 4rem;
+  padding: 1rem 4rem 0 4rem;
 }
 h3 {
   margin-top: 1rem;
