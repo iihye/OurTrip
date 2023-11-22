@@ -115,6 +115,27 @@ const modifyButtonHandler = () => {
 </script>
 
 <template>
+  <!--stepper-->
+  <div>
+    <ol class="c-stepper">
+      <li class="c-stepper__item1">
+        <h3 class="c-stepper__title">PLACE 고르기</h3>
+      </li>
+      <li class="c-stepper__item2">
+        <h3 class="c-stepper__title">PLACELIST 이름 짓기</h3>
+      </li>
+      <li class="c-stepper__item3">
+        <h3 class="c-stepper__title">커버 이미지 고르기</h3>
+      </li>
+      <li class="c-stepper__item4">
+        <h3 class="c-stepper__title">공개 여부 결정하기</h3>
+      </li>
+    </ol>
+  </div>
+
+  <!--logo-->
+  <h1>{{ listInfo.list_name }} PLACELIST를 모두에게 공개할까요?</h1>
+
   <!--button-->
   <container class="btn-container">
     <div class="btn-handler">
@@ -141,27 +162,6 @@ const modifyButtonHandler = () => {
     </div>
   </container>
 
-  <!--stepper-->
-  <div>
-    <ol class="c-stepper">
-      <li class="c-stepper__item1">
-        <h3 class="c-stepper__title">PLACE 고르기</h3>
-      </li>
-      <li class="c-stepper__item2">
-        <h3 class="c-stepper__title">PLACELIST 이름 짓기</h3>
-      </li>
-      <li class="c-stepper__item3">
-        <h3 class="c-stepper__title">커버 이미지 고르기</h3>
-      </li>
-      <li class="c-stepper__item4">
-        <h3 class="c-stepper__title">공개 여부 결정하기</h3>
-      </li>
-    </ol>
-  </div>
-
-  <!--logo-->
-  <h1>{{ listInfo.list_name }}를 모두에게 공개할까요?</h1>
-
   <!--button-->
   <div class="select-container">
     <v-btn
@@ -185,9 +185,14 @@ const modifyButtonHandler = () => {
       아니요! 저만 볼게요
     </v-btn>
   </div>
+
+
 </template>
 
 <style scoped>
+body{
+  max-height: 100%;
+}
 h1 {
   text-align: left;
   font-size: 36px;
@@ -316,7 +321,11 @@ h3 {
 }
 .select-container {
   display: flex;
+  height: 50%;
+  flex-direction: center;
   justify-content: center;
+  align-items: center;
+  padding: 1rem 4rem 2rem 4rem;
 }
 .select-btn {
   margin-left: 2rem;
@@ -330,7 +339,7 @@ h3 {
 .btn-container {
   position: absolute;
   right: 0px;
-  bottom: 0px;
+  top: 0px;
   padding: 3rem;
 }
 .btn-handler {
