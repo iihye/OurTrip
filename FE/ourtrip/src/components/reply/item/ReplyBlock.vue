@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-import axios from 'axios';
+import { ref } from "vue";
+import axios from "axios";
 
 const { VITE_APP_SERVER_URI } = import.meta.env;
 const props = defineProps({ item: Object, getReply: Function });
@@ -8,11 +8,11 @@ const props = defineProps({ item: Object, getReply: Function });
 const deleteReplyHandler = async (replyNo) => {
   const url = `${VITE_APP_SERVER_URI}/reply/delete`;
   const headers = {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   };
   const data = {
     replyNo: replyNo,
-    userId: 'test',
+    userId: "test",
   };
   await axios.delete(url, { headers, data });
   props.getReply();
