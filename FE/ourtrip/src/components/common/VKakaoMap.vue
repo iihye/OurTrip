@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
+import markerSvg from "../../assets/img/marker.svg?url";
 
 const { VITE_APP_KAKAO_JS_KEY, VITE_APP_CLIENT_URI } = import.meta.env;
 var map;
@@ -68,7 +69,7 @@ const loadMarkers = () => {
 
   // 마커 이미지를 생성합니다
   // const imgSrc = require("@/assets/map/marker.svg");
-  const imgSrc = `assets/img/marker.svg`;
+  const imgSrc = markerSvg;
   // 마커 이미지의 이미지 크기 입니다
   const imgSize = new kakao.maps.Size(24, 35);
   const markerImage = new kakao.maps.MarkerImage(imgSrc, imgSize);

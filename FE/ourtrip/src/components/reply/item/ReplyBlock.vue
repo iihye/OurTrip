@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import axios, { HttpStatusCode } from "axios";
 import { useMemberStore } from "@/stores/user";
+import LikeSvgIcon from "../../../assets/img/like.svg?component";
 import SvgIcon from "../../common/SvgIcon.vue";
 
 const { VITE_APP_SERVER_URI, VITE_APP_CLIENT_URI } = import.meta.env;
@@ -94,7 +95,8 @@ const likeSvg = `${VITE_APP_CLIENT_URI}/like.svg`;
           </div> -->
         <div v-if="props.item.status >= 1">
           <!-- <img height="18" :src="likeSvg" alt="like" /> -->
-          <SvgIcon name="like" height="18"></SvgIcon>
+          <!-- <SvgIcon name="like" height="18"></SvgIcon> -->
+          <LikeSvgIcon height="18" />
           <div>{{ props.item.reply_like }}</div>
         </div>
       </div>
