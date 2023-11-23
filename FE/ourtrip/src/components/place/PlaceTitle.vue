@@ -11,11 +11,8 @@ const { listInfo } = storeToRefs(placeStore);
 const title = ref('');
 
 onBeforeRouteLeave((to, from) => {
-  console.log('to: ' + to.path);
-  console.log('from: ' + from.path);
   if (to.path !== '/place/cover' && to.path !== '/place/location') {
     const answer = window.confirm('지금까지 만든 PLACELIST가 사라져요😥');
-    // cancel the navigation and stay on the same page
     if (!answer) return false;
     listInfo.value = {};
   }
@@ -26,8 +23,6 @@ onMounted(() => {
     title.value = listInfo.value.list_name;
   }
 });
-
-console.log(title.value);
 
 const nextButtonHandler = () => {
   if (title.value !== '' && title.value.length <= 20) {

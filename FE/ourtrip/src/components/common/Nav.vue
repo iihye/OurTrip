@@ -12,7 +12,6 @@ const { menuList } = storeToRefs(menuStore);
 const { changeMenuState } = menuStore;
 
 const logout = () => {
-  // console.log('로그아웃!!!!');
   changeMenuState();
   sessionStorage.removeItem('accessToken');
   sessionStorage.removeItem('refreshToken');
@@ -42,17 +41,13 @@ const logout = () => {
         <template v-if="menu.show">
           <template v-if="menu.routeName === 'user-logout'">
             <li class="nav-item">
-              <router-link to="/" @click.prevent="logout" class="nav-link">{{
-                menu.name
-              }}</router-link>
+              <router-link to="/" @click.prevent="logout" class="nav-link">{{ menu.name }}</router-link>
             </li>
           </template>
 
           <template v-else>
             <li class="nav-item">
-              <router-link :to="{ name: menu.routeName }" class="nav-link">{{
-                menu.name
-              }}</router-link>
+              <router-link :to="{ name: menu.routeName }" class="nav-link">{{ menu.name }}</router-link>
             </li>
           </template>
         </template>

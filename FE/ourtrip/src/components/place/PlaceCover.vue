@@ -16,8 +16,6 @@ const selectImageUrl = ref('');
 const noImageUrl = ref('../src/assets/img/noimage.png');
 
 onBeforeRouteLeave((to, from) => {
-  console.log('to: ' + to.path);
-  console.log('from: ' + from.path);
   if (to.path !== '/place/open' && to.path !== '/place/title') {
     const answer = window.confirm('지금까지 만든 PLACELIST가 사라져요😥');
     if (!answer) return false;
@@ -52,7 +50,6 @@ const handleImageError = async () => {
 
 const selectHandler = (image_url) => {
   selectImageUrl.value = image_url;
-  // console.log(selectImageUrl.value);
 };
 
 const nextButtonHandler = () => {
@@ -60,7 +57,6 @@ const nextButtonHandler = () => {
     alert('키워드 검색 후 커버 이미지를 선택해주세요☺️');
   } else {
     listInfo.value = { ...listInfo.value, list_img: selectImageUrl.value };
-    // console.log(listInfo.value);
     router.push({ name: 'place-open' });
   }
 };
