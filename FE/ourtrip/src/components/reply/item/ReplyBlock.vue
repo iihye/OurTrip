@@ -87,7 +87,13 @@ const likeSvg = `${VITE_APP_CLIENT_URI}/like.svg`;
             <div id="user_name">{{ props.item.user_id }}</div>
             <div id="content">{{ props.item.reply_content }}</div>
           </div>
-          <img v-if="props.item.status == 1" height="18" :src="likeSvg" alt="like" />
+          <!-- <div v-for="n in props.item.reply_like" :key="n">
+            <img height="18" :src="likeSvg" alt="like" />
+          </div> -->
+          <div v-if="props.item.status >= 1">
+            <img height="18" :src="likeSvg" alt="like" />
+            <div>{{ props.item.reply_like }}</div>
+          </div>
         </div>
         <div id="button_wrap">
           <button
