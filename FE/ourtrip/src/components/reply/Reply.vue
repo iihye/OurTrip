@@ -24,7 +24,7 @@ const fetch = async () => {
 };
 
 const displayedAt = (item) => {
-  const createdAt = new Date(item[0], item[1] - 1, item[2], item[3], item[4], item[5]);
+  const createdAt = new Date(item[0], item[1] - 1, item[2], item[3] || 0, item[4] || 0, item[5] || 0);
   const milliSeconds = new Date() - createdAt;
   const seconds = milliSeconds / 1000;
   if (seconds < 60) return `방금 전`;
