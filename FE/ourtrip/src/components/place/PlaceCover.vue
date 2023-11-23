@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, onBeforeRouteLeave } from 'vue-router';
 import { usePlaceStore } from '@/stores/place';
 import axios from 'axios';
 import { storeToRefs } from 'pinia';
@@ -14,6 +14,17 @@ const searchKeyword = ref('');
 const searchList = ref([]);
 const selectImageUrl = ref('');
 const noImageUrl = ref('../src/assets/img/noimage.png');
+
+onBeforeRouteLeave((to, from) => {
+  console.log('to: ' + to.path);
+  console.log('from: ' + from.path);
+  if (to.path !== '/place/open' && to.path !== '/place/title') {
+    const answer = window.confirm('Do you really want to leave? you have unsaved changes!');
+    // cancel the navigation and stay on the same page
+    if (!answer) return false;
+    listInfo.value = {};
+  }
+});
 
 onMounted(() => {
   if (listInfo.value.list_img !== null) {

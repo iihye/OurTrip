@@ -122,7 +122,7 @@ const router = createRouter({
       path: '/list',
       name: 'list',
       component: ListView,
-      redirect: { name: 'list-open' },
+      redirect: { name: 'list-my' },
       children: [
         {
           path: 'my',
@@ -145,6 +145,7 @@ const router = createRouter({
           path: 'detail/:listno',
           name: 'list-detail',
           component: ListDetail,
+          mode: 'history',
         },
       ],
     },
@@ -158,7 +159,6 @@ const router = createRouter({
       redirect: '/notFound',
     },
   ],
-  mode: 'history',
 });
 
 export default router;
