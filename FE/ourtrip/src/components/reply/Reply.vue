@@ -7,7 +7,7 @@ import { useMemberStore } from "@/stores/user";
 import ReplyBlock from "../../components/reply/item/ReplyBlock.vue";
 
 const { VITE_APP_SERVER_URI } = import.meta.env;
-const props = defineProps({ listNo: Number });
+const props = defineProps({ listNo: String });
 const replyContent = ref("");
 const replys = ref([]);
 
