@@ -112,6 +112,10 @@ const modifyButtonHandler = () => {
   resetListInfo();
   router.push({ name: 'list-my' });
 };
+
+const leftButtonHandler = () => {
+  router.push({name: 'place-cover'})
+}
 </script>
 
 <template>
@@ -134,31 +138,14 @@ const modifyButtonHandler = () => {
   </div>
 
   <!--logo-->
-  <h1>{{ listInfo.list_name }}를 모두에게 공개할까요?</h1>
+  <h1>'{{ listInfo.list_name }}' PLACELIST를 모두에게 공개할까요?</h1>
 
   <!--button-->
-  <div class="select-container">
-    <v-btn
-      class="select-btn"
-      size="large"
-      variant="flat"
-      rounded="xl"
-      @click="openButtonHandler"
-      :class="{ selected: selectIsOpen }"
-    >
-      네! 공개할게요
-    </v-btn>
-    <v-btn
-      class="select-btn"
-      size="large"
-      variant="flat"
-      rounded="xl"
-      @click="closeButtonHandler"
-      :class="{ selected: !selectIsOpen }"
-    >
-      아니요! 저만 볼게요
-    </v-btn>
-  </div>
+  <container class="btnleft-container">
+    <div class="btnleft-handler">
+      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="leftButtonHandler"> 이전으로 </v-btn>
+    </div>
+    </container>
 
   <!--button-->
   <container class="btn-container">
@@ -185,13 +172,42 @@ const modifyButtonHandler = () => {
       </v-btn>
     </div>
   </container>
+
+  <!--button-->
+  <div class="select-container">
+    <v-btn
+      class="select-btn"
+      size="large"
+      variant="flat"
+      rounded="xl"
+      @click="openButtonHandler"
+      :class="{ selected: selectIsOpen }"
+    >
+      네! 공개할게요
+    </v-btn>
+    <v-btn
+      class="select-btn"
+      size="large"
+      variant="flat"
+      rounded="xl"
+      @click="closeButtonHandler"
+      :class="{ selected: !selectIsOpen }"
+    >
+      아니요! 저만 볼게요
+    </v-btn>
+  </div>
+
+
 </template>
 
 <style scoped>
+body{
+  max-height: 100%;
+}
 h1 {
   text-align: left;
   font-size: 36px;
-  padding: 4rem 4rem 0 4rem;
+  padding: 1rem 4rem 0 4rem;
 }
 h3 {
   margin-top: 1rem;
@@ -316,7 +332,11 @@ h3 {
 }
 .select-container {
   display: flex;
+  height: 50%;
+  flex-direction: center;
   justify-content: center;
+  align-items: center;
+  padding: 1rem 4rem 2rem 4rem;
 }
 .select-btn {
   margin-left: 2rem;
@@ -330,12 +350,22 @@ h3 {
 .btn-container {
   position: absolute;
   right: 0px;
-  bottom: 0px;
+  top: 0px;
   padding: 3rem;
 }
 .btn-handler {
   margin-left: auto;
   margin-right: 2rem;
+}
+.btnleft-container {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  padding: 3rem;
+}
+.btnleft-handler {
+  margin-left: 2rem;
+  margin-right: auto;
 }
 .btn {
   background-color: #3182f6;

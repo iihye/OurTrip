@@ -13,6 +13,10 @@ const nextButtonHandler = () => {
   listInfo.value = { ...listInfo.value, list_name: title.value };
   router.push({ name: 'place-cover' });
 };
+
+const leftButtonHandler = () => {
+  router.push({name: 'place-location'})
+}
 </script>
 
 <template>
@@ -37,6 +41,20 @@ const nextButtonHandler = () => {
   <!--logo-->
   <h1>PLACELIST의 이름을 지어주세요</h1>
 
+  <!--button-->
+  <container class="btnleft-container">
+    <div class="btnleft-handler">
+      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="leftButtonHandler"> 이전으로 </v-btn>
+    </div>
+  </container>
+
+  <!--button-->
+  <container class="btn-container">
+    <div class="btn-handler">
+      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="nextButtonHandler"> 다음으로 </v-btn>
+    </div>
+  </container>
+
   <!--input-->
   <form class="form-container">
     <div class="text-div">
@@ -56,20 +74,13 @@ const nextButtonHandler = () => {
   <!-- <div v-for="place in listInfo.list_places" :key="place.id">
     {{ place.place_name }}
   </div> -->
-
-  <!--button-->
-  <container class="btn-container">
-    <div class="btn-handler">
-      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="nextButtonHandler"> 다음으로 </v-btn>
-    </div>
-  </container>
 </template>
 
 <style scoped>
 h1 {
   text-align: left;
   font-size: 36px;
-  padding: 4rem 4rem 0 4rem;
+  padding: 1rem 4rem 0 4rem;
 }
 h3 {
   margin-top: 1rem;
@@ -193,14 +204,19 @@ h3 {
   order: -1;
 }
 .form-container {
-  padding: 4rem 4rem 0 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50%;
+  padding: 1rem 4rem 2rem 4rem;
 }
 .text-div {
   position: relative;
   width: 1000px;
 }
 .text-input {
-  font-size: 16px;
+  text-align: center;
+  font-size: 18px;
   color: #222222;
   width: 1000px;
   border: none;
@@ -235,12 +251,22 @@ h3 {
 .btn-container {
   position: absolute;
   right: 0px;
-  bottom: 0px;
+  top: 0px;
   padding: 3rem;
 }
 .btn-handler {
   margin-left: auto;
   margin-right: 2rem;
+}
+.btnleft-container {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  padding: 3rem;
+}
+.btnleft-handler {
+  margin-left: 2rem;
+  margin-right: auto;
 }
 .btn {
   background-color: #3182f6;
