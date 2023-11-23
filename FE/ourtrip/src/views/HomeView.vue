@@ -79,7 +79,7 @@ const goPlace = async () => {
         </h2>
       </div>
       <div id="sub-img-container">
-        <img src="@/assets/img/main4.png" alt="share your PLACELIST with friends" />
+        <img src="@/assets/img/test3.png" alt="share your PLACELIST with friends" />
       </div>
     </div>
   </container>
