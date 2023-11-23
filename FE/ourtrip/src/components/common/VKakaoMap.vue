@@ -30,10 +30,7 @@ watch(
   () => props.selectStation.value,
   () => {
     // 이동할 위도 경도 위치를 생성합니다
-    var moveLatLon = new kakao.maps.LatLng(
-      props.selectStation.lat,
-      props.selectStation.lng
-    );
+    var moveLatLon = new kakao.maps.LatLng(props.selectStation.lat, props.selectStation.lng);
 
     // 지도 중심을 부드럽게 이동시킵니다
     // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
@@ -71,7 +68,7 @@ const loadMarkers = () => {
 
   // 마커 이미지를 생성합니다
   // const imgSrc = require("@/assets/map/marker.svg");
-  const imgSrc = `${VITE_APP_CLIENT_URI}/map/marker.svg`;
+  const imgSrc = `src/assets/img/marker.svg`;
   // 마커 이미지의 이미지 크기 입니다
   const imgSize = new kakao.maps.Size(24, 35);
   const markerImage = new kakao.maps.MarkerImage(imgSrc, imgSize);
