@@ -4,7 +4,7 @@ import { storeToRefs } from "pinia";
 import axios, { HttpStatusCode } from "axios";
 import { useMemberStore } from "@/stores/user";
 
-const { VITE_APP_SERVER_URI } = import.meta.env;
+const { VITE_APP_SERVER_URI, VITE_APP_CLIENT_URI } = import.meta.env;
 const props = defineProps({ item: Object, getReply: Function });
 
 const memberStore = useMemberStore();
@@ -39,16 +39,43 @@ const deleteReplyHandler = async (replyNo) => {
 };
 
 const addLikeHandler = async (replyNo) => {
-  const url = `${VITE_APP_SERVER_URI}/reply/addlike/${replyNo}`;
-  const response = await axios.post(url);
-  console.log(response);
+  const url = `${VITE_APP_SERVER_URI}/reply/addLike`;
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  const data = {
+    replyNo: replyNo,
+    userId: userInfo.value.userId,
+  };
+  try {
+    await axios.post(url, data, headers);
+  } catch (e) {
+    if (e.response.status == HttpStatusCode.Forbidden) {
+      alert("좋아요는 한번만 할 수 있습니다잉!!");
+    }
+  }
+  props.getReply();
 };
 
 const cancelLikeHandler = async (replyNo) => {
-  const url = `${VITE_APP_SERVER_URI}/reply/sublike/${replyNo}`;
-  const response = await axios.post(url);
-  console.log(response);
+  const url = `${VITE_APP_SERVER_URI}/reply/subLike`;
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  const data = {
+    replyNo: replyNo,
+    userId: userInfo.value.userId,
+  };
+  try {
+    await axios.post(url, data, headers);
+  } catch (e) {
+    if (e.response.status == HttpStatusCode.Forbidden) {
+      alert("취소는 한번만 할 수 있습니다잉!!");
+    }
+  }
+  props.getReply();
 };
+const likeSvg = `${VITE_APP_CLIENT_URI}/like.svg`;
 </script>
 
 <template>
@@ -60,9 +87,29 @@ const cancelLikeHandler = async (replyNo) => {
             <div id="user_name">{{ props.item.user_id }}</div>
             <div id="content">{{ props.item.reply_content }}</div>
           </div>
+          <!-- <div v-for="n in props.item.reply_like" :key="n">
+            <img height="18" :src="likeSvg" alt="like" />
+          </div> -->
+          <div v-if="props.item.status >= 1">
+            <img height="18" :src="likeSvg" alt="like" />
+            <div>{{ props.item.reply_like }}</div>
+          </div>
         </div>
         <div id="button_wrap">
-          <button class="button">좋아요</button>
+          <button
+            v-if="props.item.status == 1"
+            class="button"
+            @click="cancelLikeHandler(item.reply_no)"
+          >
+            좋아요 취소
+          </button>
+          <button
+            v-if="props.item.status == 0"
+            class="button"
+            @click="addLikeHandler(item.reply_no)"
+          >
+            좋아요
+          </button>
           <button class="button" @click="deleteReplyHandler(item.reply_no)">삭제</button>
         </div>
       </div>
