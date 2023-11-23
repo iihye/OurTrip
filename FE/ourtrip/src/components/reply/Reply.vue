@@ -22,7 +22,8 @@ onMounted(async () => {
 });
 
 const fetch = async () => {
-  await getUserInfo(sessionStorage.getItem('accessToken'));
+  const accessToken = sessionStorage.getItem('accessToken');
+  await getUserInfo(accessToken !== null ? accessToken : null);
 };
 
 const scrollDown = async () => {
@@ -57,7 +58,7 @@ const getReply = async () => {
 
   const data = {
     listNo: props.listNo,
-    userId: userInfo.value.userId,
+    userId: userInfo.value !== null ? userInfo.value.userId : undefined,
   };
 
   const response = await axios.post(url, data, headers);
@@ -151,6 +152,7 @@ setInterval(() => getReply(), 3000);
   background-color: #eff2f5;
   outline-width: 0;
   padding-left: 10px;
+  padding-right: 10px;
 }
 #input_description {
   font-size: 12px;
