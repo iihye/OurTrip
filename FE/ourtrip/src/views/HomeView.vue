@@ -17,7 +17,9 @@ const goPlace = async () => {
       </h1>
     </div>
     <div id="footer-btn-container">
-      <v-btn id="footer-btn" size="x-large" variant="outlined" rounded="xl" width="400" @click="goPlace"> 시작하기 </v-btn>
+      <v-btn id="footer-btn" size="x-large" variant="outlined" rounded="xl" width="400" @click="goPlace">
+        시작하기
+      </v-btn>
     </div>
     <div>
       <img id="super-img1" src="@/assets/img/main1.png" alt="main-img1" width="700" />
@@ -168,7 +170,7 @@ hr {
   padding-right: 10%;
 }
 #sub-img-container img {
-  width: 1200px;
+  width: 700px;
   max-width: 100%;
   height: auto; /* 세로 크기를 자동으로 조절하여 비율 유지 */
 }

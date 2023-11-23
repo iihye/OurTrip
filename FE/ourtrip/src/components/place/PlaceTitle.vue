@@ -15,8 +15,8 @@ const nextButtonHandler = () => {
 };
 
 const leftButtonHandler = () => {
-  router.push({name: 'place-location'})
-}
+  router.push({ name: 'place-location' });
+};
 </script>
 
 <template>
@@ -64,6 +64,7 @@ const leftButtonHandler = () => {
         v-model="title"
         variant="underlined"
         style="font-size: 1.5rem; ime-mode: inactive"
+        placeholder="PLACELIST의 이름을 지어주세요"
         required
       />
       <span class="text-span"></span>

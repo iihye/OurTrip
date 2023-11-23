@@ -57,7 +57,6 @@ onMounted(() => {
 </script>
 
 <template>
-
   <!--stepper-->
   <div>
     <ol class="c-stepper">
@@ -82,9 +81,9 @@ onMounted(() => {
 
   <!--button-->
   <container class="btn-container">
-  <div class="btn-handler">
-    <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="nextButtonHandler"> 다음으로 </v-btn>
-  </div>
+    <div class="btn-handler">
+      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="nextButtonHandler"> 다음으로 </v-btn>
+    </div>
   </container>
 
   <div id="main-contain">
@@ -144,7 +143,7 @@ onMounted(() => {
             <!-- <button></button> -->
           </div>
         </div>
-    </div>
+      </div>
     </div>
   </div>
 
@@ -159,15 +158,15 @@ onMounted(() => {
 <style scoped>
 #main-contain {
   display: flex;
+  height: 600px;
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
 
 #main-contain > div {
-  
 }
 
-#main-contain > div:nth-child(1){
+#main-contain > div:nth-child(1) {
   flex: 0 0 300px; /* 고정된 너비 240px */
   margin-left: 2rem;
 }
@@ -195,7 +194,7 @@ h2 {
 h3 {
   margin-top: 1rem;
 }
-h4{
+h4 {
   font-size: 20px;
   color: #1b64da;
   text-align: center;
@@ -343,12 +342,12 @@ h4{
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  padding: 6px ;
+  padding: 6px;
   background: hsla(0, 0%, 50%, 0.05);
   border-radius: 1000px;
   width: 280px;
 }
-#searchBox input{
+#searchBox input {
   font-size: 16px;
   margin-left: 1rem;
 }
@@ -367,6 +366,7 @@ h4{
 
 #map {
   width: 98%; /* Make the width 100% */
+  height: auto;
   position: relative;
   margin-bottom: 25px;
   background-repeat: no-repeat;
@@ -374,10 +374,10 @@ h4{
   background-repeat-y: no-repeat;
   background-size: 100% 100%;
 
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
-  border-bottom-right-radius: 30px;
-  border-bottom-left-radius: 30px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
 
   outline-color: initial;
   outline-style: none;
@@ -389,7 +389,7 @@ h4{
 
 #list-container {
   overflow-y: auto;
-  height: 700px;
+  height: 500px;
   width: 100%;
 }
 
@@ -401,13 +401,13 @@ h4{
   padding: 5px 0;
   margin-left: 16px;
   /* cursor: pointer; */
-  padding: 9px 9px 9px 0 ;
+  padding: 9px 9px 9px 0;
 }
-#list_item{
+#list_item {
   display: flex;
   align-items: center;
   width: 100%;
-  border-bottom: 1px solid #d8d8d8 ;
+  border-bottom: 1px solid #d8d8d8;
 }
 
 #list_text {
