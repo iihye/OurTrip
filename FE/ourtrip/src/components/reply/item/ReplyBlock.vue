@@ -19,7 +19,7 @@ const fetch = async () => {
   await getUserInfo(sessionStorage.getItem('accessToken'));
 };
 
-const isUserInfo = ref(userInfo !== null ? true : false);
+const isUserInfo = ref(userInfo.value !== null ? true : false);
 
 const deleteReplyHandler = async (replyNo) => {
   const url = `${VITE_APP_SERVER_URI}/reply/delete`;
@@ -174,6 +174,7 @@ const likeSvg = `${VITE_APP_CLIENT_URI}/like.svg`;
 
 span {
   padding: 0 5px;
+  padding-top: 4px;
   border: none;
   background: none;
   color: #65676b;

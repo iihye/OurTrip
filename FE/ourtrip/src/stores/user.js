@@ -71,28 +71,30 @@ export const useMemberStore = defineStore('userStore', () => {
   };
 
   const getUserInfo = (token) => {
-    let decodeToken = jwtDecode(token);
-    // console.log('2. decodeToken', decodeToken);
-    findById(
-      decodeToken.userId,
-      (response) => {
-        if (response.status === httpStatusCode.OK) {
-          userInfo.value = response.data.userInfo;
-          // console.log('3. getUserInfo data >> ', response.data);
-        } else {
-          // console.log("유저 정보 없음!!!!");
-        }
-      },
-      async (error) => {
-        // console.error(
-        //   "getUserInfo() error code [토큰 만료되어 사용 불가능.] ::: ",
-        //   error.response.status
-        // );
-        isValidToken.value = false;
+    if (token !== null) {
+      let decodeToken = jwtDecode(token);
+      // console.log('2. decodeToken', decodeToken);
+      findById(
+        decodeToken.userId,
+        (response) => {
+          if (response.status === httpStatusCode.OK) {
+            userInfo.value = response.data.userInfo;
+            // console.log('3. getUserInfo data >> ', response.data);
+          } else {
+            // console.log("유저 정보 없음!!!!");
+          }
+        },
+        async (error) => {
+          // console.error(
+          //   "getUserInfo() error code [토큰 만료되어 사용 불가능.] ::: ",
+          //   error.response.status
+          // );
+          isValidToken.value = false;
 
-        await tokenRegenerate();
-      }
-    );
+          await tokenRegenerate();
+        }
+      );
+    }
   };
 
   const tokenRegenerate = async () => {
