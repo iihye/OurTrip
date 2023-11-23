@@ -19,7 +19,7 @@ const selectIsOpen = ref(false);
 onBeforeRouteLeave((to, from) => {
   console.log('to: ' + to.path);
   console.log('from: ' + from.path);
-  if (to.path !== '/list' && to.path !== '/place/cover') {
+  if (to.path !== '/place/save' && to.path !== '/place/cover') {
     const answer = window.confirm('Do you really want to leave? you have unsaved changes!');
     // cancel the navigation and stay on the same page
     if (!answer) return false;
@@ -92,7 +92,7 @@ const saveButtonHandler = async () => {
   const listNo = await _registerList();
   registerPlace(listNo);
   resetListInfo();
-  router.push({ name: 'list' });
+  router.push({ name: 'place-save' });
 };
 
 const modifyButtonHandler = () => {
@@ -121,7 +121,7 @@ const modifyButtonHandler = () => {
   _modifyList();
   registerPlace(listNo);
   resetListInfo();
-  router.push({ name: 'list-my' });
+  router.push({ name: 'place-save' });
 };
 
 const leftButtonHandler = () => {

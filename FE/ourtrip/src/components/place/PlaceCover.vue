@@ -19,8 +19,7 @@ onBeforeRouteLeave((to, from) => {
   console.log('to: ' + to.path);
   console.log('from: ' + from.path);
   if (to.path !== '/place/open' && to.path !== '/place/title') {
-    const answer = window.confirm('Do you really want to leave? you have unsaved changes!');
-    // cancel the navigation and stay on the same page
+    const answer = window.confirm('지금까지 만든 PLACELIST가 사라져요😥');
     if (!answer) return false;
     listInfo.value = {};
   }

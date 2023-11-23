@@ -15,6 +15,7 @@ import PlaceLocation from '@/components/place/PlaceLocation.vue';
 import PlaceTitle from '@/components/place/PlaceTitle.vue';
 import PlaceCover from '@/components/place/PlaceCover.vue';
 import PlaceOpen from '@/components/place/PlaceOpen.vue';
+import PlaceSave from '@/components/place/PlaceSave.vue';
 
 import ListMy from '@/components/list/ListMy.vue';
 import ListShare from '@/components/list/ListShare.vue';
@@ -115,6 +116,12 @@ const router = createRouter({
           name: 'place-open',
           beforeEnter: onlyAuthUser,
           component: PlaceOpen,
+        },
+        {
+          path: 'save',
+          name: 'place-save',
+          beforeEnter: onlyAuthUser,
+          component: PlaceSave,
         },
       ],
     },
