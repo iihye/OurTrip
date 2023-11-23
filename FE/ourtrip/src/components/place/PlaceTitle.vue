@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, onBeforeRouteLeave } from 'vue-router';
 import { usePlaceStore } from '@/stores/place';
 import { storeToRefs } from 'pinia';
 
@@ -10,6 +10,14 @@ const { listInfo } = storeToRefs(placeStore);
 
 const title = ref('');
 
+onBeforeRouteLeave((to, from) => {
+  if (to.path !== '/place/cover' && to.path !== '/place/location') {
+    const answer = window.confirm('지금까지 만든 PLACELIST가 사라져요😥');
+    if (!answer) return false;
+    listInfo.value = {};
+  }
+});
+
 onMounted(() => {
   if (listInfo.value.list_name !== null) {
     title.value = listInfo.value.list_name;
@@ -17,7 +25,7 @@ onMounted(() => {
 });
 
 const nextButtonHandler = () => {
-  if (title.value !== null && title.value.length <= 20) {
+  if (title.value !== '' && title.value.length <= 20) {
     listInfo.value = { ...listInfo.value, list_name: title.value };
     router.push({ name: 'place-cover' });
   } else {

@@ -122,7 +122,7 @@ export const useMemberStore = defineStore('userStore', () => {
               } else {
                 // console.log("리프레시 토큰 제거 실패");
               }
-              console.log('로그인 두번..?');
+              // console.log('로그인 두번..?');
               alert('로그인 기간이 만료되었어요 다시 로그인해주세요😰');
               isLogin.value = false;
               userInfo.value = null;

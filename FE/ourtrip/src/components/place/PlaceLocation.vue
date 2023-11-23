@@ -16,12 +16,13 @@ const searchList = ref([]);
 const selectList = ref([]);
 const selectPlace = ref({});
 
-// onBeforeRouteLeave((to, from) => {
-//   console.log(to);
-//   const answer = window.confirm('Do you really want to leave? you have unsaved changes!');
-//   // cancel the navigation and stay on the same page
-//   if (!answer) return false;
-// });
+onBeforeRouteLeave((to, from) => {
+  if (to.path !== '/place/title') {
+    const answer = window.confirm('지금까지 만든 PLACELIST가 사라져요😥');
+    if (!answer) return false;
+    listInfo.value = {};
+  }
+});
 
 const searchHandler = async (event) => {
   const url = VITE_APP_KAKAO_API_URI;
@@ -35,7 +36,6 @@ const searchHandler = async (event) => {
 };
 
 const selectHandler = (item) => {
-  console.log('com');
   const isNotExist = !selectList.value.includes(item);
   if (isNotExist) selectList.value = [...selectList.value, item];
 };

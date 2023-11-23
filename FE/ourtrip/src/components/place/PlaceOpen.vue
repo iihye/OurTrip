@@ -1,10 +1,10 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { usePlaceStore } from "@/stores/place";
-import axios from "axios";
-import { storeToRefs } from "pinia";
-import { useMemberStore } from "@/stores/user";
+import { ref, onMounted } from 'vue';
+import { useRouter, onBeforeRouteLeave } from 'vue-router';
+import { usePlaceStore } from '@/stores/place';
+import axios from 'axios';
+import { storeToRefs } from 'pinia';
+import { useMemberStore } from '@/stores/user';
 
 const router = useRouter();
 const memberStore = useMemberStore();
@@ -16,12 +16,20 @@ const { getUserInfo } = memberStore;
 const { listInfo } = storeToRefs(placeStore);
 const selectIsOpen = ref(false);
 
+onBeforeRouteLeave((to, from) => {
+  if (to.path !== '/place/save' && to.path !== '/place/cover') {
+    const answer = window.confirm('지금까지 만든 PLACELIST가 사라져요😥');
+    if (!answer) return false;
+    listInfo.value = {};
+  }
+});
+
 onMounted(() => {
   fetch();
 });
 
 const fetch = async () => {
-  await getUserInfo(sessionStorage.getItem("accessToken"));
+  await getUserInfo(sessionStorage.getItem('accessToken'));
 };
 
 const registerPlace = async (listNo) => {
@@ -41,7 +49,7 @@ const registerPlace = async (listNo) => {
   });
   const url = `${VITE_APP_SERVER_URI}/place/register`;
   const headers = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   };
   const data = places;
   await axios.post(url, data, headers);
@@ -64,7 +72,7 @@ const saveButtonHandler = async () => {
     const list_info = listInfo.value;
     const url = `${VITE_APP_SERVER_URI}/list/register`;
     const headers = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
     const data = {
       listName: list_info.list_name,
@@ -81,7 +89,7 @@ const saveButtonHandler = async () => {
   const listNo = await _registerList();
   registerPlace(listNo);
   resetListInfo();
-  router.push({ name: "list-my" });
+  router.push({ name: 'place-save' });
 };
 
 const modifyButtonHandler = () => {
@@ -94,7 +102,7 @@ const modifyButtonHandler = () => {
   const _modifyList = async () => {
     const url = `${VITE_APP_SERVER_URI}/list/modify`;
     const headers = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
     const data = {
       listNo: listInfo.value.list_no,
@@ -110,11 +118,11 @@ const modifyButtonHandler = () => {
   _modifyList();
   registerPlace(listNo);
   resetListInfo();
-  router.push({ name: "list-my" });
+  router.push({ name: 'place-save' });
 };
 
 const leftButtonHandler = () => {
-  router.push({ name: "place-cover" });
+  router.push({ name: 'place-cover' });
 };
 </script>
 
@@ -143,15 +151,7 @@ const leftButtonHandler = () => {
   <!--button-->
   <container class="btnleft-container">
     <div class="btnleft-handler">
-      <v-btn
-        class="btn"
-        size="large"
-        variant="flat"
-        rounded="xl"
-        @click="leftButtonHandler"
-      >
-        이전으로
-      </v-btn>
+      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="leftButtonHandler"> 이전으로 </v-btn>
     </div>
   </container>
 
@@ -310,7 +310,7 @@ h3 {
   background-color: #3182f6;
 }
 .c-stepper__item1::after {
-  content: "";
+  content: '';
   position: relative;
   top: 1.5rem;
   left: 50%;
@@ -319,7 +319,7 @@ h3 {
   order: -1;
 }
 .c-stepper__item2::after {
-  content: "";
+  content: '';
   position: relative;
   top: 1.5rem;
   left: 50%;
@@ -328,7 +328,7 @@ h3 {
   order: -1;
 }
 .c-stepper__item3::after {
-  content: "";
+  content: '';
   position: relative;
   top: 1.5rem;
   left: 50%;
