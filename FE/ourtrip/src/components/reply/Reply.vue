@@ -1,10 +1,10 @@
 <script setup>
-import axios from "axios";
-import { storeToRefs } from "pinia";
-import { ref, onMounted } from "vue";
-import { useMemberStore } from "@/stores/user";
+import axios from 'axios';
+import { storeToRefs } from 'pinia';
+import { ref, onMounted } from 'vue';
+import { useMemberStore } from '@/stores/user';
 
-import ReplyBlock from "../../components/reply/item/ReplyBlock.vue";
+import ReplyBlock from '../../components/reply/item/ReplyBlock.vue';
 
 const { VITE_APP_SERVER_URI } = import.meta.env;
 const props = defineProps({ listNo: String });
@@ -15,18 +15,44 @@ const memberStore = useMemberStore();
 const { getUserInfo } = memberStore;
 const { userInfo } = storeToRefs(memberStore);
 
-onMounted(() => {
+onMounted(async () => {
   fetch();
+  await getReply();
+  scrollDown();
 });
 
 const fetch = async () => {
-  await getUserInfo(sessionStorage.getItem("accessToken"));
+  await getUserInfo(sessionStorage.getItem('accessToken'));
+};
+
+const scrollDown = async () => {
+  const mySpace = document.getElementById('main_container');
+  mySpace.scrollTop = mySpace.scrollHeight;
+};
+
+const displayedAt = (item) => {
+  const createdAt = new Date(item[0], item[1] - 1, item[2], item[3] || 0, item[4] || 0, item[5] || 0);
+  const milliSeconds = new Date() - createdAt;
+  const seconds = milliSeconds / 1000;
+  if (seconds < 60) return `방금 전`;
+  const minutes = seconds / 60;
+  if (minutes < 60) return `${Math.floor(minutes)}분 전`;
+  const hours = minutes / 60;
+  if (hours < 24) return `${Math.floor(hours)}시간 전`;
+  const days = hours / 24;
+  if (days < 7) return `${Math.floor(days)}일 전`;
+  const weeks = days / 7;
+  if (weeks < 5) return `${Math.floor(weeks)}주 전`;
+  const months = days / 30;
+  if (months < 12) return `${Math.floor(months)}개월 전`;
+  const years = days / 365;
+  return `${Math.floor(years)}년 전`;
 };
 
 const getReply = async () => {
   const url = `${VITE_APP_SERVER_URI}/reply/getReply`;
   const headers = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   };
 
   const data = {
@@ -35,13 +61,15 @@ const getReply = async () => {
   };
 
   const response = await axios.post(url, data, headers);
-  replys.value = response.data.list;
+  replys.value = response.data.list.map((item) => {
+    return { ...item, reply_computed: displayedAt(item.reply_datetime) };
+  });
 };
 
 const addReplyHandler = async () => {
   const url = `${VITE_APP_SERVER_URI}/reply/regist`;
   const headers = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   };
 
   const data = {
@@ -49,34 +77,44 @@ const addReplyHandler = async () => {
     userId: userInfo.value.userId,
     replyContent: replyContent.value,
   };
-  await axios.post(url, data, headers);
-  replyContent.value = "";
-  getReply();
-};
 
-onMounted(() => {
-  getReply();
-});
+  if (replyContent.value === null) {
+    alert('댓글을 입력해주세요😀');
+  } else {
+    await axios.post(url, data, headers);
+    replyContent.value = null;
+    await getReply();
+
+    scrollDown();
+  }
+};
 
 setInterval(() => getReply(), 3000);
 </script>
 
 <template>
-  <button @click="addLikeHandler()">좋아요 증가</button>
-  <br />
-  <button @click="cancelLikeHandler()">좋아요 감소</button>
-
   <div>
-    <div v-for="item in replys" :key="item.reply_no">
-      <ReplyBlock :item="item" :getReply="getReply"></ReplyBlock>
+    <div id="main_container">
+      <div v-for="item in replys" :key="item.reply_no">
+        <ReplyBlock :item="item" :getReply="getReply"></ReplyBlock>
+      </div>
     </div>
     <div id="input_container">
       <form id="input_form" @submit.prevent="" @submit="addReplyHandler">
         <input
+          v-if="userInfo != null"
           id="input"
           type="text"
           v-model="replyContent"
           placeholder="댓글을 입력하세요..."
+        />
+        <input
+          v-if="userInfo == null"
+          id="input"
+          type="text"
+          v-model="replyContent"
+          placeholder="로그인 후 작성 가능합니다..."
+          disabled
         />
         <p id="input_description">글을 게시하려면 Enter 키를 누르세요.</p>
         <button type="submit" hidden>등록</button>
@@ -86,10 +124,14 @@ setInterval(() => getReply(), 3000);
 </template>
 
 <style scoped>
+#main_container {
+  overflow-y: auto;
+  height: 86%;
+  width: 100%;
+}
 #input_container {
   display: flex;
   flex-direction: row;
-  padding: 20px;
 }
 
 #input_form {
@@ -97,19 +139,22 @@ setInterval(() => getReply(), 3000);
   flex-direction: column;
   align-items: flex-start;
   padding-left: 10px;
+  margin-top: 1rem;
 }
 
 #input {
-  width: 500px;
+  /* width: 500px; */
+  width: 260px;
   height: 40px;
   border: 0px;
   border-radius: 25px;
   background-color: #eff2f5;
-  padding: 10px;
   outline-width: 0;
+  padding-left: 10px;
 }
 #input_description {
-  padding-top: 5px;
   font-size: 12px;
+  padding-top: 3px;
+  padding-left: 10px;
 }
 </style>
