@@ -1,7 +1,7 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted } from "vue";
 
-const { VITE_APP_KAKAO_JS_KEY } = import.meta.env;
+const { VITE_APP_KAKAO_JS_KEY, VITE_APP_CLIENT_URI } = import.meta.env;
 var map;
 const positions = ref([]);
 const markers = ref([]);
@@ -30,7 +30,10 @@ watch(
   () => props.selectStation.value,
   () => {
     // 이동할 위도 경도 위치를 생성합니다
-    var moveLatLon = new kakao.maps.LatLng(props.selectStation.lat, props.selectStation.lng);
+    var moveLatLon = new kakao.maps.LatLng(
+      props.selectStation.lat,
+      props.selectStation.lng
+    );
 
     // 지도 중심을 부드럽게 이동시킵니다
     // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
@@ -43,7 +46,7 @@ onMounted(() => {
   if (window.kakao && window.kakao.maps) {
     initMap();
   } else {
-    const script = document.createElement('script');
+    const script = document.createElement("script");
     script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${VITE_APP_KAKAO_JS_KEY}&libraries=services,clusterer`;
     /* global kakao */
     script.onload = () => kakao.maps.load(() => initMap());
@@ -52,7 +55,7 @@ onMounted(() => {
 });
 
 const initMap = () => {
-  const container = document.getElementById('map');
+  const container = document.getElementById("map");
   const options = {
     center: new kakao.maps.LatLng(36.3398, 127.394),
     level: 7,
@@ -67,10 +70,11 @@ const loadMarkers = () => {
   deleteMarkers();
 
   // 마커 이미지를 생성합니다
-  //   const imgSrc = require("@/assets/map/markerStar.png");
+  // const imgSrc = require("@/assets/map/marker.svg");
+  const imgSrc = `${VITE_APP_CLIENT_URI}/map/marker.svg`;
   // 마커 이미지의 이미지 크기 입니다
-  //   const imgSize = new kakao.maps.Size(24, 35);
-  //   const markerImage = new kakao.maps.MarkerImage(imgSrc, imgSize);
+  const imgSize = new kakao.maps.Size(24, 35);
+  const markerImage = new kakao.maps.MarkerImage(imgSrc, imgSize);
 
   // 마커를 생성합니다
   markers.value = [];
@@ -80,11 +84,11 @@ const loadMarkers = () => {
       position: position.latlng,
       title: position.title,
       clickable: true,
-      // image: markerImage, // 마커의 이미지
+      image: markerImage, // 마커의 이미지
     });
     markers.value.push(marker);
 
-    kakao.maps.event.addListener(marker, 'click', function () {
+    kakao.maps.event.addListener(marker, "click", function () {
       new kakao.maps.InfoWindow({
         content: `<div class="wrap">
                   <div class="info">
@@ -149,7 +153,7 @@ const deleteMarkers = () => {
   text-align: left;
   overflow: hidden;
   font-size: 12px;
-  font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
+  font-family: "Malgun Gothic", dotum, "돋움", sans-serif;
   line-height: 1.5;
 }
 .wrap * {
@@ -208,14 +212,14 @@ const deleteMarkers = () => {
   overflow: hidden;
 }
 .info:after {
-  content: '';
+  content: "";
   position: absolute;
   margin-left: 53px;
   left: 50%;
   bottom: 0;
   width: 22px;
   height: 12px;
-  background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png');
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
 }
 .info .link {
   color: #5085bb;
