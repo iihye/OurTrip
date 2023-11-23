@@ -266,7 +266,7 @@ const del = async (item) => {
                   variant="flat"
                   rounded="xl"
                   color="black"
-                  @click="add(list.user_id)"
+                  @click="del(item)"
                 >
                   삭제
                 </v-btn>

@@ -19,6 +19,9 @@ onMounted(() => {
   if (listInfo.value.list_img !== null) {
     selectImageUrl.value = listInfo.value.list_img;
   }
+  if (selectImageUrl.value === undefined) {
+    selectImageUrl.value = noImageUrl.value;
+  }
 });
 
 const searchHandler = async () => {
