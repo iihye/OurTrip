@@ -4,8 +4,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import edu.ssafy.ourtrip.interceptor.JWTInterceptor;
@@ -40,6 +39,16 @@ public class WebConfiguration implements WebMvcConfigurer {
 //			.exposedHeaders("*")
 			.maxAge(1800); // Pre-flight Caching
 	}
+	
+//	@Override
+//    public void addViewControllers(ViewControllerRegistry registry) {
+//        registry.addViewController("/{spring:\\w+}")
+//            .setViewName("forward:/");
+//        registry.addViewController("/**/{spring:\\w+}")
+//            .setViewName("forward:/");
+//        registry.addViewController("/{spring:\\w+}/**{spring:?!(\\.js|\\.css)$}")
+//            .setViewName("forward:/");
+//    }
 
 //	@Override
 //	public void addInterceptors(InterceptorRegistry registry) {

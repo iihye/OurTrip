@@ -46,6 +46,9 @@ onMounted(() => {
   findOur();
 });
 
+// console.log(location.pathname);
+history.replaceState({}, null, location.pathname);
+
 const getListDetail = async () => {
   await listDetail(listno.value);
   listDetailInfo.value = listDetailRes.value;
@@ -235,13 +238,13 @@ const del = async (item) => {
 
         <div class="empty-center" v-if="!isCheckUserId">
           <font-awesome-icon :icon="['fas', 'list']" size="2xl" style="color: #787878" class="empty-h1" />
-          <h4>검색 결과가 없어요😥</h4>
+          <h5>검색 결과가 없어요😥</h5>
         </div>
 
         <div class="list-container">
           <template v-for="list in findShareRes" :key="list.user_id">
             <div v-if="list.status == true" class="shared-user">
-              <h4>{{ list.user_id }}</h4>
+              <h5>{{ list.user_id }}</h5>
               <v-btn size="large" variant="flat" rounded="xl" color="black" @click="add(list.user_id)"> 추가 </v-btn>
             </div>
           </template>

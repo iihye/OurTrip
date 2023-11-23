@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import UserView from '../views/UserView.vue';
 import MypageView from '../views/MypageView.vue';
@@ -42,7 +42,7 @@ const onlyAuthUser = async (to, from, next) => {
 };
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/',
@@ -158,6 +158,7 @@ const router = createRouter({
       redirect: '/notFound',
     },
   ],
+  mode: 'history',
 });
 
 export default router;
