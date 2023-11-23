@@ -4,19 +4,19 @@
   <!--footer-->
   <!-- Site footer -->
   <footer class="site-footer">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-12 col-md-6">
+    <div>
+      <div>
+        <div>
           <h6>OurTrip</h6>
-          <p class="text-justify"></p>
+          <p></p>
         </div>
       </div>
     </div>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8 col-sm-6 col-xs-12">
-          <p class="copyright-text">Copyright &copy; 2023 All Rights Reserved by SSAFY</p>
+    <div>
+      <div>
+        <div>
+          <p>Copyright &copy; 2023 All Rights Reserved by SSAFY</p>
         </div>
       </div>
     </div>
@@ -35,6 +35,10 @@
   font-size: 15px;
   line-height: 24px;
   color: #737373;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 .site-footer hr {
   border-top-color: #bbb;
@@ -93,7 +97,7 @@
   margin: 0;
 }
 @media (max-width: 991px) {
-  .site-footer [class^='col-'] {
+  .site-footer [class^="col-"] {
     margin-bottom: 30px;
   }
 }
