@@ -68,7 +68,7 @@ const loadMarkers = () => {
 
   // 마커 이미지를 생성합니다
   // const imgSrc = require("@/assets/map/marker.svg");
-  const imgSrc = `src/assets/img/marker.svg`;
+  const imgSrc = `assets/img/marker.svg`;
   // 마커 이미지의 이미지 크기 입니다
   const imgSize = new kakao.maps.Size(24, 35);
   const markerImage = new kakao.maps.MarkerImage(imgSrc, imgSize);
