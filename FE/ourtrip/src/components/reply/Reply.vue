@@ -23,6 +23,25 @@ const fetch = async () => {
   await getUserInfo(sessionStorage.getItem('accessToken'));
 };
 
+const displayedAt = (item) => {
+  const createdAt = new Date(item[0], item[1] - 1, item[2], item[3], item[4], item[5]);
+  const milliSeconds = new Date() - createdAt;
+  const seconds = milliSeconds / 1000;
+  if (seconds < 60) return `방금 전`;
+  const minutes = seconds / 60;
+  if (minutes < 60) return `${Math.floor(minutes)}분 전`;
+  const hours = minutes / 60;
+  if (hours < 24) return `${Math.floor(hours)}시간 전`;
+  const days = hours / 24;
+  if (days < 7) return `${Math.floor(days)}일 전`;
+  const weeks = days / 7;
+  if (weeks < 5) return `${Math.floor(weeks)}주 전`;
+  const months = days / 30;
+  if (months < 12) return `${Math.floor(months)}개월 전`;
+  const years = days / 365;
+  return `${Math.floor(years)}년 전`;
+};
+
 const getReply = async () => {
   const url = `${VITE_APP_SERVER_URI}/reply/getReply`;
   const headers = {
@@ -35,7 +54,9 @@ const getReply = async () => {
   };
 
   const response = await axios.post(url, data, headers);
-  replys.value = response.data.list;
+  replys.value = response.data.list.map((item) => {
+    return { ...item, reply_computed: displayedAt(item.reply_datetime) };
+  });
 };
 
 const addReplyHandler = async () => {
@@ -51,7 +72,9 @@ const addReplyHandler = async () => {
   };
   await axios.post(url, data, headers);
   replyContent.value = '';
-  getReply();
+  await getReply();
+  const mySpace = document.getElementById('main_container');
+  mySpace.scrollTop = mySpace.scrollHeight;
 };
 
 onMounted(() => {

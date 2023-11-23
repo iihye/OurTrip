@@ -11,13 +11,15 @@ const memberStore = useMemberStore();
 const { getUserInfo } = memberStore;
 const { userInfo } = storeToRefs(memberStore);
 
-onMounted(() => {
-  fetch();
+onMounted(async () => {
+  await fetch();
 });
 
 const fetch = async () => {
   await getUserInfo(sessionStorage.getItem('accessToken'));
 };
+
+const isUserInfo = ref(userInfo !== null ? true : false);
 
 const deleteReplyHandler = async (replyNo) => {
   const url = `${VITE_APP_SERVER_URI}/reply/delete`;
@@ -94,13 +96,22 @@ const likeSvg = `${VITE_APP_CLIENT_URI}/like.svg`;
           <div>{{ props.item.reply_like }}</div>
         </div>
       </div>
+
       <div id="button_wrap">
-        <button v-if="props.item.status == 1" class="button" @click="cancelLikeHandler(item.reply_no)">
-          좋아요 취소
-        </button>
-        <button v-if="props.item.status == 0" class="button" @click="addLikeHandler(item.reply_no)">좋아요</button>
-        <button class="button" @click="deleteReplyHandler(item.reply_no)">삭제</button>
-        <button class="button">{{ item.reply_datetime[3] }}:{{ item.reply_datetime[4] }}</button>
+        <div v-if="isUserInfo">
+          <button v-if="props.item.status == 1" class="button" @click="cancelLikeHandler(item.reply_no)">
+            좋아요 취소
+          </button>
+          <button v-if="props.item.status == 0" class="button" @click="addLikeHandler(item.reply_no)">좋아요</button>
+          <button
+            v-if="props.item.user_id == userInfo.userId"
+            class="button"
+            @click="deleteReplyHandler(item.reply_no)"
+          >
+            삭제
+          </button>
+        </div>
+        <span>{{ item.reply_computed }}</span>
       </div>
     </div>
   </div>
@@ -152,6 +163,16 @@ const likeSvg = `${VITE_APP_CLIENT_URI}/like.svg`;
 }
 
 .button {
+  padding: 0 5px;
+  border: none;
+  background: none;
+  color: #65676b;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+span {
   padding: 0 5px;
   border: none;
   background: none;
