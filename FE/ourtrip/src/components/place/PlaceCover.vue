@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { usePlaceStore } from '@/stores/place';
 import axios from 'axios';
@@ -13,7 +13,13 @@ const { listInfo } = storeToRefs(placeStore);
 const searchKeyword = ref('');
 const searchList = ref([]);
 const selectImageUrl = ref('');
-const noImageUrl = ref("../src/assets/img/noimage.png");
+const noImageUrl = ref('../src/assets/img/noimage.png');
+
+onMounted(() => {
+  if (listInfo.value.list_img !== null) {
+    selectImageUrl.value = listInfo.value.list_img;
+  }
+});
 
 const searchHandler = async () => {
   const url = VITE_APP_UNSPLASH_API_URI;
@@ -29,7 +35,7 @@ const searchHandler = async () => {
 
 const handleImageError = async () => {
   selectImageUrl.value = noImageUrl.value;
-}
+};
 
 const selectHandler = (image_url) => {
   selectImageUrl.value = image_url;
@@ -38,7 +44,7 @@ const selectHandler = (image_url) => {
 
 const nextButtonHandler = () => {
   if (selectImageUrl.value === noImageUrl.value) {
-    alert("키워드 검색 후 커버 이미지를 선택해주세요☺️");
+    alert('키워드 검색 후 커버 이미지를 선택해주세요☺️');
   } else {
     listInfo.value = { ...listInfo.value, list_img: selectImageUrl.value };
     // console.log(listInfo.value);
@@ -47,8 +53,8 @@ const nextButtonHandler = () => {
 };
 
 const leftButtonHandler = () => {
-  router.push({name: 'place-title'})
-}
+  router.push({ name: 'place-title' });
+};
 </script>
 
 <template>
@@ -114,12 +120,17 @@ const leftButtonHandler = () => {
     </div>
     <!--search list-->
     <div class="list-container">
+      <div class="empty-center" v-if="searchList.length === 0">
+        <h5>
+          😥<br />검색 결과가 없어요 <br />
+          다른 키워드로 검색해주세요
+        </h5>
+      </div>
       <div v-for="item in searchList" :key="item.id">
         <img :src="item.urls.thumb" :alt="item.alt_description" @click="selectHandler(item.urls.thumb)" />
       </div>
     </div>
   </div>
-
 
   <!-- <div class="list-container">
     <div v-for="item in searchList" :key="item.id">
@@ -148,10 +159,21 @@ h1 {
 h3 {
   margin-top: 1rem;
 }
-h4{
+h4 {
   font-size: 20px;
   color: #1b64da;
   text-align: center;
+}
+.empty-center {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+.empty-center h5 {
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.4rem;
+  padding: 30px;
 }
 .c-stepper {
   display: flex;
@@ -319,21 +341,21 @@ h4{
 .text-input:valid ~ .text-span {
   width: 100%;
 }
-.result-container{
+.result-container {
   display: flex;
   justify-content: space-between;
   padding: 0 15% 0 15%;
 }
-.select-container{
+.select-container {
   margin-left: 2rem;
   margin-right: 2rem;
 }
-.select-container img{
+.select-container img {
   width: 240px;
   height: 180px;
   margin-top: 0.5rem;
   object-fit: cover;
-  border: 3px solid #3182f6;;
+  border: 3px solid #3182f6;
 }
 .list-container {
   display: flex;

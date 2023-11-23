@@ -204,16 +204,10 @@ const del = async (item) => {
   </template> -->
 
   <div v-if="userInfo !== null && userInfo.userId === listDetailInfo.userId">
-    <div class="btn-container">
-      <v-btn id="btn-handler" size="large" variant="flat" rounded="xl" color="black" @click="shareHandler()">
-        공유
-      </v-btn>
-      <v-btn id="btn-handler" size="large" variant="flat" rounded="xl" color="black" @click="modifyHandler(listno)">
-        수정
-      </v-btn>
-      <v-btn id="btn-handler" size="large" variant="flat" rounded="xl" color="black" @click="deleteHandler(listno)">
-        삭제
-      </v-btn>
+    <div class="btn-containers">
+      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="shareHandler()"> 공유 </v-btn>
+      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="modifyHandler(listno)"> 수정 </v-btn>
+      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="deleteHandler(listno)"> 삭제 </v-btn>
     </div>
 
     <div v-if="isShare" class="sharing-container">
@@ -241,13 +235,17 @@ const del = async (item) => {
           <h5>검색 결과가 없어요😥</h5>
         </div>
 
-        <div class="list-container">
-          <template v-for="list in findShareRes" :key="list.user_id">
-            <div v-if="list.status == true" class="shared-user">
-              <h5>{{ list.user_id }}</h5>
-              <v-btn size="large" variant="flat" rounded="xl" color="black" @click="add(list.user_id)"> 추가 </v-btn>
+        <div id="list-container">
+          <div id="share_items" v-for="list in findShareRes" :key="list.user_id">
+            <div id="share_item" v-if="list.status == true" class="shared-user">
+              <div id="share_text">
+                <v-btn id="share_btn" class="btn" size="large" variant="flat" rounded="xl" @click="add(list.user_id)">
+                  추가
+                </v-btn>
+                <div>{{ list.user_id }}</div>
+              </div>
             </div>
-          </template>
+          </div>
         </div>
       </div>
 
@@ -256,12 +254,27 @@ const del = async (item) => {
           <font-awesome-icon :icon="['fas', 'list-ul']" size="" style="color: #787878" class="empty-h1" /><br />공유하고
           있어요!
         </h2>
-        <template v-for="item in findOurShareRes" :key="item">
-          <div class="shared-user">
-            <h4>{{ item }}</h4>
-            <v-btn size="large" variant="flat" rounded="xl" color="black" @click="del(item)"> 삭제 </v-btn>
+
+        <div id="list-container">
+          <div id="share_items" v-for="item in findOurShareRes" :key="item">
+            <div id="share_item" class="shared-user">
+              <div id="share_text">
+                <v-btn
+                  id="share_btn"
+                  class="btn"
+                  size="large"
+                  variant="flat"
+                  rounded="xl"
+                  color="black"
+                  @click="add(list.user_id)"
+                >
+                  삭제
+                </v-btn>
+                <div>{{ item }}</div>
+              </div>
+            </div>
           </div>
-        </template>
+        </div>
       </div>
     </div>
   </div>
@@ -313,28 +326,50 @@ h4 {
 .form-wrapper {
   display: flex;
   align-items: center;
+  margin-bottom: 2rem;
 }
 .empty-center {
   text-align: center;
+  font-size: 18px;
+  margin-top: 2rem;
 }
 .btn-container {
-  display: flex;
-  justify-content: center;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  padding: 3rem;
+}
+.btn-containers {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  padding: 3rem;
+}
+.btn-handler {
+  margin-left: auto;
+  margin-right: 2rem;
+}
+.btn {
+  background-color: #3182f6;
+  color: white;
+}
+.btn:hover {
+  background-color: #1b64da;
+  color: white;
 }
 .sharing-container {
   display: flex;
+  min-height: 500px;
   justify-content: space-between;
-  margin-left: 10rem;
-  margin-right: 10rem;
-  margin-top: 2rem;
+  margin: 2rem 10rem 10rem 10rem;
 }
 
 .left-container {
   flex: 1;
   padding: 20px;
-  border-right: 1px solid #ccc; /* Add a border between the two containers */
   margin-left: 2rem;
   margin-right: 1rem;
+  padding-right: 1rem;
 }
 
 .right-container {
@@ -342,6 +377,7 @@ h4 {
   padding: 20px;
   margin-left: 1rem;
   margin-right: 2rem;
+  border-left: 1px solid #ccc; /* Add a border between the two containers */
 }
 
 .shared-user {
@@ -359,6 +395,13 @@ h4 {
 .v-btn {
   font-size: 18px;
 }
+
+#share-container {
+  overflow-y: auto;
+  height: 1000px;
+  width: 100%;
+}
+
 #map {
   width: 98%; /* Make the width 100% */
   height: auto;
@@ -411,5 +454,33 @@ h4 {
   text-align: left;
   flex-direction: column;
   margin-left: 1rem;
+}
+
+#share_items {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 300px;
+  margin-left: 16px;
+  /* cursor: pointer; */
+}
+#share_item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+#share_text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 1rem;
+}
+
+#share_btn {
+  width: 20px;
+  height: 30px;
+  padding: 0;
+  margin-right: 2rem;
 }
 </style>

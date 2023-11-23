@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { usePlaceStore } from '@/stores/place';
 import { storeToRefs } from 'pinia';
@@ -9,9 +9,20 @@ const placeStore = usePlaceStore();
 const { listInfo } = storeToRefs(placeStore);
 
 const title = ref('');
+
+onMounted(() => {
+  if (listInfo.value.list_name !== null) {
+    title.value = listInfo.value.list_name;
+  }
+});
+
 const nextButtonHandler = () => {
-  listInfo.value = { ...listInfo.value, list_name: title.value };
-  router.push({ name: 'place-cover' });
+  if (title.value !== null && title.value.length <= 20) {
+    listInfo.value = { ...listInfo.value, list_name: title.value };
+    router.push({ name: 'place-cover' });
+  } else {
+    alert('PLACELIST의 이름을 지어주세요☺');
+  }
 };
 
 const leftButtonHandler = () => {

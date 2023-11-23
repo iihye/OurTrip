@@ -44,8 +44,12 @@ const cancelHandler = (itemId) => {
   selectList.value = selectList.value.filter((item) => item.id !== itemId);
 };
 const nextButtonHandler = () => {
-  listInfo.value = { ...listInfo.value, list_places: selectList.value };
-  router.push({ name: 'place-title' });
+  if (selectList.value.length > 0) {
+    listInfo.value = { ...listInfo.value, list_places: selectList.value };
+    router.push({ name: 'place-title' });
+  } else {
+    alert('PLACE를 선택해주세요☺');
+  }
 };
 
 onMounted(() => {
@@ -132,6 +136,12 @@ onMounted(() => {
       <!-- select list -->
       <h4>선택한 PLACE 목록</h4>
       <div id="list-container">
+        <div class="empty-center" v-if="selectList.length === 0">
+          <div class="center-content">
+            <h5>😥<br />선택한 장소가 없어요</h5>
+          </div>
+        </div>
+
         <div id="list_items" v-for="item in selectList" :key="item.id" @click="cancelHandler(item.id)">
           <div id="list_item">
             <font-awesome-icon :icon="['fas', 'xmark']" style="color: #1b64da" />
@@ -155,6 +165,18 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.empty-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* 화면 전체 높이에 따라 조절 */
+}
+
+.center-content {
+  text-align: center;
+  font-size: 18px;
+}
+
 #main-contain {
   display: flex;
   height: 600px;
