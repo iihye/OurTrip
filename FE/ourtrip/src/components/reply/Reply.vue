@@ -31,7 +31,7 @@ const getReply = async () => {
 
   const data = {
     listNo: props.listNo,
-    userId: "test",
+    userId: userInfo.value.userId,
   };
 
   const response = await axios.post(url, data, headers);
@@ -72,7 +72,12 @@ setInterval(() => getReply(), 3000);
     </div>
     <div id="input_container">
       <form id="input_form" @submit.prevent="" @submit="addReplyHandler">
-        <input id="input" type="text" v-model="replyContent" placeholder="댓글을 입력하세요..." />
+        <input
+          id="input"
+          type="text"
+          v-model="replyContent"
+          placeholder="댓글을 입력하세요..."
+        />
         <p id="input_description">글을 게시하려면 Enter 키를 누르세요.</p>
         <button type="submit" hidden>등록</button>
       </form>
