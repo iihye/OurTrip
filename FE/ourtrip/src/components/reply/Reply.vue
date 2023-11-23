@@ -8,7 +8,7 @@ import ReplyBlock from '../../components/reply/item/ReplyBlock.vue';
 
 const { VITE_APP_SERVER_URI } = import.meta.env;
 const props = defineProps({ listNo: Number });
-const replyContent = ref('');
+const replyContent = ref(null);
 const replys = ref([]);
 
 const memberStore = useMemberStore();
@@ -77,11 +77,16 @@ const addReplyHandler = async () => {
     userId: userInfo.value.userId,
     replyContent: replyContent.value,
   };
-  await axios.post(url, data, headers);
-  replyContent.value = '';
-  await getReply();
 
-  scrollDown();
+  if (replyContent.value === null) {
+    alert('댓글을 입력해주세요😀');
+  } else {
+    await axios.post(url, data, headers);
+    replyContent.value = null;
+    await getReply();
+
+    scrollDown();
+  }
 };
 
 setInterval(() => getReply(), 3000);
@@ -96,7 +101,21 @@ setInterval(() => getReply(), 3000);
     </div>
     <div id="input_container">
       <form id="input_form" @submit.prevent="" @submit="addReplyHandler">
-        <input id="input" type="text" v-model="replyContent" placeholder="댓글을 입력하세요..." />
+        <input
+          v-if="userInfo != null"
+          id="input"
+          type="text"
+          v-model="replyContent"
+          placeholder="댓글을 입력하세요..."
+        />
+        <input
+          v-if="userInfo == null"
+          id="input"
+          type="text"
+          v-model="replyContent"
+          placeholder="로그인 후 작성 가능합니다..."
+          disabled
+        />
         <p id="input_description">글을 게시하려면 Enter 키를 누르세요.</p>
         <button type="submit" hidden>등록</button>
       </form>

@@ -1,4 +1,3 @@
-d
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useRouter, onBeforeRouteLeave } from 'vue-router';
@@ -383,9 +382,6 @@ h4 {
   outline-style: none;
   outline-width: initial;
 }
-#list_wrap {
-  width: 260px;
-}
 
 #list-container {
   overflow-y: auto;
@@ -421,13 +417,6 @@ h4 {
   margin: 10px 13px 10px 0;
   background: hsla(0, 0%, 90%, 0.2);
   border-radius: 5px;
-}
-
-#list_wrap {
-  flex: 1; /* Take up the remaining space */
-  padding: 10px; /* Adjust padding as needed */
-  width: 605px;
-  margin-top: 20px;
 }
 
 /* #full_bg {
