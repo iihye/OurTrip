@@ -15,12 +15,19 @@ const memberStore = useMemberStore();
 const { getUserInfo } = memberStore;
 const { userInfo } = storeToRefs(memberStore);
 
-onMounted(() => {
+onMounted(async () => {
   fetch();
+  await getReply();
+  scrollDown();
 });
 
 const fetch = async () => {
   await getUserInfo(sessionStorage.getItem('accessToken'));
+};
+
+const scrollDown = async () => {
+  const mySpace = document.getElementById('main_container');
+  mySpace.scrollTop = mySpace.scrollHeight;
 };
 
 const displayedAt = (item) => {
@@ -73,13 +80,9 @@ const addReplyHandler = async () => {
   await axios.post(url, data, headers);
   replyContent.value = '';
   await getReply();
-  const mySpace = document.getElementById('main_container');
-  mySpace.scrollTop = mySpace.scrollHeight;
-};
 
-onMounted(() => {
-  getReply();
-});
+  scrollDown();
+};
 
 setInterval(() => getReply(), 3000);
 </script>
