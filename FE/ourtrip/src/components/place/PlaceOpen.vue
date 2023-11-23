@@ -1,10 +1,10 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import { usePlaceStore } from '@/stores/place';
-import axios from 'axios';
-import { storeToRefs } from 'pinia';
-import { useMemberStore } from '@/stores/user';
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { usePlaceStore } from "@/stores/place";
+import axios from "axios";
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/user";
 
 const router = useRouter();
 const memberStore = useMemberStore();
@@ -21,7 +21,7 @@ onMounted(() => {
 });
 
 const fetch = async () => {
-  await getUserInfo(sessionStorage.getItem('accessToken'));
+  await getUserInfo(sessionStorage.getItem("accessToken"));
 };
 
 const registerPlace = async (listNo) => {
@@ -41,7 +41,7 @@ const registerPlace = async (listNo) => {
   });
   const url = `${VITE_APP_SERVER_URI}/place/register`;
   const headers = {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   };
   const data = places;
   await axios.post(url, data, headers);
@@ -64,7 +64,7 @@ const saveButtonHandler = async () => {
     const list_info = listInfo.value;
     const url = `${VITE_APP_SERVER_URI}/list/register`;
     const headers = {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     };
     const data = {
       listName: list_info.list_name,
@@ -81,7 +81,7 @@ const saveButtonHandler = async () => {
   const listNo = await _registerList();
   registerPlace(listNo);
   resetListInfo();
-  router.push({ name: 'list-my' });
+  router.push({ name: "list-my" });
 };
 
 const modifyButtonHandler = () => {
@@ -94,28 +94,28 @@ const modifyButtonHandler = () => {
   const _modifyList = async () => {
     const url = `${VITE_APP_SERVER_URI}/list/modify`;
     const headers = {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     };
     const data = {
       listNo: listInfo.value.list_no,
       listName: listInfo.value.list_name,
       listImg: listInfo.value.list_img,
-      listOpen: listInfo.value.listOpen,
+      listOpen: listInfo.value.list_open,
       userId: listInfo.value.user_id,
     };
     await axios.put(url, data, headers);
   };
-
+  listInfo.value = { ...listInfo.value, list_open: selectIsOpen.value };
   _deletePlaces(listNo);
   _modifyList();
   registerPlace(listNo);
   resetListInfo();
-  router.push({ name: 'list-my' });
+  router.push({ name: "list-my" });
 };
 
 const leftButtonHandler = () => {
-  router.push({name: 'place-cover'})
-}
+  router.push({ name: "place-cover" });
+};
 </script>
 
 <template>
@@ -143,9 +143,17 @@ const leftButtonHandler = () => {
   <!--button-->
   <container class="btnleft-container">
     <div class="btnleft-handler">
-      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="leftButtonHandler"> 이전으로 </v-btn>
+      <v-btn
+        class="btn"
+        size="large"
+        variant="flat"
+        rounded="xl"
+        @click="leftButtonHandler"
+      >
+        이전으로
+      </v-btn>
     </div>
-    </container>
+  </container>
 
   <!--button-->
   <container class="btn-container">
@@ -196,12 +204,10 @@ const leftButtonHandler = () => {
       아니요! 저만 볼게요
     </v-btn>
   </div>
-
-
 </template>
 
 <style scoped>
-body{
+body {
   max-height: 100%;
 }
 h1 {
@@ -304,7 +310,7 @@ h3 {
   background-color: #3182f6;
 }
 .c-stepper__item1::after {
-  content: '';
+  content: "";
   position: relative;
   top: 1.5rem;
   left: 50%;
@@ -313,7 +319,7 @@ h3 {
   order: -1;
 }
 .c-stepper__item2::after {
-  content: '';
+  content: "";
   position: relative;
   top: 1.5rem;
   left: 50%;
@@ -322,7 +328,7 @@ h3 {
   order: -1;
 }
 .c-stepper__item3::after {
-  content: '';
+  content: "";
   position: relative;
   top: 1.5rem;
   left: 50%;

@@ -7,8 +7,8 @@ import { useMemberStore } from '@/stores/user';
 import ReplyBlock from '../../components/reply/item/ReplyBlock.vue';
 
 const { VITE_APP_SERVER_URI } = import.meta.env;
-const props = defineProps({ listNo: Number });
-const replyContent = ref(null);
+const props = defineProps({ listNo: String });
+const replyContent = ref("");
 const replys = ref([]);
 
 const memberStore = useMemberStore();
@@ -57,7 +57,7 @@ const getReply = async () => {
 
   const data = {
     listNo: props.listNo,
-    userId: 'test',
+    userId: userInfo.value.userId,
   };
 
   const response = await axios.post(url, data, headers);
