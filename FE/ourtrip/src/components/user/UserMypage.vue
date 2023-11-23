@@ -112,7 +112,7 @@ const visible = () => {
             v-model="updateUser.userPw"
             variant="underlined"
             :type="isVisible ? 'text' : 'password'"
-            @keydown="pwCheck"
+            @blur="pwCheck"
             :messages="userPwMessage"
           >
             <template v-slot:prepend-inner>

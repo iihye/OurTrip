@@ -92,8 +92,8 @@ const likeSvg = `${VITE_APP_CLIENT_URI}/like.svg`;
             <img height="18" :src="likeSvg" alt="like" />
           </div> -->
         <div v-if="props.item.status >= 1">
-          <img height="18" :src="likeSvg" alt="like" />
-          <div>{{ props.item.reply_like }}</div>
+          <!-- <img height="18" :src="likeSvg" alt="like" /> -->
+          <!-- <div>{{ props.item.reply_like }}</div> -->
         </div>
       </div>
 
@@ -104,14 +104,16 @@ const likeSvg = `${VITE_APP_CLIENT_URI}/like.svg`;
           </button>
           <button v-if="props.item.status == 0" class="button" @click="addLikeHandler(item.reply_no)">좋아요</button>
           <button
-            v-if="props.item.user_id == userInfo.userId"
-            class="button"
-            @click="deleteReplyHandler(item.reply_no)"
+          v-if="props.item.user_id == userInfo.userId"
+          class="button"
+          @click="deleteReplyHandler(item.reply_no)"
           >
-            삭제
-          </button>
-        </div>
-        <span>{{ item.reply_computed }}</span>
+          삭제
+        </button>
+      </div>
+      <span>{{ item.reply_computed }}</span>
+      <img v-if="props.item.reply_like >= 1" height="18" :src="likeSvg" alt="like" />
+      <span v-if="props.item.reply_like >= 1">{{ props.item.reply_like }}</span>
       </div>
     </div>
   </div>
