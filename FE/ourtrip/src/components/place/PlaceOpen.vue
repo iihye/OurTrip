@@ -13,7 +13,7 @@ const { VITE_APP_SERVER_URI } = import.meta.env;
 
 const { userInfo } = storeToRefs(memberStore);
 const { getUserInfo } = memberStore;
-const { listInfo } = storeToRefs(placeStore);
+const { listInfo, saveStatus } = storeToRefs(placeStore);
 const selectIsOpen = ref(false);
 
 onBeforeRouteLeave((to, from) => {
@@ -89,6 +89,8 @@ const saveButtonHandler = async () => {
   const listNo = await _registerList();
   registerPlace(listNo);
   resetListInfo();
+
+  saveStatus.value = '생성';
   router.push({ name: 'place-save' });
 };
 
@@ -118,6 +120,8 @@ const modifyButtonHandler = () => {
   _modifyList();
   registerPlace(listNo);
   resetListInfo();
+
+  saveStatus.value = '수정';
   router.push({ name: 'place-save' });
 };
 
