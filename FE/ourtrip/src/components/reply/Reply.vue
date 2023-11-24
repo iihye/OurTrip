@@ -18,7 +18,6 @@ const { userInfo } = storeToRefs(memberStore);
 onMounted(async () => {
   fetch();
   await getReply();
-  scrollDown();
 });
 
 const fetch = async () => {
@@ -65,6 +64,8 @@ const getReply = async () => {
   replys.value = response.data.list.map((item) => {
     return { ...item, reply_computed: displayedAt(item.reply_datetime) };
   });
+
+  scrollDown();
 };
 
 const addReplyHandler = async () => {
