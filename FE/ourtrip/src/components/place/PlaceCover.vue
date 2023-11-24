@@ -1,23 +1,24 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter, onBeforeRouteLeave } from 'vue-router';
-import { usePlaceStore } from '@/stores/place';
-import axios from 'axios';
-import { storeToRefs } from 'pinia';
-
+import { ref, onMounted } from "vue";
+import { useRouter, onBeforeRouteLeave } from "vue-router";
+import { usePlaceStore } from "@/stores/place";
+import axios from "axios";
+import { storeToRefs } from "pinia";
 const router = useRouter();
 const placeStore = usePlaceStore();
 const { VITE_APP_UNSPLASH_API_URI, VITE_APP_UNSPLASH_KEY } = import.meta.env;
 
 const { listInfo } = storeToRefs(placeStore);
-const searchKeyword = ref('');
+const searchKeyword = ref("");
 const searchList = ref([]);
-const selectImageUrl = ref('');
-const noImageUrl = ref('../src/assets/img/noimage.png');
+const selectImageUrl = ref("");
+const noImageUrl = ref(
+  new URL(`/src/assets/img/noimage.png`, import.meta.url).href
+);
 
 onBeforeRouteLeave((to, from) => {
-  if (to.path !== '/place/open' && to.path !== '/place/title') {
-    const answer = window.confirm('지금까지 만든 PLACELIST가 사라져요😥');
+  if (to.path !== "/place/open" && to.path !== "/place/title") {
+    const answer = window.confirm("지금까지 만든 PLACELIST가 사라져요😥");
     if (!answer) return false;
     listInfo.value = {};
   }
@@ -54,15 +55,15 @@ const selectHandler = (image_url) => {
 
 const nextButtonHandler = () => {
   if (selectImageUrl.value === noImageUrl.value) {
-    alert('키워드 검색 후 커버 이미지를 선택해주세요☺️');
+    alert("키워드 검색 후 커버 이미지를 선택해주세요☺️");
   } else {
     listInfo.value = { ...listInfo.value, list_img: selectImageUrl.value };
-    router.push({ name: 'place-open' });
+    router.push({ name: "place-open" });
   }
 };
 
 const leftButtonHandler = () => {
-  router.push({ name: 'place-title' });
+  router.push({ name: "place-title" });
 };
 </script>
 
@@ -91,21 +92,41 @@ const leftButtonHandler = () => {
   <!--button-->
   <container class="btnleft-container">
     <div class="btnleft-handler">
-      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="leftButtonHandler"> 이전으로 </v-btn>
+      <v-btn
+        class="btn"
+        size="large"
+        variant="flat"
+        rounded="xl"
+        @click="leftButtonHandler"
+      >
+        이전으로
+      </v-btn>
     </div>
   </container>
 
   <!--button-->
   <container class="btn-container">
     <div class="btn-handler">
-      <v-btn class="btn" size="large" variant="flat" rounded="xl" @click="nextButtonHandler"> 다음으로 </v-btn>
+      <v-btn
+        class="btn"
+        size="large"
+        variant="flat"
+        rounded="xl"
+        @click="nextButtonHandler"
+      >
+        다음으로
+      </v-btn>
     </div>
   </container>
 
   <!--input-->
   <form class="form-container" @submit.prevent="" @submit="searchHandler">
     <div class="text-div">
-      <font-awesome-icon :icon="['fas', 'magnifying-glass']" size="2xl" style="color: #646464" />
+      <font-awesome-icon
+        :icon="['fas', 'magnifying-glass']"
+        size="2xl"
+        style="color: #646464"
+      />
       <input
         class="text-input"
         type="text"
@@ -125,7 +146,11 @@ const leftButtonHandler = () => {
     <!--select picture-->
     <div class="select-container">
       <h4>선택한 커버 이미지</h4>
-      <img :src="selectImageUrl" :alt="선택한이미지" @error="handleImageError" />
+      <img
+        :src="selectImageUrl"
+        :alt="선택한이미지"
+        @error="handleImageError"
+      />
     </div>
     <!--search list-->
     <div class="list-container">
@@ -136,7 +161,11 @@ const leftButtonHandler = () => {
         </h5>
       </div>
       <div v-for="item in searchList" :key="item.id">
-        <img :src="item.urls.thumb" :alt="item.alt_description" @click="selectHandler(item.urls.thumb)" />
+        <img
+          :src="item.urls.thumb"
+          :alt="item.alt_description"
+          @click="selectHandler(item.urls.thumb)"
+        />
       </div>
     </div>
   </div>
@@ -276,7 +305,7 @@ h4 {
   background-color: #7c7c7c;
 }
 .c-stepper__item1::after {
-  content: '';
+  content: "";
   position: relative;
   top: 1.5rem;
   left: 50%;
@@ -285,7 +314,7 @@ h4 {
   order: -1;
 }
 .c-stepper__item2::after {
-  content: '';
+  content: "";
   position: relative;
   top: 1.5rem;
   left: 50%;
@@ -294,7 +323,7 @@ h4 {
   order: -1;
 }
 .c-stepper__item3::after {
-  content: '';
+  content: "";
   position: relative;
   top: 1.5rem;
   left: 50%;
