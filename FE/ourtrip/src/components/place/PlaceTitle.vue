@@ -25,7 +25,7 @@ onMounted(() => {
 });
 
 const nextButtonHandler = () => {
-  if (title.value !== '' && title.value.length <= 20) {
+  if (title.value !== undefined && title.value !== '' && title.value.length <= 20) {
     listInfo.value = { ...listInfo.value, list_name: title.value };
     router.push({ name: 'place-cover' });
   } else {

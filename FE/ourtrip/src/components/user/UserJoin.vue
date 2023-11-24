@@ -76,7 +76,7 @@ const pwCheck = async () => {
     userPwMessage.value = '사용할 수 있는 비밀번호예요☺️';
     isPwCheck.value = true;
   } else {
-    userPwMessage.value = '앗! 비밀번호를를 4자 이상 30자 이하로 설정해주세요😥';
+    userPwMessage.value = '앗! 비밀번호를 4자 이상 30자 이하로 설정해주세요😥';
     isPwCheck.value = false;
   }
 };
@@ -96,7 +96,7 @@ const visible = () => {
           <v-text-field
             label="아이디"
             v-model="joinUser.userId"
-            @keydown="idCheck"
+            @blur="idCheck"
             variant="underlined"
             :messages="userIdMessage === '' ? '4~16자 아이디를 입력해주세요😊' : userIdMessage"
             style="ime-mode: inactive"
@@ -113,7 +113,7 @@ const visible = () => {
             v-model="joinUser.userPw"
             variant="underlined"
             :type="isVisible ? 'text' : 'password'"
-            @keydown="pwCheck"
+            @blur="pwCheck"
             :messages="userPwMessage === '' ? '4~30자 비밀번호를 입력해주세요😊' : userPwMessage"
             style="ime-mode: inactive"
           >

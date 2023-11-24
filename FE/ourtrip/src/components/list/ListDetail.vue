@@ -237,7 +237,7 @@ const del = async (item) => {
 
         <div id="list-container">
           <div id="share_items" v-for="list in findShareRes" :key="list.user_id">
-            <div id="share_item" v-if="list.status == true" class="shared-user">
+            <div id="share_item" v-if="list.status == true && list.user_id !== userInfo.userId && list.user_id !== listDetailInfo.userId" class="shared-user">
               <div id="share_text">
                 <v-btn id="share_btn" class="btn" size="large" variant="flat" rounded="xl" @click="add(list.user_id)">
                   추가
